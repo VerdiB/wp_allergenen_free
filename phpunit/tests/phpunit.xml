@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.3/phpunit.xsd"
+    colors="true"
+    displayDetailsOnTestsThatTriggerErrors="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
+    displayDetailsOnTestsThatTriggerNotices="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnSkippedTests="true"
+    displayDetailsOnIncompleteTests="true"
+    testdox="true"
+    testdoxSummary="true"
+    cacheDirectory=".phpunit.cache"
+    defaultTestSuite="unit">
+    
+    <logging>
+        <testdoxHtml outputFile="testdox.html"/>
+        <testdoxText outputFile="testdox.txt"/>
+    </logging>
+    
+    <php>
+        <const name="ABSPATH" value="null"/>
+        <const name="ALLERGENS_DIETARY_ICTORIA_DIRNAME" value="/var/www/html/wp-content/plugins/allergens-dietary-ictoria"/>
+    </php>
+    
+    <testsuites>
+        <testsuite name="unit">
+            <directory>unit</directory>
+        </testsuite>
+        <testsuite name="integration">
+            <directory>integration</directory>
+        </testsuite>
+    </testsuites>
+
+</phpunit>

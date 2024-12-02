@@ -1,0 +1,56 @@
+
+@startuml db-design
+skinparam Linetype ortho
+note as N1
+this ERD has 1 table from woocommerce which will be displayed here.
+furthermore will the prefix "wp_" not be included for two reasons:
+1. it is not necessary for the ERD in my opinion (V.B.)
+2. the prefix can be different for each wordpress installation
+end note
+
+entity "allergy"{
+   allergy_name: varchar(50) <<PK>>
+   allergy_description: varchar(255)
+   is_allergy: boolean   
+   is_activated: boolean
+   is_default_option: boolean
+}
+
+entity "attachments"{
+    attachment_name: varchar(255) <<PK>>
+    attachment_path: varchar(255)
+}
+
+entity "allergy_attachement"{
+    attachment_name: varchar(255) <<FK>> <<PK>> <<U>>
+    allergy_name: varchar(50) <<FK>> <<PK>>
+} 
+
+entity "allergy_product"{
+   product_id: int <<FK>> <<PK>>
+   allergy_name: varchar(50) <<FK>> <<PK>>
+}
+
+entity "product_meta_lookup"{
+    product_id: int <<PK>>
+    sku: varchar(100)
+    virtual: tinyint(1)
+    downloadable: tinyint(1)
+    min_price: decimal(10,2)
+    max_price: decimal(10,2)
+    onsale: tinyint(1)
+    stock_quantity: int
+    stock_status: varchar(100)
+    rating_count: int
+    average_rating: decimal(3,2)
+    total_sales: int
+    tax_status: varchar(100)
+    tax_class: varchar(100)
+}
+
+allergy ||--o{ allergy_product
+allergy ||--|| allergy_attachement
+attachments ||--|{ allergy_attachement
+product_meta_lookup ||--o{ allergy_product
+
+@enduml
