@@ -143,17 +143,10 @@ if (ALLERGENS_DIETARY_ICTORIA_WC_ACTIVE) {
 					// include_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/wc_integration.php';
 					// add_filter('woocommerce_integrations', array($this, 'add_integration'));
 					require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/notice/notice.php';
-					$level = Notice_Types::ERROR;;
+					$level = Notice_Types::ERROR;
 					$message = __('%1$sThe WooCommerce Integration class was not found. Please make sure WooCommerce is installed correctly%2$s', 'allergens-dietary-ictoria');
 					Allergens_Dietary_Ictoria_Notices::getInstance()->display_admin_notice($level, $message);
 				}
-			}
-
-
-			public function add_integration($integrations)
-			{
-				$integrations[] = 'Allergens_Dietary_Ictoria_Wc_Integration_Settings';
-				return $integrations;
 			}
 		}
 		$Allergens_Dietary_Ictoria_Wc_Integration_Startup = new Allergens_Dietary_Ictoria_Wc_Integration_Startup(__FILE__);
@@ -178,9 +171,9 @@ if (ALLERGENS_DIETARY_ICTORIA_WC_ACTIVE) {
 	// WooCommerce is not installed or inactive, show error message
 	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/errors/error_notice.php';
 
-	$level = 'notice-error';
-	$message = sprintf(__('%1$sWooCommerce is inactive or not installed. Please install & activate WooCommerce%2$s', 'allergens-dietary-ictoria'), '<p>', '</p>');
-	Allergens_Dietary_Ictoria_Error_notice::error_notice($level, $message);
+	$level = Notice_Types::ERROR;
+	$message = __('%1$sWooCommerce is inactive or not installed. Please install & activate WooCommerce%2$s', 'allergens-dietary-ictoria');
+	Allergens_Dietary_Ictoria_Notices::getInstance()->display_admin_notice($level, $message);
 }
 // Add a filter to modify the HTML for the auto-update setting link
 add_filter('plugin_auto_update_setting_html', 'my_plugin_auto_update_link_html', 10, 3);
