@@ -36,9 +36,10 @@ if (!class_exists('Allergens_Dietary_Ictoria_Allergen_Queries')) {
 if (!class_exists('Allergens_Dietary_Ictoria_Tabs')) {
 	include_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/tabs/allergen_tabs.php';
 }
+/*
 if (!enum_exists('Mime_Types')) {
 	include_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/lists/mime_types.php';
-}
+}*/
 
 
 if (!class_exists('Allergens_Dietary_Ictoria_Notices')) {

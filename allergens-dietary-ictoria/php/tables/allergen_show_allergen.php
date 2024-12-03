@@ -50,7 +50,7 @@ class Allergens_Dietary_Ictoria_Show_Allergens extends WP_List_Table
         // $notice->display_admin_notice(Notice_Types::WARNING, __('is great success', 'allergens-dietary-ictoria'));
     }
 
-    private $table_action_options = ['change_status', 'delete', 'quick_edit'];
+    private $table_action_options = ['change_status'];
 
     public $search_query;
 
