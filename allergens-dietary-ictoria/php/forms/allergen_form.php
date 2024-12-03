@@ -16,7 +16,7 @@ if (!class_exists('Allergens_Dietary_Ictoria_Allergen_Form')) {
 	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/forms/allergen_add_allergen.php';
 }
 if (!class_exists('Allergens_Dietary_Ictoria_Update_Allergen_Form')) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/forms/allergen_update_allergen.php';
+	include_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/forms/allergen_update_allergen.php';
 }
 
 enum FormType
@@ -62,7 +62,7 @@ class Allergens_Dietary_Ictoria_Form
 		}
 	}
 
-	public static function getInstance(bool $isTable = false)
+	public static function getInstance()
 	{
 		if (self::$_instance === null) {
 			self::$_instance = new self();

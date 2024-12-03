@@ -44,10 +44,7 @@ class Allergens_Dietary_Ictoria_Plugin_Menu
 			'Ictoria',
 			'manage_options',
 			'allergens-dietary-options',
-			array(
-				$this,
-				'myAdminPage',
-			),
+			'',
 			'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGFhZ18yIiBkYXRhLW5hbWU9IkxhYWcgMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNS42OSA2LjA3Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICAgIHN0cm9rZS13aWR0aDogMHB4OwogICAgICB9CiAgICAgICN3cGFkbWluYmFyIGE6aG92ZXIgc3ZnIHBhdGggewogICAgICBmaWxsOiBibHVlICFpbXBvcnRhbnQ7CiAgICAgfQogICAgICAgCiAgICAgIAogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPGcgaWQ9IkxhYWdfMS0yIiBkYXRhLW5hbWU9IkxhYWcgMSI+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im0zLjk4LDBDMS44NS0uMTIuMTksMi4yMSwwLDQuNXMzLjQzLDEuNTMsNC42MSwxLjAyQzYuMTIsNC44Niw2LjE2LjEzLDMuOTgsMFptLS44NS41M2MuMDktLjEuMi0uMTUuMzMtLjE1cy4yNC4wNS4zMy4xNWMuMDkuMS4xNC4yMi4xNC4zN3MtLjA1LjI2LS4xNC4zN2MtLjA5LjEtLjIuMTUtLjMzLjE1cy0uMjQtLjA1LS4zMy0uMTVjLS4wOS0uMS0uMTQtLjIyLS4xNC0uMzdzLjA1LS4yNi4xNC0uMzdabTEuOTguOThjLS41Ny40MS0xLjM4LjI4LTEuNzYsMy43Ny0uMDEuMTEtLjA0LjIxLS4xMy4yOS0uMDkuMDgtLjIxLjExLS4zNS4xMXMtLjI1LS4wNC0uMzUtLjExYy0uMDktLjA4LS4xNi0uMTctLjE0LS4yOS4yNi0xLjE0LjkxLTIsMC0zLjUtLjA3LS4xMS0uMTItLjI2LjAzLS4zLjI1LS4wNi40OS4zLDEuMDMuMjYuMzgtLjAzLDEuMS0uMjgsMS40Mi0uMzkuMjctLjA5LjM0LjA5LjI1LjE2WiIvPgogIDwvZz4KPC9zdmc+'
 		);
 
@@ -77,24 +74,6 @@ class Allergens_Dietary_Ictoria_Plugin_Menu
 				$this,
 				'showallergens',
 			),
-		);
-
-		add_submenu_page(
-			'allergens-dietary-options',
-			__('Add allergen', 'allergens-dietary-ictoria'),
-			__('Add allergen', 'allergens-dietary-ictoria'),
-			'manage_options',
-			'allergens-dietary-add-allergen',
-			array($this, 'addallergens')
-		);
-		
-		add_submenu_page(
-			'allergens-dietary-options',
-			__('Update allergen', 'allergens-dietary-ictoria'),
-			__('Update allergen', 'allergens-dietary-ictoria'),
-			'manage_options',
-			'allergens-dietary-update-allergen',
-			array($this, 'updateallergens')
 		);
 
 		add_submenu_page(

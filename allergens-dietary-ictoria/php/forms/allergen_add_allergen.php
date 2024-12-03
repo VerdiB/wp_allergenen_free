@@ -34,10 +34,10 @@ if (!class_exists('Allergens_Dietary_Ictoria_Allergen_Queries')) {
  */
 
 if (!class_exists('Allergens_Dietary_Ictoria_Tabs')) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/tabs/allergen_tabs.php';
+	include_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/tabs/allergen_tabs.php';
 }
 if (!enum_exists('Mime_Types')) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/lists/mime_types.php';
+	include_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/lists/mime_types.php';
 }
 
 
@@ -63,8 +63,8 @@ class Allergens_Dietary_Ictoria_Allergen_Form implements I_Allergens_Dietary_Ict
 
 	public function __construct()
 	{
-		$this->MIME_TYPES = Mime_Types::get_mime_types();
-		$this->MIME_NAMES = array_map(fn($case) => $case->name, Mime_Types::cases());
+		$this->MIME_TYPES = (enum_exists('Mime_Types'))? Mime_Types::get_mime_types(): array() ;
+		$this->MIME_NAMES = (enum_exists('Mime_Types'))? array_map(fn($case) => $case->name, Mime_Types::cases()): array();
 	}
 
 	/**

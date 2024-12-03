@@ -33,8 +33,8 @@ class Allergens_Dietary_Ictoria_Tabs
         //flexbox voor tabs
         $html = '<div id="tabs_flexbox" class="nav-tab-wrapper">';
         $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-show-allergens').'">' . __("See allergens", "allergens-dietary-ictoria") . '</a>';
-        $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-add-allergen').'">' . __("Create allergens", "allergens-dietary-ictoria") . '</a>';
-        $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-update-allergen').'">' . __("Change allergens", "allergens-dietary-ictoria") . '</a>';
+        // $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-add-allergen').'">' . __("Create allergens", "allergens-dietary-ictoria") . '</a>';
+        // $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-update-allergen').'">' . __("Change allergens", "allergens-dietary-ictoria") . '</a>';
         $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-Info').'">' . __("Info", "allergens-dietary-ictoria") . '</a>';
         $html .= '</div>';
         $html .= '<section id="added"></section> <br> <br>';
