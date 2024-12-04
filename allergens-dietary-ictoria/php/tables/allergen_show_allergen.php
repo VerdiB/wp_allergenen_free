@@ -12,10 +12,6 @@ if (!class_exists('Allergens_Dietary_Ictoria_Allergen_Queries')) {
     require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/DB/allergen.php';
 }
 
-if ( ! class_exists( 'Allergens_Dietary_Ictoria_Form' ) ) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/forms/allergen_form.php';
-}
-
 if ( ! class_exists( 'Allergens_Dietary_Ictoria_Notices' ) ) {
     require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/notice/notice.php';
 }
@@ -50,7 +46,7 @@ class Allergens_Dietary_Ictoria_Show_Allergens extends WP_List_Table
         // $notice->display_admin_notice(Notice_Types::WARNING, __('is great success', 'allergens-dietary-ictoria'));
     }
 
-    private $table_action_options = ['change_status', 'delete', 'quick_edit'];
+    private $table_action_options = ['change_status'];
 
     public $search_query;
 
