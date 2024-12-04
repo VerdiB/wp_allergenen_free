@@ -11,21 +11,22 @@
   display: inline-block;
   width: 36px;
   margin-right: 4px;
-  margin-bottom: 0;
+  margin-bottom: 4px;
+  margin-top: 4px;
   z-index: 99;
 }
 
 /* Filter css shop page */
 
-#ictoria-filter-dropdown {
-  max-width: 400px;
-  background-color: white;
+div#ictoria-filter-dropdown {
+  max-width: 75%;
+  min-width: 50%;
   border-radius: 10px;
   padding: 10px 20px 20px 20px;
   margin-top: 10px;
 }
 
-.filter-container {
+.ictoria-filter-container {
   display: flex;
   justify-content: space-between;
 }
@@ -45,27 +46,11 @@
   cursor: pointer;
   border-radius: 3px;
   white-space: nowrap;
-  background: white;
-  border: 1px solid #8c8f94;
-  outline: none;
+  margin-bottom: 16px;
 }
 
-.filter-button:hover {
-  background: #f0f0f1;
-  border-color: #0a4b78;
-  color: #0a4b78;
-}
-
-.filter-button:active {
-  background: #f6f7f7;
-  border-color: #8c8f94;
-  box-shadow: none;
-}
 .filter-reset {
   /* margin-right: 10px; */
-  color: #606060;
-  border-color: #818385;
-  background: #f6f7f7;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,7 +62,7 @@
   justify-content: space-between;
 }
 @media screen and (max-width: 550px) {
-  .filter-container {
+  .ictoria-filter-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
