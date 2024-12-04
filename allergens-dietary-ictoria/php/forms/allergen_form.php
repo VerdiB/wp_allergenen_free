@@ -12,9 +12,9 @@ if (!class_exists('Allergens_Dietary_Ictoria_License_Form')) {
 	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/forms/allergen_form_license.php';
 }
 
-if (!class_exists('Allergens_Dietary_Ictoria_Allergen_Form')) {
+/*if (!class_exists('Allergens_Dietary_Ictoria_Allergen_Form')) {
 	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/forms/allergen_add_allergen.php';
-}/*
+}
 if (!class_exists('Allergens_Dietary_Ictoria_Update_Allergen_Form')) {
 	include_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/forms/allergen_update_allergen.php';
 }*/
@@ -53,9 +53,6 @@ class Allergens_Dietary_Ictoria_Form
 		}
 		if (FormType::LICENSE === self::$_formType) {
 			self::$_formObject = new Allergens_Dietary_Ictoria_License_Form();
-		}
-		if (FormType::UPDATE === self::$_formType) {
-			self::$_formObject = new Allergens_Dietary_Ictoria_Update_Allergen_Form();
 		}
 		if (!isset(self::$_formType) || false === self::$_formType->match(self::$_formType)) {
 			throw new Exception('FormType not yet supported/implemented');

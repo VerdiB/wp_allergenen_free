@@ -161,34 +161,11 @@ package "php"{
             + showForm(allergenName:String) : void
         }
 
-        class Allergens_Dietary_Ictoria_Allergens_Form{
-            - _allergen : array
-            - MIME_TYPES : array
-            - MIME_NAMES : array
-            - {static} _message : string 
-            - {static} _type: Notice_Types
-            + __construct(): void
-            + showForm(allergenName:String) : void
-            + submit(data:array) : void
-            + sanitize(data:array) : array
-            - do_dropdown() : string
-        }
-
         class Allergens_Dietary_Ictoria_License_Form{
             + __construct(): void
             + showForm(allergenName:String) : void
             + submit(data:array) : void
             + sanitize(data:array) : array
-        }
-        class Allergens_Dietary_Ictoria_Update_Allergen_Form{
-            - MIME_TYPES : array
-            - _allergens: array
-            - {static} _message: string
-            + __construct() : void
-            + showForm(allergenName:string) : void
-            + submit(data:array) : void
-            + sanitize(data:array) : array
-            - replace_spaces(allergen:string) : string
         }
     }
 
@@ -262,9 +239,6 @@ package "php"{
             + showinfo() : void
             + {static} getInstance() : Allergens_Dietary_Ictoria_Info
             + {static} getStyles() : void
-        }
-        enum Mime_Types{
-            + get_mime_types() : array
         }
     }
 

@@ -12,10 +12,6 @@ if (!class_exists('Allergens_Dietary_Ictoria_Allergen_Queries')) {
     require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/DB/allergen.php';
 }
 
-if ( ! class_exists( 'Allergens_Dietary_Ictoria_Form' ) ) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/forms/allergen_form.php';
-}
-
 if ( ! class_exists( 'Allergens_Dietary_Ictoria_Notices' ) ) {
     require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/notice/notice.php';
 }
