@@ -30,7 +30,7 @@ class Allergens_Dietary_Activator
 
 	public function __construct()
 	{
-		self::$_url = get_home_url() . '/wp-content/plugins/allergens-dietary-ictoria/assets/icons/';
+		self::$_url = get_home_url() . '/wp-content/plugins/allergens-dietary/assets/icons/';
 
 		self::$_ALLERGENS_OPTIONS = array(
 			'peanuts' => array(
@@ -411,7 +411,7 @@ class Allergens_Dietary_Activator
 
 	// function to get a translation of all text contained within __() functions throughout the plugin IF the .mo and .po files for the local/server language are available
 	public static function load_textdomain() {
-		load_plugin_textdomain( __( 'allergens-dietary-ictoria', 'allergens-dietary-ictoria' ), false, basename( ALLERGENS_DIETARY_FILE ) . '/l10n' );
+		load_plugin_textdomain( __( 'allergens-dietary', 'allergens-dietary' ), false, basename( ALLERGENS_DIETARY_FILE ) . '/l10n' );
 	}
 
 	// adds the external css file(s) to the current WP execution
@@ -421,12 +421,12 @@ class Allergens_Dietary_Activator
 	}
 
 	public static function enqueue_styles() {
-		wp_enqueue_style( 'allergens-dietary-ictoria-css', plugins_url( 'assets/css/allergens-dietary-ictoria.css', ALLERGENS_DIETARY_FILE ) );
+		wp_enqueue_style( 'allergens-dietary-css', plugins_url( 'assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE ) );
 	}
 
 	public static function enqueue_admin_styles() {
-		// wp_enqueue_style('allergens-dietary-ictoria-admin-css', plugins_url('assets/css/allergens-dietary-ictoria-admin.css', ALLERGENS_DIETARY_FILE));
-		wp_enqueue_style( 'allergens-dietary-ictoria-admin-css', plugins_url( 'assets/css/allergens-dietary-ictoria.css', ALLERGENS_DIETARY_FILE ) );
+		// wp_enqueue_style('allergens-dietary-admin-css', plugins_url('assets/css/allergens-dietary-admin.css', ALLERGENS_DIETARY_FILE));
+		wp_enqueue_style( 'allergens-dietary-admin-css', plugins_url( 'assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE ) );
 	}
 
 	// Enqueue admin JS script
@@ -446,7 +446,7 @@ class Allergens_Dietary_Activator
 
 	public function upload_language_file() {
 		$language_path          = WP_LANG_DIR . '/plugins';
-		$language_file_basename = 'allergens-dietary-ictoria';
+		$language_file_basename = 'allergens-dietary';
 		$user_locale            = get_user_locale();
 		$files_templates        = array(
 			'.po', // Default template for all locales.

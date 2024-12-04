@@ -39,9 +39,9 @@ class Allergens_Dietary_License_Form implements I_Allergens_Dietary_Form {
 
 		// TODO: Getting license key that is in use by site if it exists
 		$html  = '<fieldset>
-		<label for="license_key">' . __( 'License key', 'allergens-dietary-ictoria' ) . '</label><br>
+		<label for="license_key">' . __( 'License key', 'allergens-dietary' ) . '</label><br>
 		<input type="text" name="license_key" id="license_key" value=""><br><br>
-		<input type="submit" class="button button-primary" id="submitButton" name="submit" value="' . __( 'Verify license key', 'allergens-dietary-ictoria' ) . '">';
+		<input type="submit" class="button button-primary" id="submitButton" name="submit" value="' . __( 'Verify license key', 'allergens-dietary' ) . '">';
 		$html .= '</fieldset>';
 
 		echo $html;

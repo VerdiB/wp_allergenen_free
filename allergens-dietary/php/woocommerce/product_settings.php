@@ -46,7 +46,7 @@ class Allergens_Dietary_Product_Settings
 	public function data_tab($product_data_tabs)
 	{
 		$product_data_tabs['allergens-tab'] = array(
-			'label' => __('Allergens', 'allergens-dietary-ictoria'),
+			'label' => __('Allergens', 'allergens-dietary'),
 			'target' => 'allergens_dietary_ictoria_product_data',
 		);
 		return $product_data_tabs;
@@ -76,7 +76,7 @@ class Allergens_Dietary_Product_Settings
 		$this->_attachedAllergens = $tmpArr;
 
 		$html = '<div id="allergens_dietary_ictoria_product_data" class="panel woocommerce_options_panel">
-			<h2>' . __('Select allergen(\'s) and/or dietary restrictions:', 'allergens-dietary-ictoria') . '</h2>';
+			<h2>' . __('Select allergen(\'s) and/or dietary restrictions:', 'allergens-dietary') . '</h2>';
 		// create the html for all options, seperating them by category
 		foreach ($allergens as $allergen) {
 			// check if option is globally enabled

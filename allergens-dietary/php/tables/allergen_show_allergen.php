@@ -43,7 +43,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
 
 
         // $notice = Allergens_Dietary_Notices::getInstance();
-        // $notice->display_admin_notice(Notice_Types::WARNING, __('is great success', 'allergens-dietary-ictoria'));
+        // $notice->display_admin_notice(Notice_Types::WARNING, __('is great success', 'allergens-dietary'));
     }
 
     private $table_action_options = ['change_status'];
@@ -212,8 +212,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     public function get_bulk_actions()
     {
         $actions = array();
-        $actions['change_status'] = __('Change status', 'allergens-dietary-ictoria');
-        $actions['delete'] = __('Delete', 'allergens-dietary-ictoria');
+        $actions['change_status'] = __('Change status', 'allergens-dietary');
+        $actions['delete'] = __('Delete', 'allergens-dietary');
         return $actions;
     }
 
@@ -271,10 +271,10 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     {
         $columns = array(
             'cb' => '<input type="checkbox" />',
-            'allergy_name' => __('Allergy name', 'allergens-dietary-ictoria'),
-            'allergy_description' => __('Allergy description', 'allergens-dietary-ictoria'),
-            'is_allergy' => __('Allergy or Dietary', 'allergens-dietary-ictoria'),
-            'is_active' => __('Status', 'allergens-dietary-ictoria'),
+            'allergy_name' => __('Allergy name', 'allergens-dietary'),
+            'allergy_description' => __('Allergy description', 'allergens-dietary'),
+            'is_allergy' => __('Allergy or Dietary', 'allergens-dietary'),
+            'is_active' => __('Status', 'allergens-dietary'),
 
         );
         return $columns;
@@ -330,14 +330,14 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             // Perform action based on case
             switch ($action) {
                 case 'change_status':
-                    $message = __('Status changed', 'allergens-dietary-ictoria');
+                    $message = __('Status changed', 'allergens-dietary');
                     $type = Notice_Types::INFO;
                     $notice = Allergens_Dietary_Notices::getInstance();
                     $notice->display_admin_notice($type, $message);
                     Allergens_Dietary_Allergen_Queries::getInstance()->singleActivationUpdate(self::$_page);
                 break;
                 case 'delete':
-                    $message = __('Allergen deleted', 'allergens-dietary-ictoria');
+                    $message = __('Allergen deleted', 'allergens-dietary');
                     $type = Notice_Types::INFO;
                     $notice = Allergens_Dietary_Notices::getInstance();
                     $notice->display_admin_notice($type, $message);

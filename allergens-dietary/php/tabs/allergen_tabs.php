@@ -24,18 +24,18 @@ class Allergens_Dietary_Tabs
         wp_enqueue_script( 'Allergens_Dietary_Show_Allergens');
 
         //load css
-        wp_register_style('allergens-dietary-ictoria-css', plugins_url(ALLERGENS_DIETARY_NAME.'/assets/css/allergens-dietary-ictoria.css'));
-	    wp_enqueue_style('allergens-dietary-ictoria-css');
+        wp_register_style('allergens-dietary-css', plugins_url(ALLERGENS_DIETARY_NAME.'/assets/css/allergens-dietary.css'));
+	    wp_enqueue_style('allergens-dietary-css');
 	}
 
     public function showtabs()
     {
         //flexbox voor tabs
         $html = '<div id="tabs_flexbox" class="nav-tab-wrapper">';
-        $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-show-allergens').'">' . __("See allergens", "allergens-dietary-ictoria") . '</a>';
-        // $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-add-allergen').'">' . __("Create allergens", "allergens-dietary-ictoria") . '</a>';
-        // $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-update-allergen').'">' . __("Change allergens", "allergens-dietary-ictoria") . '</a>';
-        $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-Info').'">' . __("Info", "allergens-dietary-ictoria") . '</a>';
+        $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-show-allergens').'">' . __("See allergens", "allergens-dietary") . '</a>';
+        // $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-add-allergen').'">' . __("Create allergens", "allergens-dietary") . '</a>';
+        // $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-update-allergen').'">' . __("Change allergens", "allergens-dietary") . '</a>';
+        $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-Info').'">' . __("Info", "allergens-dietary") . '</a>';
         $html .= '</div>';
         $html .= '<section id="added"></section> <br> <br>';
         echo $html;
@@ -68,8 +68,8 @@ class Allergens_Dietary_Tabs
 
     public static function getStyles()
     {
-        wp_register_style('allergens-dietary-ictoria-css', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/css/allergens-dietary-ictoria.css'));
-        wp_enqueue_style('allergens-dietary-ictoria-admin-css', plugins_url('assets/css/allergens-dietary-ictoria.css', ALLERGENS_DIETARY_FILE));
+        wp_register_style('allergens-dietary-css', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/css/allergens-dietary.css'));
+        wp_enqueue_style('allergens-dietary-admin-css', plugins_url('assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE));
     }
 }
 

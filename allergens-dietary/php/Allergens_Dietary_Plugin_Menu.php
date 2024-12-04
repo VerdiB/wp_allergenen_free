@@ -40,7 +40,7 @@ class Allergens_Dietary_Plugin_Menu
 	{
 
 		add_menu_page(
-			__('Allergens and Dietary', 'allergens-dietary-ictoria'),
+			__('Allergens and Dietary', 'allergens-dietary'),
 			'Ictoria',
 			'manage_options',
 			'allergens-dietary-options',
@@ -54,8 +54,8 @@ class Allergens_Dietary_Plugin_Menu
 
 		add_submenu_page(
 			'allergens-dietary-options',
-			__('Info', 'allergens-dietary-ictoria'),
-			__('Info', 'allergens-dietary-ictoria'),
+			__('Info', 'allergens-dietary'),
+			__('Info', 'allergens-dietary'),
 			'manage_options',
 			'allergens-dietary-Info',
 			array(
@@ -66,8 +66,8 @@ class Allergens_Dietary_Plugin_Menu
 
 		add_submenu_page(
 			'allergens-dietary-options',
-			__('Show allergens', 'allergens-dietary-ictoria'),
-			__('Show allergens', 'allergens-dietary-ictoria'),
+			__('Show allergens', 'allergens-dietary'),
+			__('Show allergens', 'allergens-dietary'),
 			'manage_options',
 			'allergens-dietary-show-allergens',
 			array(
@@ -78,8 +78,8 @@ class Allergens_Dietary_Plugin_Menu
 
 		add_submenu_page(
 			'allergens-dietary-options',
-			__('License key', 'allergens-dietary-ictoria'),
-			__('License key', 'allergens-dietary-ictoria'),
+			__('License key', 'allergens-dietary'),
+			__('License key', 'allergens-dietary'),
 			'manage_options',
 			'allergens-dietary-license',
 			array($this, 'licenseForm')

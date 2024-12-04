@@ -27,22 +27,22 @@ class Allergens_Dietary_Info
         
         //flexbox voor tabs
         $html = '<div id="info_grid" class="nav-tab-wrapper">';
-        $html .= '<div><h1 class="premium">' . __("PREMIUM  [Requires licence]", "allergens-dietary-ictoria") . '</h1>';
+        $html .= '<div><h1 class="premium">' . __("PREMIUM  [Requires licence]", "allergens-dietary") . '</h1>';
         $html .= '<ol>';
-        $html .= '<li class="contains">' . __('Updating allergies', 'allergens-dietary-ictoria') . '</li>';
-        $html .= '<li class="contains">' . __("Changing allergy themes", "allergens-dietary-ictoria") . '</li>';
-        $html .= '<li class="contains">' . __("Deleting allergies", "allergens-dietary-ictoria") . '</li>';
-        $html .= '<li class="contains">' . __("Adding allergies", "allergens-dietary-ictoria") . '</li>';
-        $html .= '<li class="contains">' . __("Custom look on product", "allergens-dietary-ictoria") . '</li>';
-        $html .= '<li class="contains">' . __("Custom look in store", "allergens-dietary-ictoria") . '</li>';
+        $html .= '<li class="contains">' . __('Updating allergies', 'allergens-dietary') . '</li>';
+        $html .= '<li class="contains">' . __("Changing allergy themes", "allergens-dietary") . '</li>';
+        $html .= '<li class="contains">' . __("Deleting allergies", "allergens-dietary") . '</li>';
+        $html .= '<li class="contains">' . __("Adding allergies", "allergens-dietary") . '</li>';
+        $html .= '<li class="contains">' . __("Custom look on product", "allergens-dietary") . '</li>';
+        $html .= '<li class="contains">' . __("Custom look in store", "allergens-dietary") . '</li>';
         $html .= ' </ol>';
         $html .= ' </div>';
-        $html .= '<div><h1 class="free">' . __("FREE VERSION  [Standard]", "allergens-dietary-ictoria") . '</h1>';
+        $html .= '<div><h1 class="free">' . __("FREE VERSION  [Standard]", "allergens-dietary") . '</h1>';
         $html .= ' <ol>';
-        $html .= '<li class="contains">' . __("Connecting allergies to products", "allergens-dietary-ictoria") . '</li>';
-        $html .= '<li class="contains">' . __("Wordpress theme fiendly styles", "allergens-dietary-ictoria") . '</li>';
-        $html .= '<li class="contains">' . __("An allergen overview", "allergens-dietary-ictoria") . '</li>';
-        $html .= '<li class="contains">' . __("Turning the use of allergies on/off", "allergens-dietary-ictoria") . '</li>';
+        $html .= '<li class="contains">' . __("Connecting allergies to products", "allergens-dietary") . '</li>';
+        $html .= '<li class="contains">' . __("Wordpress theme fiendly styles", "allergens-dietary") . '</li>';
+        $html .= '<li class="contains">' . __("An allergen overview", "allergens-dietary") . '</li>';
+        $html .= '<li class="contains">' . __("Turning the use of allergies on/off", "allergens-dietary") . '</li>';
         $html .= '      </ol>';
         $html .= '  </div>';
         $html .= '  </div>';
@@ -61,7 +61,7 @@ class Allergens_Dietary_Info
 
     public static function getStyles()
     {
-        wp_register_style('allergens-dietary-ictoria-css', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/css/allergens-dietary-ictoria.css'));
-        wp_enqueue_style('allergens-dietary-ictoria-admin-css', plugins_url('assets/css/allergens-dietary-ictoria.css', ALLERGENS_DIETARY_FILE));
+        wp_register_style('allergens-dietary-css', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/css/allergens-dietary.css'));
+        wp_enqueue_style('allergens-dietary-admin-css', plugins_url('assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE));
     }
 }
