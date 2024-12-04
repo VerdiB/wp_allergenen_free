@@ -4,16 +4,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'Allergens_Dietary_Ictoria_Allergy_Product_Queries' ) ) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/DB/allergy_product.php';
+if ( ! class_exists( 'Allergens_Dietary_Allergy_Product_Queries' ) ) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/allergy_product.php';
 }
 
-if ( ! class_exists( 'Allergens_Dietary_Ictoria_Allergy_Attachment_Queries' ) ) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/DB/allergy_attachment.php';
+if ( ! class_exists( 'Allergens_Dietary_Allergy_Attachment_Queries' ) ) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/allergy_attachment.php';
 }
 
 // this class contains functions used on the front-end product pages
-class Allergens_Dietary_Ictoria_Products {
+class Allergens_Dietary_Products {
 	private static ?self $_instance = null;
 
 	public static function instance(): self {
@@ -33,7 +33,7 @@ class Allergens_Dietary_Ictoria_Products {
 	public function show_product_options(): void {
 		global $post;
 		$html    = '';
-		$allergen_list    = Allergens_Dietary_Ictoria_Allergy_Product_Queries::getInstance()->getAllergyProduct( $post->ID );
+		$allergen_list    = Allergens_Dietary_Allergy_Product_Queries::getInstance()->getAllergyProduct( $post->ID );
 
 		if ( ! empty( $allergen_list ) ) {
 			// set the WP filter that will call the hook used to render the plugin options of this product
@@ -47,7 +47,7 @@ class Allergens_Dietary_Ictoria_Products {
 	// generate the html to display all relevant options for the given product.
 	public function render_html( array $data ): string {
 		$html = array();
-		$attachments_instance = Allergens_Dietary_Ictoria_Allergy_Attachment_Queries::getInstance();
+		$attachments_instance = Allergens_Dietary_Allergy_Attachment_Queries::getInstance();
 		$attachments_list = array();
 		
 		foreach ( $data as $value ) {

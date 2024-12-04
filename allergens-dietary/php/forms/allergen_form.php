@@ -4,19 +4,19 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
-if (!interface_exists('I_Allergens_Dietary_Ictoria_Form')) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/forms/Iallergen_form.php';
+if (!interface_exists('I_Allergens_Dietary_Form')) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/Iallergen_form.php';
 }
 
-if (!class_exists('Allergens_Dietary_Ictoria_License_Form')) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/forms/allergen_form_license.php';
+if (!class_exists('Allergens_Dietary_License_Form')) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_form_license.php';
 }
 
-/*if (!class_exists('Allergens_Dietary_Ictoria_Allergen_Form')) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/forms/allergen_add_allergen.php';
+/*if (!class_exists('Allergens_Dietary_Allergen_Form')) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_add_allergen.php';
 }
-if (!class_exists('Allergens_Dietary_Ictoria_Update_Allergen_Form')) {
-	include_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/forms/allergen_update_allergen.php';
+if (!class_exists('Allergens_Dietary_Update_Allergen_Form')) {
+	include_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_update_allergen.php';
 }*/
 
 enum FormType
@@ -32,7 +32,7 @@ enum FormType
 }
 
 /**
- * @class Allergens_Dietary_Ictoria_Form
+ * @class Allergens_Dietary_Form
  * @brief This class is a singleton strategy
  * that creates a form for the allergens and dietary restrictions plugin.
  * @author V.B.
@@ -40,19 +40,19 @@ enum FormType
  * @since 1.0.0
  */
 
-class Allergens_Dietary_Ictoria_Form
+class Allergens_Dietary_Form
 {
 	private static ?self $_instance = null;
 	private static FormType $_formType;
-	private static I_Allergens_Dietary_Ictoria_Form $_formObject;
+	private static I_Allergens_Dietary_Form $_formObject;
 
 	private function __construct(bool $isTable = false)
 	{
 		if (FormType::ALLERGENS === self::$_formType) {
-			self::$_formObject = new Allergens_Dietary_Ictoria_Allergen_Form();
+			self::$_formObject = new Allergens_Dietary_Allergen_Form();
 		}
 		if (FormType::LICENSE === self::$_formType) {
-			self::$_formObject = new Allergens_Dietary_Ictoria_License_Form();
+			self::$_formObject = new Allergens_Dietary_License_Form();
 		}
 		if (!isset(self::$_formType) || false === self::$_formType->match(self::$_formType)) {
 			throw new Exception('FormType not yet supported/implemented');

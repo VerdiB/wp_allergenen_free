@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * @class Allergens_Dietary_Ictoria_License_Info
+ * @class Allergens_Dietary_License_Info
  * @brief Class that creates the info
  * the user can see the info
  * @author T.K.
@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
  * @since 1.0.0
  */
 
-class Allergens_Dietary_Ictoria_Info
+class Allergens_Dietary_Info
 {
     private static ?self $_instance = null;
 
@@ -22,8 +22,8 @@ class Allergens_Dietary_Ictoria_Info
     public function showInfo()
     {
 
-        Allergens_Dietary_Ictoria_Activator::load_style();
-        Allergens_Dietary_Ictoria_Activator::enqueue_styles();
+        Allergens_Dietary_Activator::load_style();
+        Allergens_Dietary_Activator::enqueue_styles();
         
         //flexbox voor tabs
         $html = '<div id="info_grid" class="nav-tab-wrapper">';
@@ -61,7 +61,7 @@ class Allergens_Dietary_Ictoria_Info
 
     public static function getStyles()
     {
-        wp_register_style('allergens-dietary-ictoria-css', plugins_url(ALLERGENS_DIETARY_ICTORIA_NAME . '/assets/css/allergens-dietary-ictoria.css'));
-        wp_enqueue_style('allergens-dietary-ictoria-admin-css', plugins_url('assets/css/allergens-dietary-ictoria.css', ALLERGENS_DIETARY_ICTORIA_FILE));
+        wp_register_style('allergens-dietary-ictoria-css', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/css/allergens-dietary-ictoria.css'));
+        wp_enqueue_style('allergens-dietary-ictoria-admin-css', plugins_url('assets/css/allergens-dietary-ictoria.css', ALLERGENS_DIETARY_FILE));
     }
 }

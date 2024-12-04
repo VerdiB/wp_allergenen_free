@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * @class Allergens_Dietary_Ictoria_License_Tabs
+ * @class Allergens_Dietary_License_Tabs
  * @brief Class that creates the tabs after you filled in the licence key
  * the user can click on the tabs to edit their allergens
  * @author T.K.
@@ -13,18 +13,18 @@ if (!defined('ABSPATH')) {
  * @since 1.0.0
  */
 
-class Allergens_Dietary_Ictoria_Tabs
+class Allergens_Dietary_Tabs
 {
     private static ?self $_instance = null;
     
     public function __construct()
 	{
         //load js
-		wp_register_script('Allergens_Dietary_Ictoria_Show_Allergens', plugins_url(ALLERGENS_DIETARY_ICTORIA_NAME.'/assets/js/script.js'), array('jquery'));
-        wp_enqueue_script( 'Allergens_Dietary_Ictoria_Show_Allergens');
+		wp_register_script('Allergens_Dietary_Show_Allergens', plugins_url(ALLERGENS_DIETARY_NAME.'/assets/js/script.js'), array('jquery'));
+        wp_enqueue_script( 'Allergens_Dietary_Show_Allergens');
 
         //load css
-        wp_register_style('allergens-dietary-ictoria-css', plugins_url(ALLERGENS_DIETARY_ICTORIA_NAME.'/assets/css/allergens-dietary-ictoria.css'));
+        wp_register_style('allergens-dietary-ictoria-css', plugins_url(ALLERGENS_DIETARY_NAME.'/assets/css/allergens-dietary-ictoria.css'));
 	    wp_enqueue_style('allergens-dietary-ictoria-css');
 	}
 
@@ -68,12 +68,12 @@ class Allergens_Dietary_Ictoria_Tabs
 
     public static function getStyles()
     {
-        wp_register_style('allergens-dietary-ictoria-css', plugins_url(ALLERGENS_DIETARY_ICTORIA_NAME . '/assets/css/allergens-dietary-ictoria.css'));
-        wp_enqueue_style('allergens-dietary-ictoria-admin-css', plugins_url('assets/css/allergens-dietary-ictoria.css', ALLERGENS_DIETARY_ICTORIA_FILE));
+        wp_register_style('allergens-dietary-ictoria-css', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/css/allergens-dietary-ictoria.css'));
+        wp_enqueue_style('allergens-dietary-ictoria-admin-css', plugins_url('assets/css/allergens-dietary-ictoria.css', ALLERGENS_DIETARY_FILE));
     }
 }
 
-/*$myInstance = new Allergens_Dietary_Ictoria_Tabs;
+/*$myInstance = new Allergens_Dietary_Tabs;
 $myInstance->js_add_help_tab();
 
 add_action('added', 'js_add_help_tab', 50);*/

@@ -4,13 +4,13 @@ if (! defined('ABSPATH')) {
 	exit;
 }
 
-if (! class_exists('Allergens_Dietary_Ictoria_Allergen_Queries')) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/DB/allergen.php';
+if (! class_exists('Allergens_Dietary_Allergen_Queries')) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/allergen.php';
 }
 
 
 
-class Allergens_Dietary_Ictoria_Filter
+class Allergens_Dietary_Filter
 {
 	private static $_instance = null;
 	private array $_allergens;
@@ -18,14 +18,14 @@ class Allergens_Dietary_Ictoria_Filter
 	public static function instance()
 	{
 		if (is_null(self::$_instance)) {
-			self::$_instance = new Allergens_Dietary_Ictoria_Filter();
+			self::$_instance = new Allergens_Dietary_Filter();
 		}
 		return self::$_instance;
 	}
 
 	public function load_css()
 	{
-		// wp_register_style('allergens-dietary-ictoria-css', plugins_url(ALLERGENS_DIETARY_ICTORIA_NAME . '/assets/css/allergens-dietary-ictoria.css'));
+		// wp_register_style('allergens-dietary-ictoria-css', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/css/allergens-dietary-ictoria.css'));
 		// wp_enqueue_style('allergens-dietary-ictoria-css');
 
 		wp_enqueue_style('wp-admin');
@@ -38,8 +38,8 @@ class Allergens_Dietary_Ictoria_Filter
 
 	public function load_js()
 	{
-		wp_register_script('Allergens_Dietary_Ictoria_Show_Allergens', plugins_url(ALLERGENS_DIETARY_ICTORIA_NAME . '/assets/js/script.js'), array('jquery'));
-		wp_enqueue_script('Allergens_Dietary_Ictoria_Show_Allergens');
+		wp_register_script('Allergens_Dietary_Show_Allergens', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/js/script.js'), array('jquery'));
+		wp_enqueue_script('Allergens_Dietary_Show_Allergens');
 	}
 
 	private function __construct()
@@ -49,7 +49,7 @@ class Allergens_Dietary_Ictoria_Filter
 
 		add_action('woocommerce_before_shop_loop', array($this, 'create_filter'));
 		add_action('woocommerce_product_query', array($this, 'filter_query'));
-		$this->_allergens = Allergens_Dietary_Ictoria_Allergen_Queries::getInstance()->getAllAllergens();
+		$this->_allergens = Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens();
 	}
 
 	public function create_filter()
@@ -151,7 +151,7 @@ class Allergens_Dietary_Ictoria_Filter
 
 			// Check if there are any options selected
 			if (! empty($selected_options)) {
-				$filtered_products = Allergens_Dietary_Ictoria_Allergy_Product_Queries::getInstance()->getFilteredProducts($selected_allergens, $selected_diatary);
+				$filtered_products = Allergens_Dietary_Allergy_Product_Queries::getInstance()->getFilteredProducts($selected_allergens, $selected_diatary);
 				$product_arr = array();
 				foreach ($filtered_products as $product) {
 					$product_arr[] = $product['product_id'];

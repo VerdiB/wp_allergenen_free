@@ -4,20 +4,20 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
-if (!class_exists("Allergens_Dietary_Ictoria_Allergy_Attachment_Queries")) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/DB/allergy_attachment.php';
+if (!class_exists("Allergens_Dietary_Allergy_Attachment_Queries")) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/allergy_attachment.php';
 }
 
-if (!class_exists("Allergens_Dietary_Ictoria_Allergy_Product_Queries")) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/DB/allergy_product.php';
+if (!class_exists("Allergens_Dietary_Allergy_Product_Queries")) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/allergy_product.php';
 }
 
-if (!class_exists("Allergens_Dietary_Ictoria_Allergen_Queries")) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/DB/allergen.php';
+if (!class_exists("Allergens_Dietary_Allergen_Queries")) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/allergen.php';
 }
 
 // this class contains functions used to add/remove allergens and dietary options to/from a WooCommerce product
-class Allergens_Dietary_Ictoria_Product_Settings
+class Allergens_Dietary_Product_Settings
 {
 	private static $_instance = null;
 	private array $_allergens;
@@ -26,13 +26,13 @@ class Allergens_Dietary_Ictoria_Product_Settings
 	public static function instance()
 	{
 		if (is_null(self::$_instance)) {
-			self::$_instance = new Allergens_Dietary_Ictoria_Product_Settings();
+			self::$_instance = new Allergens_Dietary_Product_Settings();
 		}
 	}
 
 	public function __construct()
 	{
-		$this->_allergens = Allergens_Dietary_Ictoria_Allergen_Queries::getInstance()->getAllAllergens();
+		$this->_allergens = Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens();
 
 		add_filter('woocommerce_product_data_tabs', array($this, 'data_tab'));
 		add_action('woocommerce_product_data_panels', array($this, 'data_fields'));
@@ -63,9 +63,9 @@ class Allergens_Dietary_Ictoria_Product_Settings
 	public function data_fields()
 	{
 		global $post;
-		$options = Allergens_Dietary_Ictoria_Allergy_Attachment_Queries::getInstance();
+		$options = Allergens_Dietary_Allergy_Attachment_Queries::getInstance();
 		$allergens = $options->getAllAllergyAttachmments();
-		$this->_attachedAllergens = Allergens_Dietary_Ictoria_Allergy_Product_Queries::getInstance()->getAllergyProduct($post->ID);
+		$this->_attachedAllergens = Allergens_Dietary_Allergy_Product_Queries::getInstance()->getAllergyProduct($post->ID);
 
 		$tmpArr = array();
 		//add a faux value to the array to make sure the count is correct
@@ -115,7 +115,7 @@ class Allergens_Dietary_Ictoria_Product_Settings
 		$allergensSelected = array();
 		$allergenNames = array();
 		unset($this->_attachedAllergens);
-		$this->_attachedAllergens = Allergens_Dietary_Ictoria_Allergy_Product_Queries::getInstance()->getAllergyProduct($post_id);
+		$this->_attachedAllergens = Allergens_Dietary_Allergy_Product_Queries::getInstance()->getAllergyProduct($post_id);
 
 		foreach ($this->_allergens as $allergen) {
 			if (isset($_POST[($this->replace_space_chars($allergen['allergy_name']) . '_allergens_dietary_ictoria')])) {
@@ -133,13 +133,13 @@ class Allergens_Dietary_Ictoria_Product_Settings
 		// If the new doesnt contain allergens from the old one, Delete the old.
 		if ($old_diff) {
 			foreach ($old_diff as $allergen) {
-				Allergens_Dietary_Ictoria_Allergy_Product_Queries::getInstance()->deleteAllergyProduct($post_id, $allergen);
+				Allergens_Dietary_Allergy_Product_Queries::getInstance()->deleteAllergyProduct($post_id, $allergen);
 			}
 		}
 		// If the old doesn't contain allergens from the new one, Add the new.
 		if ($new_diff) {
 			foreach ($new_diff as $allergen) {
-				Allergens_Dietary_Ictoria_Allergy_Product_Queries::getInstance()->addAllergyProduct($post_id, $allergen);
+				Allergens_Dietary_Allergy_Product_Queries::getInstance()->addAllergyProduct($post_id, $allergen);
 			}
 		}
 

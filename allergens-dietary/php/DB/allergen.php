@@ -5,19 +5,19 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * @class Allergens_Dietary_Ictoria_Allergen_Queries
+ * @class Allergens_Dietary_Allergen_Queries
  * @brief This class is a singleton that handles all the queries for the allergens and dietary restrictions DB table.
  * @author V.B.
  * @date 11-9-2024
  * @since 1.0.0
  */
-class Allergens_Dietary_Ictoria_Allergen_Queries
+class Allergens_Dietary_Allergen_Queries
 {
 	private static ?self $_instance = null;
 
 	/**
 	 * @brief This method returns the instance of the class.
-	 * @return Allergens_Dietary_Ictoria_Allergen_Queries
+	 * @return Allergens_Dietary_Allergen_Queries
 	 * @author V.B.
 	 * @since 1.0.0
 	 * @date 11-9-2024
@@ -134,19 +134,19 @@ class Allergens_Dietary_Ictoria_Allergen_Queries
 
 	public static function includeItems()
 	{
-		if (!class_exists('Allergens_Dietary_Ictoria_Allergy_Attachment_Queries')) {
-			require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/DB/allergy_attachment.php';
+		if (!class_exists('Allergens_Dietary_Allergy_Attachment_Queries')) {
+			require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/allergy_attachment.php';
 		}
-		if (!class_exists('Allergens_Dietary_Ictoria_Attachment_Queries')) {
-			require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/DB/attachment.php';
+		if (!class_exists('Allergens_Dietary_Attachment_Queries')) {
+			require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/attachment.php';
 		}
 
 		//get arrays
-		Allergens_Dietary_Ictoria_Activator::initialize();
+		Allergens_Dietary_Activator::initialize();
 
-		$allergens_result = Allergens_Dietary_Ictoria_Activator::allergens_options();
-		$icon_allergy_result = Allergens_Dietary_Ictoria_Activator::allergy_icon_options();
-		$icon_result = Allergens_Dietary_Ictoria_Activator::icon_options();
+		$allergens_result = Allergens_Dietary_Activator::allergens_options();
+		$icon_allergy_result = Allergens_Dietary_Activator::allergy_icon_options();
+		$icon_result = Allergens_Dietary_Activator::icon_options();
 
 		global $wpdb;
 
@@ -196,8 +196,8 @@ class Allergens_Dietary_Ictoria_Allergen_Queries
 		}
 
 		//activate other inserters
-		Allergens_Dietary_Ictoria_Attachment_Queries::attachment_insert($icon_allergy_result);
-		Allergens_Dietary_Ictoria_Allergy_Attachment_Queries::allergy_connection($icon_result);
+		Allergens_Dietary_Attachment_Queries::attachment_insert($icon_allergy_result);
+		Allergens_Dietary_Allergy_Attachment_Queries::allergy_connection($icon_result);
 	}
 
 	public function is_default_allergen(string $allergy_name): bool

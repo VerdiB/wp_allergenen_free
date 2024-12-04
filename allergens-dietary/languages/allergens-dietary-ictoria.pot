@@ -58,36 +58,36 @@ msgid ""
 "WooCommerce%2$s"
 msgstr ""
 
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:43
+#: php/Allergens_Dietary_Plugin_Menu.php:43
 msgid "Allergens and Dietary"
 msgstr ""
 
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:56
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:57
+#: php/Allergens_Dietary_Plugin_Menu.php:56
+#: php/Allergens_Dietary_Plugin_Menu.php:57
 #: php/forms/allergen_form_license.php:42
 #: php/forms/allergen_form_license.php:43
 msgid "License key"
 msgstr ""
 
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:65
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:66
+#: php/Allergens_Dietary_Plugin_Menu.php:65
+#: php/Allergens_Dietary_Plugin_Menu.php:66
 #: php/forms/allergen_add_allergen.php:122
 msgid "Add allergen"
 msgstr ""
 
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:75
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:76
+#: php/Allergens_Dietary_Plugin_Menu.php:75
+#: php/Allergens_Dietary_Plugin_Menu.php:76
 #: php/tabs/allergen_tabs.php:38
 msgid "Info"
 msgstr ""
 
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:87
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:88
+#: php/Allergens_Dietary_Plugin_Menu.php:87
+#: php/Allergens_Dietary_Plugin_Menu.php:88
 msgid "Update allergen"
 msgstr ""
 
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:95
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:96
+#: php/Allergens_Dietary_Plugin_Menu.php:95
+#: php/Allergens_Dietary_Plugin_Menu.php:96
 msgid "Show allergens"
 msgstr ""
 

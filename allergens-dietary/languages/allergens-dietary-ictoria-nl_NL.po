@@ -59,36 +59,36 @@ msgstr ""
 "%1$sWooCommerce is niet actief of niet geïnstalleerd. Installeer en activeer "
 "WooCommerce%2$s"
 
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:43
+#: php/Allergens_Dietary_Plugin_Menu.php:43
 msgid "Allergens and Dietary"
 msgstr "Allergenen en dieet"
 
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:61
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:62
+#: php/Allergens_Dietary_Plugin_Menu.php:61
+#: php/Allergens_Dietary_Plugin_Menu.php:62
 #: php/forms/allergen_form_license.php:42
 #: php/forms/allergen_form_license.php:43
 msgid "License key"
 msgstr "Licentie sleutel"
 
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:70
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:71
+#: php/Allergens_Dietary_Plugin_Menu.php:70
+#: php/Allergens_Dietary_Plugin_Menu.php:71
 msgid "Show allergens"
 msgstr "Weergeef allergenen"
 
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:82
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:83
+#: php/Allergens_Dietary_Plugin_Menu.php:82
+#: php/Allergens_Dietary_Plugin_Menu.php:83
 #: php/forms/allergen_add_allergen.php:134
 #: php/forms/allergen_add_allergen.php:163
 msgid "Add allergen"
 msgstr "Allergeen toevoegen"
 
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:91
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:92
+#: php/Allergens_Dietary_Plugin_Menu.php:91
+#: php/Allergens_Dietary_Plugin_Menu.php:92
 msgid "Update allergen"
 msgstr "Allergeen updaten"
 
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:100
-#: php/Allergens_Dietary_Ictoria_Plugin_Menu.php:101
+#: php/Allergens_Dietary_Plugin_Menu.php:100
+#: php/Allergens_Dietary_Plugin_Menu.php:101
 #: php/tabs/allergen_tabs.php:38
 msgid "Info"
 msgstr "Info"

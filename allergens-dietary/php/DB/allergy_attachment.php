@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
-class Allergens_Dietary_Ictoria_Allergy_Attachment_Queries
+class Allergens_Dietary_Allergy_Attachment_Queries
 {
 	private static ?self $_instance = null;
 
