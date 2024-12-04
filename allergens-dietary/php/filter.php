@@ -25,8 +25,8 @@ class Allergens_Dietary_Filter
 
 	public function load_css()
 	{
-		// wp_register_style('allergens-dietary-ictoria-css', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/css/allergens-dietary-ictoria.css'));
-		// wp_enqueue_style('allergens-dietary-ictoria-css');
+		// wp_register_style('allergens-dietary-css', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/css/allergens-dietary.css'));
+		// wp_enqueue_style('allergens-dietary-css');
 
 		wp_enqueue_style('wp-admin');
 		wp_enqueue_style('buttons'); // WordPress button styles
@@ -67,13 +67,13 @@ class Allergens_Dietary_Filter
 		// Create variable that is used in the loops
 		$html = '';
 
-		$html .= '<button class="filter-buttonwoocommerce wc-block-catalog-sorting has-font-size has-small-font-size" id="ictoria-filter-dropdown-button">' . __('Show allergen filters', 'allergens-dietary-ictoria') . '</button>';
+		$html .= '<button class="filter-buttonwoocommerce wc-block-catalog-sorting has-font-size has-small-font-size" id="ictoria-filter-dropdown-button">' . __('Show allergen filters', 'allergens-dietary') . '</button>';
 		$html .= '<div id="ictoria-filter-dropdown" style="display: none;">';
 		$html .= '<form action="" method="post" class="">';
 		$html .= '<div class="filter-container">';
 		$html .= '<div class="checkbox-container">';
 		$html .= '<div class="filter-header">';
-		$html .= '<h3>' . __('Allergens', 'allergens-dietary-ictoria') . '</h3>';
+		$html .= '<h3>' . __('Allergens', 'allergens-dietary') . '</h3>';
 		$html .= '</div>';
 		$html .= '<div class="checkbox-group">';
 		foreach ($allergen_arr as $allergen) {
@@ -84,14 +84,14 @@ class Allergens_Dietary_Filter
 			}
 			$html .= '<div class="checkbox-item">';
 			$html .= '<input type="checkbox" id="' . $allergen['allergy_name'] . '" class="checkbox" name="allergen_filter_options[' . $allergen['allergy_name'] . ']" value="' . esc_attr($allergen['allergy_name']) . '" ' . $checked . '/>';
-			$html .= '<label for="' . $allergen['allergy_name'] . '" >' . __('No ', 'allergens-dietary-ictoria') . $allergen['allergy_name'] . '</label>';
+			$html .= '<label for="' . $allergen['allergy_name'] . '" >' . __('No ', 'allergens-dietary') . $allergen['allergy_name'] . '</label>';
 			$html .= '</div>';
 		}
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '<div class="checkbox-container">';
 		$html .= '<div class="filter-header">';
-		$html .= '<h3>' . __('Dietary restrictions', 'allergens-dietary-ictoria') . '</h3>';
+		$html .= '<h3>' . __('Dietary restrictions', 'allergens-dietary') . '</h3>';
 		$html .= '</div>';
 		$html .= '<div class="checkbox-group">';
 		foreach ($diet_arr as $diet) {
@@ -102,15 +102,15 @@ class Allergens_Dietary_Filter
 			}
 			$html .= '<div class="checkbox-item">';
 			$html .= '<input type="checkbox" id="' . $diet['allergy_name'] . '" class="checkbox" name="allergen_filter_options[' . $diet['allergy_name'] . ']" value="' . esc_attr($diet['allergy_name']) . '" ' . $checked . '/>';
-			$html .= '<label for="' . $diet['allergy_name'] . '" >' . __($diet['allergy_name'], 'allergens-dietary-ictoria') . '</label>';
+			$html .= '<label for="' . $diet['allergy_name'] . '" >' . __($diet['allergy_name'], 'allergens-dietary') . '</label>';
 			$html .= '</div>';
 		}
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '<div class="filter-actions">';
-		$html .= '<button type="submit" name="allergen_filter" class="filter-button">' . __('Apply Filters', 'allergens-dietary-ictoria') . '</button>';
-		$html .= '<a href="' . get_permalink(wc_get_page_id('shop')) . '"  class="filter-button filter-reset" onclick="return confirmResetInput();">' . __('Clear Filters', 'allergens-dietary-ictoria') . '</a>';
+		$html .= '<button type="submit" name="allergen_filter" class="filter-button">' . __('Apply Filters', 'allergens-dietary') . '</button>';
+		$html .= '<a href="' . get_permalink(wc_get_page_id('shop')) . '"  class="filter-button filter-reset" onclick="return confirmResetInput();">' . __('Clear Filters', 'allergens-dietary') . '</a>';
 		$html .= '</div>';
 		$html .= '</form>';
 		$html .= '</div>';

@@ -16,13 +16,13 @@ Author:      Ictoria.nl
 Author URI:  http://ictoria.nl
 License:     GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Text Domain: allergens-dietary-ictoria
+Text Domain: allergens-dietary
 Domain Path: /languages/
 WC Tested Up To: 9.3.3
 */
 ';
 
-__('Adds Allergens and Dietary options that can be used with WooCommerce products.', 'allergens-dietary-ictoria');
+__('Adds Allergens and Dietary options that can be used with WooCommerce products.', 'allergens-dietary');
 
 
 
@@ -40,7 +40,7 @@ __('Adds Allergens and Dietary options that can be used with WooCommerce product
 // along with "Allergens and Dietary". If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 // Set constant values that are used to retain file location references
-define('ALLERGENS_DIETARY_NAME', 'allergens-dietary-ictoria');
+define('ALLERGENS_DIETARY_NAME', 'allergens-dietary');
 define('ALLERGENS_DIETARY_FILE', __FILE__); // contains the full path to the plugin file
 define('ALLERGENS_DIETARY_DIRNAME', __DIR__);
 define('ALLERGENS_DIETARY_BASE', plugin_basename(__FILE__)); // contains the path: plugin_directory/plugin_file
@@ -59,7 +59,7 @@ add_action('plugins_loaded', array('Allergens_Dietary_Activator', 'load_textdoma
 
 /*
 Plugin Name: Allergens and Dietary
-Text Domain: allergens-dietary-icotoria
+Text Domain: allergens-dietary
 Domain Path: /languages/
 */
 class load_language
@@ -71,7 +71,7 @@ class load_language
 
 	function translation_init()
 	{
-		load_plugin_textdomain('allergens-dietary-ictoria', false, dirname(plugin_basename(__FILE__)) . '/languages');
+		load_plugin_textdomain('allergens-dietary', false, dirname(plugin_basename(__FILE__)) . '/languages');
 	}
 }
 
@@ -91,15 +91,15 @@ class Allergens_Dietary_Startup
 			// save chosen settings in the allergens_dietary_ictoria_settings(WP options table)
 			// add the initial_setup_done option to allergens_dietary_ictoria_settings (value: true) to prevent this popup from showing on every activation after the first
 		}
-		$folderName = '/var/www/html/wp-content/plugins/allergens-dietary-ictoria/cache'; // Geef het juiste pad naar de map op
+		$folderName = '/var/www/html/wp-content/plugins/allergens-dietary/cache'; // Geef het juiste pad naar de map op
 
 		if (!file_exists($folderName)) {
 
-			mkdir("/var/www/html/wp-content/plugins/allergens-dietary-ictoria/cache");
+			mkdir("/var/www/html/wp-content/plugins/allergens-dietary/cache");
 
 		}
 
-		$map = '/var/www/html/wp-content/plugins/allergens-dietary-ictoria/cache'; // Geef het juiste pad naar de map op
+		$map = '/var/www/html/wp-content/plugins/allergens-dietary/cache'; // Geef het juiste pad naar de map op
 		$file = '/cache.php';
 
 		$completepath = $map . $file;
@@ -144,7 +144,7 @@ if (ALLERGENS_DIETARY_WC_ACTIVE) {
 					// add_filter('woocommerce_integrations', array($this, 'add_integration'));
 					require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
 					$level = Notice_Types::ERROR;
-					$message = __('%1$sThe WooCommerce Integration class was not found. Please make sure WooCommerce is installed correctly%2$s', 'allergens-dietary-ictoria');
+					$message = __('%1$sThe WooCommerce Integration class was not found. Please make sure WooCommerce is installed correctly%2$s', 'allergens-dietary');
 					Allergens_Dietary_Notices::getInstance()->display_admin_notice($level, $message);
 				}
 			}
@@ -172,7 +172,7 @@ if (ALLERGENS_DIETARY_WC_ACTIVE) {
 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/errors/error_notice.php';
 
 	$level = Notice_Types::ERROR;
-	$message = __('%1$sWooCommerce is inactive or not installed. Please install & activate WooCommerce%2$s', 'allergens-dietary-ictoria');
+	$message = __('%1$sWooCommerce is inactive or not installed. Please install & activate WooCommerce%2$s', 'allergens-dietary');
 	Allergens_Dietary_Notices::getInstance()->display_admin_notice($level, $message);
 }
 // Add a filter to modify the HTML for the auto-update setting link
@@ -181,7 +181,7 @@ add_filter('plugin_auto_update_setting_html', 'my_plugin_auto_update_link_html',
 // get auto-update links
 function my_plugin_auto_update_link_html($html, $plugin_file, $plugin_data)
 {
-	if ($plugin_file === 'allergens-dietary-ictoria/allergens-dietary-ictoria.php') {
+	if ($plugin_file === 'allergens-dietary/allergens-dietary.php') {
 		$auto_updates_enabled = get_site_option('auto_update_plugins', array());
 
 		// Check if the current plugin is in the list of auto-updated plugins
@@ -242,7 +242,7 @@ function my_plugin_toggle_auto_update()
 add_filter('auto_update_plugin', 'my_plugin_auto_update_control', 10, 2);
 function my_plugin_auto_update_control($update, $item)
 {
-	if ($item->plugin === 'allergens-dietary-ictoria/allergens-dietary-ictoria.php') {
+	if ($item->plugin === 'allergens-dietary/allergens-dietary.php') {
 		return get_site_option('auto_update_plugins', array()) ? true : false;
 	}
 
@@ -261,7 +261,7 @@ function load_thickbox()
 add_filter('plugin_row_meta', 'add_changelog_view_link', 10, 2);
 function add_changelog_view_link($plugin_meta, $plugin_file)
 {
-	if ($plugin_file == 'allergens-dietary-ictoria/allergens-dietary-ictoria.php') {
+	if ($plugin_file == 'allergens-dietary/allergens-dietary.php') {
 		$plugin_meta[] = '<a href="' . esc_url(admin_url('admin-ajax.php?action=view_changelog&TB_iframe=true&width=600&height=550')) . '" class="thickbox">Details bekijken</a>';
 	}
 	return $plugin_meta;

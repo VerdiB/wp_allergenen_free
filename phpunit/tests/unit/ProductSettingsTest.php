@@ -1,7 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-require_once '/var/www/html/wp-content/plugins/allergens-dietary-ictoria/php/product_settings.php';
+require_once '/var/www/html/wp-content/plugins/allergens-dietary/php/product_settings.php';
 
 
 class ProductSettingsTest extends TestCase

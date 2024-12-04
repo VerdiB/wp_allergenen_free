@@ -57,7 +57,7 @@ class Allergens_Dietary_Notices
 	 */
 	public function error_notice($type, $message)
 	{
-		$message_header = sprintf(__('%1$sAllergens and Dietary is inactive:%2$s', 'allergens-dietary-ictoria'), '<p><strong>', '</strong></p>');
+		$message_header = sprintf(__('%1$sAllergens and Dietary is inactive:%2$s', 'allergens-dietary'), '<p><strong>', '</strong></p>');
 		$message_full   = $message_header . $message;
 		add_action(
 			'admin_notices',

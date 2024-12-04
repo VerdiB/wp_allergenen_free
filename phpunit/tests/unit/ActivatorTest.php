@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once '/var/www/html/wp-content/plugins/allergens-dietary-ictoria/php/activator.php';
+require_once '/var/www/html/wp-content/plugins/allergens-dietary/php/activator.php';
 
 final class ActivatorTest extends TestCase
 {

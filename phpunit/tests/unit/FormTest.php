@@ -2,8 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once '/var/www/html/wp-content/plugins/allergens-dietary-ictoria/php/forms/allergen_form.php';
-require_once '/var/www/html/wp-content/plugins/allergens-dietary-ictoria/php/forms/Iallergen_form.php';
+require_once '/var/www/html/wp-content/plugins/allergens-dietary/php/forms/allergen_form.php';
+require_once '/var/www/html/wp-content/plugins/allergens-dietary/php/forms/Iallergen_form.php';
 
 final class FormTest extends TestCase
 {
