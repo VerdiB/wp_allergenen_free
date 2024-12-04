@@ -5,7 +5,7 @@ if (! defined('ABSPATH')) {
 }
 
 if (! enum_exists('Notice_Types')) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/notice/notice_Types.php';
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice_Types.php';
 }
 
 /**
@@ -16,22 +16,22 @@ if (! enum_exists('Notice_Types')) {
  * @date 4-11-2024
  */
 
-class Allergens_Dietary_Ictoria_Notices
+class Allergens_Dietary_Notices
 {
 
-	private static ?Allergens_Dietary_Ictoria_Notices $_instance = null;
+	private static ?Allergens_Dietary_Notices $_instance = null;
 	
 	/**
 	 * @brief singleton method to get the instance of the class
-	 * @return Allergens_Dietary_Ictoria_Notices
+	 * @return Allergens_Dietary_Notices
 	 * @author V.B.
 	 * @since 0.17.0.0
 	 * @date 18-11-2024
 	 */
-	public static function getInstance(): Allergens_Dietary_Ictoria_Notices
+	public static function getInstance(): Allergens_Dietary_Notices
 	{
 		if (is_null(self::$_instance)) {
-			self::$_instance = new Allergens_Dietary_Ictoria_Notices();
+			self::$_instance = new Allergens_Dietary_Notices();
 		}
 
 		return self::$_instance;

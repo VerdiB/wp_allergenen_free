@@ -5,14 +5,14 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * @class Allergens_Dietary_Ictoria_Allergy_Product_Queries
+ * @class Allergens_Dietary_Allergy_Product_Queries
  * @brief This class is a singleton that handles all the queries for the allergens and dietary restrictions DB table.
  * @author V.B.
  * @date 4-10-2024
  * @since 1.0.0
  */
 
-class Allergens_Dietary_Ictoria_Allergy_Product_Queries
+class Allergens_Dietary_Allergy_Product_Queries
 {
     private static ?self $_instance = null;
 

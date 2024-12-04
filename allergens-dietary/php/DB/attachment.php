@@ -4,10 +4,10 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
-class Allergens_Dietary_Ictoria_Attachment_Queries
+class Allergens_Dietary_Attachment_Queries
 {
 	private static ?self $_instance = null;
-	private const PATH = ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/assets/icons/custom/';
+	private const PATH = ALLERGENS_DIETARY_DIRNAME . '/assets/icons/custom/';
 	private string $_url;
 
 	public static function getInstance()

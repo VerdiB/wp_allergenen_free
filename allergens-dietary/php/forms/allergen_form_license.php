@@ -4,28 +4,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! interface_exists( 'I_Allergens_Dietary_Ictoria_Form' ) ) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/forms/Iallergen_form.php';
+if ( ! interface_exists( 'I_Allergens_Dietary_Form' ) ) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/Iallergen_form.php';
 }
 
-if ( ! class_exists( 'Allergens_Dietary_Ictoria_Allergen_Queries' ) ) {
-	require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/DB/allergen.php';
+if ( ! class_exists( 'Allergens_Dietary_Allergen_Queries' ) ) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/allergen.php';
 }
 
 
 /**
- * @class Allergens_Dietary_Ictoria_License_Form
+ * @class Allergens_Dietary_License_Form
  * @brief Class that creates the form for the license key where
  * the user can enter the license key for the plugin to get premium functions unlocked
  * @author V.B.
  * @date 2-9-2024
- * @implements I_Allergens_Dietary_Ictoria_Form
- * @see I_Allergens_Dietary_Ictoria_Form
+ * @implements I_Allergens_Dietary_Form
+ * @see I_Allergens_Dietary_Form
  * @since 1.0.0
  */
-class Allergens_Dietary_Ictoria_License_Form implements I_Allergens_Dietary_Ictoria_Form {
+class Allergens_Dietary_License_Form implements I_Allergens_Dietary_Form {
 	/**
-	 * @brief Constructor for the Allergens_Dietary_Ictoria_License_Form class
+	 * @brief Constructor for the Allergens_Dietary_License_Form class
 	 * for now it is empty and does nothing but it's common courtesy to have it
 	 * @return void
 	 */

@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 
-class Allergens_Dietary_Ictoria_Activator
+class Allergens_Dietary_Activator
 {
 	private static $counter = 0;
 	private static string $_url;
@@ -411,7 +411,7 @@ class Allergens_Dietary_Ictoria_Activator
 
 	// function to get a translation of all text contained within __() functions throughout the plugin IF the .mo and .po files for the local/server language are available
 	public static function load_textdomain() {
-		load_plugin_textdomain( __( 'allergens-dietary-ictoria', 'allergens-dietary-ictoria' ), false, basename( ALLERGENS_DIETARY_ICTORIA_FILE ) . '/l10n' );
+		load_plugin_textdomain( __( 'allergens-dietary-ictoria', 'allergens-dietary-ictoria' ), false, basename( ALLERGENS_DIETARY_FILE ) . '/l10n' );
 	}
 
 	// adds the external css file(s) to the current WP execution
@@ -421,12 +421,12 @@ class Allergens_Dietary_Ictoria_Activator
 	}
 
 	public static function enqueue_styles() {
-		wp_enqueue_style( 'allergens-dietary-ictoria-css', plugins_url( 'assets/css/allergens-dietary-ictoria.css', ALLERGENS_DIETARY_ICTORIA_FILE ) );
+		wp_enqueue_style( 'allergens-dietary-ictoria-css', plugins_url( 'assets/css/allergens-dietary-ictoria.css', ALLERGENS_DIETARY_FILE ) );
 	}
 
 	public static function enqueue_admin_styles() {
-		// wp_enqueue_style('allergens-dietary-ictoria-admin-css', plugins_url('assets/css/allergens-dietary-ictoria-admin.css', ALLERGENS_DIETARY_ICTORIA_FILE));
-		wp_enqueue_style( 'allergens-dietary-ictoria-admin-css', plugins_url( 'assets/css/allergens-dietary-ictoria.css', ALLERGENS_DIETARY_ICTORIA_FILE ) );
+		// wp_enqueue_style('allergens-dietary-ictoria-admin-css', plugins_url('assets/css/allergens-dietary-ictoria-admin.css', ALLERGENS_DIETARY_FILE));
+		wp_enqueue_style( 'allergens-dietary-ictoria-admin-css', plugins_url( 'assets/css/allergens-dietary-ictoria.css', ALLERGENS_DIETARY_FILE ) );
 	}
 
 	// Enqueue admin JS script
@@ -437,7 +437,7 @@ class Allergens_Dietary_Ictoria_Activator
 	public static function enqueue_admin_scripts() {
 		wp_enqueue_script(
 			'allergens-dietary-admin-js',
-			plugins_url( 'assets/js/admin_set_options_by_category.js', ALLERGENS_DIETARY_ICTORIA_FILE ),
+			plugins_url( 'assets/js/admin_set_options_by_category.js', ALLERGENS_DIETARY_FILE ),
 			array( 'jquery' ),
 			false,
 			true
@@ -455,7 +455,7 @@ class Allergens_Dietary_Ictoria_Activator
 
 		foreach ( $files_templates as $files_template ) {
 			$language_file_fullname = $language_file_basename . $user_locale . $files_template;
-			$plugin_language_file   = ALLERGENS_DIETARY_ICTORIA . '/languages/' . $language_file_fullname;
+			$plugin_language_file   = ALLERGENS_DIETARY . '/languages/' . $language_file_fullname;
 
 			if ( file_exists( $plugin_language_file ) && $language_path . '/' . $language_file_fullname ) {
 
@@ -485,8 +485,8 @@ class Allergens_Dietary_Ictoria_Activator
 
 	public static function insert_standard_data()
 	{
-		if (!class_exists('Allergens_Dietary_Ictoria_Allergen_Queries')) {
-			require_once ALLERGENS_DIETARY_ICTORIA_DIRNAME . '/php/DB/allergen.php';
+		if (!class_exists('Allergens_Dietary_Allergen_Queries')) {
+			require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/allergen.php';
 		}
 		//DB includes
 		global $wpdb;
@@ -504,7 +504,7 @@ class Allergens_Dietary_Ictoria_Activator
 			// Record exists!
 		} else {
 			// Record does not exist
-			Allergens_Dietary_Ictoria_Allergen_Queries::includeItems();
+			Allergens_Dietary_Allergen_Queries::includeItems();
 		}
 
 	}
