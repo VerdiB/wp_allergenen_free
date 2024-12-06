@@ -1,7 +1,7 @@
 Plugin Name: Allergens and Dietary
 Plugin URI: https://wordpress.org/plugins/allergens-and-dietary/
 Description: Adds Allergens and Dietary options that can be used with WooCommerce products
-Version: 1.0.0
+Version: 0.18.5.1
 Requires at least: 5.0
 Tested up to: 6.0
 Author: Ictoria
@@ -21,11 +21,11 @@ Adds Allergens and Dietary options that can be used with WooCommerce products
 4. Klik op **Activeer Plugin** om de plugin te activeren.
 
 == Changelog ==
-= 1.0.0 =
+= 0.18.5.1 =
 * Eerste release van de Allergens and Dietary Plugin.
 * Mogelijkheid om allergenen en dieetrestricties weer te geven.
 * Admin-interface voor eenvoudig beheer van allergeneninformatie.
 
 == Upgrade Notice ==
-= 1.0.0 =
-Dit is de eerste versie van de plugin. Voeg allergenen en dieetrestricties eenvoudig toe via de instellingen.
+= 0.18.5.1 =
+Dit is de eerste versie van de plugin. Voeg allergenen en dieetrestricties eenvoudig toe via producten.

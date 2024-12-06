@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 /*
 Plugin Name: Allergens and Dietary
 Plugin URI:
-Version:     1.0.0
+Version:     0.18.5.1
 Description: Adds Allergens and Dietary options that can be used with WooCommerce products.
 Requires at least: 6.3.1
 Requires PHP: 7.4

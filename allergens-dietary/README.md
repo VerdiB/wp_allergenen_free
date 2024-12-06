@@ -65,7 +65,7 @@
 ## Fixes and changes
 - Description plugin translation fix
 - 'allergen already exists' notification for adding allergens that already exist instead of an error
-- Made it visible when a active allergen is connected to an product
+- Made it visible when an active allergen is connected to an product
 - removed functions.php and placed it back in other files exept for the unused functions 
 
 ### Performance
@@ -82,11 +82,9 @@
 - Allergen title visible when hovering over it
 - A submenu with info about the plugin
 - A standard image for an allergen without an image selected
-- The possibility to edit existing icons of our default allergens for premium users
 - UK translations
 - UX/conform front-end
 - Made the plugin wordpress theme friendly
-- The option to delete a custom allergy for premium users
 
 
 # Allergens Dietary Ictoria - V0.17.1.1
@@ -101,7 +99,6 @@
 ## Technical Updates
 
 ## added feature
-- Notifications if you edit or add an allergen or a product
 
 
 # Allergens Dietary Ictoria - V0.18.5.1
@@ -121,6 +118,4 @@
 ## Technical Updates
 
 ## added feature
-- Notifications if you edit or add an allergen or a product
-- "Are you sure you want to save without saving" notification after editing a form without submitting
 
