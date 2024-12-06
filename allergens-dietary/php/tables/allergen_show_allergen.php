@@ -321,17 +321,17 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
 
             // Verify nonce based on action
             if ($action === 'change_status' && !wp_verify_nonce($nonce, 'allergens_change_status')) {
-                self::$message = __("Security check failed for changing status!", 'allergens-dietary-ictoria');
+                self::$message = __("Security check failed for changing status!", 'allergens-dietary');
             } elseif ($action === 'delete' && !wp_verify_nonce($nonce, 'allergens_delete')) {
-                self::$message = __("Security check failed for deletion!", 'allergens-dietary-ictoria');
+                self::$message = __("Security check failed for deletion!", 'allergens-dietary');
             }  elseif ($action === 'quick_edit' && !wp_verify_nonce($nonce, 'allergens_delete')) {
-                self::$message = __("Security check failed for quick edit!", 'allergens-dietary-ictoria');
+                self::$message = __("Security check failed for quick edit!", 'allergens-dietary');
             }
 
             // Perform action based on case
             switch ($action) {
                 case 'change_status':
-                    self::$message = __("Status changed", 'allergens-dietary-ictoria');
+                    self::$message = __("Status changed", 'allergens-dietary');
                     Allergens_Dietary_Allergen_Queries::getInstance()->singleActivationUpdate(self::$_page, self::$message);
                     return self::$message;
                 break;
