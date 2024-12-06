@@ -224,77 +224,6 @@ class Allergens_Dietary_Allergen_Queries
 		return $is_default == 1 ? true : false;
 	}
 
-	public function delete_allergen_by_name(string $allergy_name, int $return_page = null)
-	{
-		try {
-			global $wpdb;
-
-			$table_allergy_attachment = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_attachment';
-			$table_allergy = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-			$table_attachment = $wpdb->prefix . 'allergens_dietary_ictoria_attachments';
-			$url = strtok($_SERVER["REQUEST_URI"], '?');
-
-			if (empty($allergy_name)) {
-				return;
-			}
-
-			$is_default = self::is_default_allergen($allergy_name);
-
-			static $error_displayed = false;
-
-			if ($is_default) {
-				if (!$error_displayed) {
-					throw new Exception(__("Can't delete a default allergen option: '" . $allergy_name . "'"));
-				}
-			}
-
-			$existing_attachment = $wpdb->query(
-				"SELECT attachment_name 
-				 FROM $table_allergy_attachment 
-				 GROUP BY attachment_name 
-				 HAVING COUNT(attachment_name) > 1
-				 LIMIT 1"
-			);
-			
-			if ($existing_attachment) {
-				$sql = $wpdb->prepare(
-					"DELETE aa, a 
-                 FROM $table_allergy_attachment AS aa
-                 JOIN $table_allergy AS a 
-                 ON a.allergy_name = aa.allergy_name
-                 WHERE aa.allergy_name = %s  
-                 AND a.is_default_option != TRUE",
-					$allergy_name
-				);
-			} else {
-				$sql = $wpdb->prepare(
-					"DELETE aa, a, am 
-					FROM $table_allergy_attachment AS aa
-					JOIN $table_allergy AS a 
-					ON a.allergy_name = aa.allergy_name
-					JOIN $table_attachment as am
-					ON am.attachment_name = aa.attachment_name
-					WHERE aa.allergy_name = %s  
-					AND a.is_default_option != TRUE",
-					$allergy_name
-				);
-			}
-			$result = $wpdb->query($sql);
-			if ($result === false) {
-				if (!$error_displayed) {
-					throw new Exception(__("Error deleting allergen: '" . $allergy_name . "'"));
-				}
-			}
-		} catch (Exception $e) {
-			if (!$error_displayed) {
-				echo "Error: " . $e->getMessage();
-			}
-
-		}
-		header("Location: $url" . "?page=allergens-dietary-show-allergens" . (isset($return_page) ? '&paged=' . $return_page : ''));
-
-	}
-
 	public static function getItems(){
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
@@ -311,7 +240,7 @@ class Allergens_Dietary_Allergen_Queries
 		return $columns;
 	}
 
-	public function activationUpdate(array $data)
+	public function activationUpdate(array $data, string $message)
 	{
 		global $wpdb;
 
@@ -353,10 +282,16 @@ class Allergens_Dietary_Allergen_Queries
 				$where,
 				$format
 			);
+
+			if (!empty($_GET)) {
+				$url = strtok($_SERVER["REQUEST_URI"], '?');
+				$separator = strpos($url, '?') === false ? '?' : '&';
+				header("Location: $url" . $separator . "page=allergens-dietary-show-allergens" . (isset($return_page) ? '&paged=' . $return_page : '') . "&messaged=" . urlencode($message));
+			}
 		}
 	}
 
-	public function singleActivationUpdate(int $return_page)
+	public function singleActivationUpdate(int $return_page, string $message)
 	{
 		global $wpdb;
 
@@ -397,8 +332,8 @@ class Allergens_Dietary_Allergen_Queries
 
 			if (!empty($_GET)) {
 				$url = strtok($_SERVER["REQUEST_URI"], '?');
-
-				header("Location: $url" . "?page=allergens-dietary-show-allergens" . (isset($return_page) ? '&paged=' . $return_page : ''));
+				$separator = strpos($url, '?') === false ? '?' : '&';
+				header("Location: $url" . $separator . "page=allergens-dietary-show-allergens" . (isset($return_page) ? '&paged=' . $return_page : '') . "&messaged=" . urlencode($message));
 			}
 		}
 	}
