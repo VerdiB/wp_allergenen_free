@@ -150,11 +150,11 @@ package "php"{
         }
 
         class Allergens_Dietary_Form{
-            -{static} _instance : Allergens_Dietary_Allergens_Form
+            -{static} _instance
             -{static} formType : FormType
             -{static} formObject : I_Allergens_Dietary_Form
             - __construct() : void
-            + {static} getInstance() : Allergens_Dietary_Allergens_Form
+            + {static} getInstance()
             + {static} setFormType(formType:FormType) : void
             + {static} getFormType() : FormType
             + submitUpdate() : void
@@ -280,9 +280,4 @@ Allergens_Dietary_Products ..> Allergens_Dietary_Allergy_Product_Queries
 FormType  <.. Allergens_Dietary_Form 
 Allergens_Dietary_Form o-r-> I_Allergens_Dietary_Form
 Allergens_Dietary_License_Form ..|> I_Allergens_Dietary_Form
-Allergens_Dietary_Allergens_Form .u.|> I_Allergens_Dietary_Form
-Allergens_Dietary_Allergens_Form ..> Allergens_Dietary_Tabs : uses
-Allergens_Dietary_Allergens_Form ..> Allergens_Dietary_Allergen_Queries : uses
-Allergens_Dietary_Allergens_Form .r.> Allergens_Dietary_Attachment_Queries : uses
-Allergens_Dietary_Allergens_Form ..> Allergens_Dietary_Allergy_Attachment_Queries : uses
 @enduml
