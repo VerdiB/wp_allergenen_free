@@ -150,11 +150,11 @@ package "php"{
         }
 
         class Allergens_Dietary_Form{
-            -{static} _instance
+            -{static} _instance : Allergens_Dietary_Allergens_Form
             -{static} formType : FormType
             -{static} formObject : I_Allergens_Dietary_Form
             - __construct() : void
-            + {static} getInstance()
+            + {static} getInstance() : Allergens_Dietary_Allergens_Form
             + {static} setFormType(formType:FormType) : void
             + {static} getFormType() : FormType
             + submitUpdate() : void
