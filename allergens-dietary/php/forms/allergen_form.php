@@ -12,13 +12,13 @@ if (!class_exists('Allergens_Dietary_License_Form')) {
 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_form_license.php';
 }
 
-if (!class_exists('Allergens_Dietary_Allergen_Form')) {
+/*if (!class_exists('Allergens_Dietary_Allergen_Form')) {
 	include_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_add_allergen.php';
 }
 
 if (!class_exists('Allergens_Dietary_Update_Allergen_Form')) {
 	include_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_update_allergen.php';
-}
+}*/
 
 enum FormType
 {

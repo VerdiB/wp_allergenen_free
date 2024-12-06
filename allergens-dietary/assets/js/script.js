@@ -10,6 +10,14 @@ function checkElementExists(id) {
   }
 }
 
+window.addEventListener("load", function () {
+  const url = new URL(window.location.href);
+  if (url.searchParams.has("messaged")) {
+      url.searchParams.delete("messaged");
+      window.history.pushState({}, document.title, url);
+  }
+});
+
 function quickedit(form) {
   var field = form.querySelector(".update_form");
   var selectdropdown = field.querySelector(".type");
