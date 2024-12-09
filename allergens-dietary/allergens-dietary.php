@@ -122,6 +122,7 @@ class Allergens_Dietary_Startup
 		// delete_option('allergens_dietary_ictoria_options');
 	}
 }
+
 register_activation_hook(ALLERGENS_DIETARY_BASE, array('Allergens_Dietary_Startup', 'on_activation'));
 register_deactivation_hook(ALLERGENS_DIETARY_BASE, array('Allergens_Dietary_Startup', 'on_deactivation'));
 
@@ -167,9 +168,8 @@ if (ALLERGENS_DIETARY_WC_ACTIVE) {
 	include_once ALLERGENS_DIETARY_DIRNAME . '/php/Allergens_Dietary_Plugin_Menu.php';
 	Allergens_Dietary_Plugin_Menu::instance();
 } else {
-	require_once ALLERGENS_DIETARY_DIRNAME . '/php/errors/error_notice.php';
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
 	// WooCommerce is not installed or inactive, show error message
-	require_once ALLERGENS_DIETARY_DIRNAME . '/php/errors/error_notice.php';
 
 	$level = Notice_Types::ERROR;
 	$message = __('%1$sWooCommerce is inactive or not installed. Please install & activate WooCommerce%2$s', 'allergens-dietary');

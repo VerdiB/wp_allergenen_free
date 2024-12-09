@@ -57,7 +57,7 @@ class Allergens_Dietary_Notices
 	 */
 	public function error_notice($type, $message)
 	{
-		$message_header = sprintf(__('%1$sAllergens and Dietary is inactive:%2$s', 'allergens-dietary'), '<p><strong>', '</strong></p>');
+		$message_header = __('%1$sAllergens and Dietary is inactive:%2$s', 'allergens-dietary');
 		$message_full   = $message_header . $message;
 		add_action(
 			'admin_notices',
@@ -72,16 +72,17 @@ class Allergens_Dietary_Notices
 
 	private static function admin_notice(Notice_Types $type, string $message)
 	{
-		$message_full   = '<strong>Allergens and Dietary: </strong> '. $message;
-		$html = '<div class="notice is-dismissible ' . esc_attr($type->value) . '"> <p>
-			' . wp_kses_post($message_full) . '
-		</p></div>';
-		echo $html;
-
+		if (!headers_sent()){
+			$message_full   = '<strong>Allergens and Dietary: </strong> '. $message;
+			$html = '<div class="notice is-dismissible ' . esc_attr($type->value) . '"> <p>
+				' . wp_kses_post($message_full) . '
+			</p></div>';
+				echo $html;
+			}
 	}
 
 	public function display_admin_notice(Notice_Types $type, string $message){
-		add_action('admin_notices', self::admin_notice($type, $message),5);
+		add_action('admin_notice', self::admin_notice($type, $message),5);
 		// add_action('admin_notices',  static function() use ($type, $message) {
 		// 	self::admin_notice($type, $message);
 		// });
