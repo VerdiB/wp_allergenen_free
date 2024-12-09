@@ -146,7 +146,7 @@ if (ALLERGENS_DIETARY_WC_ACTIVE) {
 					require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
 					$level = Notice_Types::ERROR;
 					$message = __('The WooCommerce Integration class was not found. Please make sure WooCommerce is installed correctly', 'allergens-dietary');
-					Allergens_Dietary_Notices::getInstance()->display_admin_notice($level, $message);
+					Allergens_Dietary_Notices::getInstance()->error_notice($level, $message);
 				}
 			}
 		}
@@ -173,7 +173,7 @@ if (ALLERGENS_DIETARY_WC_ACTIVE) {
 
 	$level = Notice_Types::ERROR;
 	$message = __('WooCommerce is inactive or not installed. Please install & activate WooCommerce', 'allergens-dietary');
-	Allergens_Dietary_Notices::getInstance()->display_admin_notice($level, $message);
+	Allergens_Dietary_Notices::getInstance()->error_notice($level, $message);
 }
 // Add a filter to modify the HTML for the auto-update setting link
 add_filter('plugin_auto_update_setting_html', 'my_plugin_auto_update_link_html', 10, 3);
