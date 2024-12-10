@@ -41,6 +41,7 @@ if (!is_plugin_active('woocommerce/woocommerce.php')) {
 	Allergens_Dietary_Notices::getInstance()->error_notice($level, $message);
 	deactivate_plugins('allergens-dietary/allergens-dietary.php');
 }
+}
 
 
 // "Allergens and Dietary" is free software: you can redistribute it and/or modify
