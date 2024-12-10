@@ -40,11 +40,8 @@ if (!is_plugin_active('woocommerce/woocommerce.php')) {
 	$message = __('WooCommerce is inactive or not installed. Please install & activate WooCommerce', 'allergens-dietary');
 	Allergens_Dietary_Notices::getInstance()->error_notice($level, $message);
 	deactivate_plugins('allergens-dietary/allergens-dietary.php');
-	return false;
-}else{
-	return true;
 }
-}
+
 
 // "Allergens and Dietary" is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
