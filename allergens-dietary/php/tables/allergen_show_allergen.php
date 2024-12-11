@@ -20,6 +20,10 @@ if ( ! class_exists( 'Allergens_Dietary_Form' ) ) {
     require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_form.php';
 }
 
+if ( ! function_exists( 'is_plugin_active' ) ) {
+    require_once ABSPATH . 'wp-admin/includes/plugin.php';
+}
+
 /**
  * @class Allergens_Dietary_Show_Allergens
  * @brief Class that shows the allergens
@@ -128,11 +132,27 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         if ($primary !== $column_name) {
             return '';
         }
-        $valid_actions = $this->table_action_options;
+        if ( ! is_plugin_active( 'allergens-dietary-pro/allergens-dietary-pro.php' ) ) {
+            $valid_actions = $this->table_action_options;
+        } elseif ( class_exists( 'Allergens_Dietary_Pro_Show_Allergens' ) ) {
+            // Only access the class if it exists
+            $valid_actions = Allergens_Dietary_Pro_Show_Allergens::getInstance()->table_action_options;
+        } else {
+            // Fallback if the class doesn't exist but the plugin is active
+            $valid_actions = $this->table_action_options;
+        }
 
         $action_links = array();
+
+
         foreach ($valid_actions as $action) {
-            $action_links[$action] = $this->build_action_url($action, $item);
+            if ( ! is_plugin_active( 'allergens-dietary-pro/allergens-dietary-pro.php' ) ) {
+                $action_links[$action] = Allergens_Dietary_Show_Allergens::getInstance()->build_action_url($action, $item);
+            } elseif ( class_exists( 'Allergens_Dietary_Pro_Show_Allergens' ) ) {
+                $action_links[$action] = Allergens_Dietary_Pro_Show_Allergens::getInstance()->build_action_url($action, $item);
+            }else{
+                $action_links[$action] = Allergens_Dietary_Show_Allergens::getInstance()->build_action_url($action, $item);
+            }
         }
 
         return $this->row_actions($action_links);
@@ -242,7 +262,6 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             'allergy_description' => __('Allergy description', 'allergens-dietary'),
             'is_allergy' => __('Allergy or Dietary', 'allergens-dietary'),
             'is_active' => __('Status', 'allergens-dietary'),
-
         );
         return $columns;
     }
