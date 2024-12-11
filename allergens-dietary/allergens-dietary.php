@@ -25,13 +25,13 @@ if (!defined('ABSPATH')) {
 		$return_url = admin_url('plugins.php?plugin_status=all&paged=1&s');
 		$message = 'WooCommerce is inactive or not installed. Please install & activate WooCommerce <br><br> <a href="' . esc_url($return_url) . '">Go back</a>';
 		wp_die($message);
+		exit;
 	}
-	}
+}
 
 '
 /*
 Plugin Name: Allergens and Dietary
-Requires plugins: woocommerce
 Plugin URI:
 Version:     0.18.5.1
 Description: Adds Allergens and Dietary options that can be used with WooCommerce products.
