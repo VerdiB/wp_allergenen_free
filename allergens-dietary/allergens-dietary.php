@@ -27,11 +27,12 @@ if (!defined('ABSPATH')) {
 		wp_die($message);
 		exit;
 	}
-}
+	}
 
 '
 /*
 Plugin Name: Allergens and Dietary
+Requires plugins: woocommerce
 Plugin URI:
 Version:     0.18.5.1
 Description: Adds Allergens and Dietary options that can be used with WooCommerce products.
