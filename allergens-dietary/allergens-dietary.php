@@ -4,9 +4,32 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
+/**
+ * @brief This function handles dependences in the old way if the user has an old version of WordPress
+ * @author T.K
+ * @date 11-12-2024
+ * @since 0.18.5.1
+ */
+
+ function prevent_Wrong_Activation(){
+	if (!is_plugin_active('woocommerce/woocommerce.php')) {
+		require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
+		// WooCommerce is not installed or inactive, show error message
+	
+		$level = 'notice-error';
+		$message = __('WooCommerce is inactive or not installed. Please install & activate WooCommerce', 'allergens-dietary');
+		Allergens_Dietary_Notices::getInstance()->error_notice($level, $message);
+		deactivate_plugins('allergens-dietary/allergens-dietary.php');
+		$return_url = admin_url('plugins.php?plugin_status=all&paged=1&s');
+		$message = 'WooCommerce is inactive or not installed. Please install & activate WooCommerce <br><br> <a href="' . esc_url($return_url) . '">Go back</a>';
+		wp_die($message);
+	}
+	}
+
 '
 /*
 Plugin Name: Allergens and Dietary
+Requires plugins: woocommerce
 Plugin URI:
 Version:     0.18.5.1
 Description: Adds Allergens and Dietary options that can be used with WooCommerce products.
@@ -34,62 +57,6 @@ if (!class_exists('WP_List_Table')) {
 if (!class_exists('WP_Plugins_List_Table')) {
     require_once(ABSPATH . '/wp-admin/includes/class-wp-plugins-list-table.php');
 }
-
-
-class dependencies extends WP_List_Table
-{
-
-	public function __construct() {
-
-		$dependent_name = array(
-            'singular' => 'item',
-            'plural' => 'items',
-            'ajax' => 'item',
-        );
-
-		$this->add_dependents_to_dependency_plugin_row($dependent_name);
-	}
-
-	public function add_dependents_to_dependency_plugin_row( $dependency ) {
-
-		error_log("depend");
-
-		$dependent_names = WP_Plugin_Dependencies::get_dependent_names( $dependency );
-
-		if ( empty( $dependent_names ) ) {
-			return;
-		}
-
-		$dependency_note = __( 'Note: This plugin cannot be deactivated or deleted until the plugins that require it are deactivated or deleted.' );
-
-		$comma       = wp_get_list_item_separator();
-		$required_by = sprintf(
-			/* translators: %s: List of dependencies. */
-			__( '<strong>Required by:</strong> %s' ),
-			implode( $comma, $dependent_names )
-		);
-
-		printf(
-			'<div class="required-by"><p>%1$s</p><p>%2$s</p></div>',
-			$required_by,
-			$dependency_note
-		);
-	}
-}
-
-function prevent_Wrong_Activation(){
-// check if the plugin is active
-if (!is_plugin_active('woocommerce/woocommerce.php')) {
-    require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
-	// WooCommerce is not installed or inactive, show error message
-
-	$level = 'notice-error';
-	$message = __('WooCommerce is inactive or not installed. Please install & activate WooCommerce', 'allergens-dietary');
-	Allergens_Dietary_Notices::getInstance()->error_notice($level, $message);
-	deactivate_plugins('allergens-dietary/allergens-dietary.php');
-}
-}
-
 
 // "Allergens and Dietary" is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -141,6 +108,8 @@ class load_language
 
 $nl_NL = new load_language();
 $en_US = new load_language();
+
+
 
 // class that contains the functions that are used by the activation/deactivation/uninstall hooks
 class Allergens_Dietary_Startup
