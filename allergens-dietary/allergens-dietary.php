@@ -11,6 +11,8 @@ if (!defined('ABSPATH')) {
  * @since 0.18.5.1
  */
 
+ define('ALLERGENS_DIETARY_DIRNAME', __DIR__);
+
  function prevent_Wrong_Activation(){
 	if (!is_plugin_active('woocommerce/woocommerce.php')) {
 		require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
@@ -42,21 +44,10 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: allergens-dietary
 Domain Path: /languages/
 WC Tested Up To: 9.3.3
-Requires Plugins: woocommerce/woocommerce.php
 */
 ';
 
 __('Adds Allergens and Dietary options that can be used with WooCommerce products.', 'allergens-dietary');
-
-define('ALLERGENS_DIETARY_DIRNAME', __DIR__);
-
-if (!class_exists('WP_List_Table')) {
-    require_once(ABSPATH . '/wp-admin/includes/class-wp-list-table.php');
-}
-
-if (!class_exists('WP_Plugins_List_Table')) {
-    require_once(ABSPATH . '/wp-admin/includes/class-wp-plugins-list-table.php');
-}
 
 // "Allergens and Dietary" is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
