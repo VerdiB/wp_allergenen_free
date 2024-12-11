@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * @brief This function handles dependences in the old way if the user has an old version of WordPress
+ * @brief This function handles dependencies in the old way if the user has an old version of WordPress
  * @author T.K
  * @date 11-12-2024
  * @since 0.18.5.1
