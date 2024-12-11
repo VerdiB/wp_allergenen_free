@@ -102,29 +102,6 @@ class Allergens_Dietary_Plugin_Menu
 		Allergens_Dietary_Form::getInstance()->showForm();
 	}
 
-	public function addallergens()
-	{
-		if (!class_exists('Allergens_Dietary_Form') && !class_exists('Allergens_Dietary_Tabs')) {
-			require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_form.php';
-			require_once ALLERGENS_DIETARY_DIRNAME . '/php/tabs/allergen_tabs.php';
-		}
-		Allergens_Dietary_Tabs::getInstance()->showtabs();
-		Allergens_Dietary_Form::setFormType(FormType::ALLERGENS);
-		Allergens_Dietary_Form::getInstance()->showForm();
-	}
-
-	public function updateallergens()
-	{
-		if (!class_exists('Allergens_Dietary_Form')) {
-			require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_form.php';
-			require_once ALLERGENS_DIETARY_DIRNAME . '/php/tabs/allergen_tabs.php';
-		}
-
-		Allergens_Dietary_Tabs::getInstance()->showtabs();
-		Allergens_Dietary_Form::setFormType(FormType::UPDATE);
-		Allergens_Dietary_Form::getInstance()->showForm();
-	}
-
 	public function showallergens()
 	{
 		if (!class_exists('Allergens_Dietary_Show_Allergens')) {
