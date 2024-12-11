@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 class Allergens_Dietary_Plugin_Menu
 {
 
-	private static $instance = null;
+	protected static $instance = null;
 
 	/***
 	 * Main instance
@@ -24,7 +24,7 @@ class Allergens_Dietary_Plugin_Menu
 		return self::$instance;
 	}
 
-	private function __construct()
+	protected function __construct()
 	{
 		add_action(
 			'admin_menu',

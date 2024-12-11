@@ -5,7 +5,7 @@ if (! defined('ABSPATH')) {
 }
 
 if (! enum_exists('Notice_Types')) {
-	require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice_Types.php';
+	require_once ALLERGENS_DIETARY_PRO_DIRNAME . '/php/notice/notice_Types.php';
 }
 
 /**
