@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Allergens-Dietary v1.0.0\n"
 "Report-Msgid-Bugs-To: Translator Name <translations@example.com>\n"
-"POT-Creation-Date: 2024-12-04 13:58+0100\n"
+"POT-Creation-Date: 2024-12-10 15:44+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Your Team <translations@example.com>\n"
@@ -78,14 +78,6 @@ msgstr "Weergeef allergenen"
 #: php/forms/allergen_form_license.php:42
 msgid "License key"
 msgstr "Licentie sleutel"
-
-#: php/DB/allergen.php:247
-msgid "Can't delete a default allergen option: '"
-msgstr "Kan geen standaard allergeen verwijderen"
-
-#: php/DB/allergen.php:285
-msgid "Error deleting allergen: '"
-msgstr "Fout met verwijderen van allergeen:"
 
 #: php/activator.php:414
 msgid "allergens-dietary"
@@ -172,37 +164,45 @@ msgstr "Zet het gebruik van allergenen aan/uit"
 msgid "%1$sAllergens and Dietary is inactive:%2$s"
 msgstr "%1$sAllergenen en Dieët is niet actief:%2$s"
 
-#: php/tables/allergen_show_allergen.php:215
+#: php/tables/allergen_show_allergen.php:216
 msgid "Change status"
 msgstr "Verander status"
 
-#: php/tables/allergen_show_allergen.php:216
+#: php/tables/allergen_show_allergen.php:217
 msgid "Delete"
 msgstr "Verwijder"
 
-#: php/tables/allergen_show_allergen.php:274
+#: php/tables/allergen_show_allergen.php:275
 msgid "Allergy name"
 msgstr "Allergeen naam"
 
-#: php/tables/allergen_show_allergen.php:275
+#: php/tables/allergen_show_allergen.php:276
 msgid "Allergy description"
 msgstr "Allergeen omschrijving"
 
-#: php/tables/allergen_show_allergen.php:276
+#: php/tables/allergen_show_allergen.php:277
 msgid "Allergy or Dietary"
 msgstr "Allergeen of Dieetwens"
 
-#: php/tables/allergen_show_allergen.php:277
+#: php/tables/allergen_show_allergen.php:278
 msgid "Status"
 msgstr "Status"
 
-#: php/tables/allergen_show_allergen.php:333
+#: php/tables/allergen_show_allergen.php:324
+msgid "Security check failed for changing status!"
+msgstr "Beveiligingscontrole mislukt voor het wijzigen van status!"
+
+#: php/tables/allergen_show_allergen.php:326
+msgid "Security check failed for deletion!"
+msgstr "Beveiligingscontrole mislukt voor verwijdering!"
+
+#: php/tables/allergen_show_allergen.php:328
+msgid "Security check failed for quick edit!"
+msgstr "Beveiligingscontrole mislukt voor snelle bewerking!"
+
+#: php/tables/allergen_show_allergen.php:334
 msgid "Status changed"
 msgstr "Status verandert"
-
-#: php/tables/allergen_show_allergen.php:340
-msgid "Allergen deleted"
-msgstr "Allergeen verwijderd"
 
 #: php/tabs/allergen_tabs.php:35
 msgid "See allergens"
@@ -211,6 +211,15 @@ msgstr "Zie allergenen"
 #: php/woocommerce/product_settings.php:79
 msgid "Select allergen('s) and/or dietary restrictions:"
 msgstr "Selecteer allergenen en/of dieet restricties:"
+
+#~ msgid "Can't delete a default allergen option: '"
+#~ msgstr "Kan geen standaard allergeen verwijderen"
+
+#~ msgid "Error deleting allergen: '"
+#~ msgstr "Fout met verwijderen van allergeen:"
+
+#~ msgid "Allergen deleted"
+#~ msgstr "Allergeen verwijderd"
 
 #~ msgid "Add allergen"
 #~ msgstr "Allergeen toevoegen"

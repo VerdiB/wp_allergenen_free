@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Allergens-Dietary v1.0.0\n"
 "Report-Msgid-Bugs-To: Translator Name <translations@example.com>\n"
-"POT-Creation-Date: 2024-12-04 14:00+0100\n"
+"POT-Creation-Date: 2024-12-10 15:45+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Your Team <translations@example.com>\n"
@@ -80,14 +80,6 @@ msgstr "Show allergens"
 #: php/forms/allergen_form_license.php:42
 msgid "License key"
 msgstr "License key"
-
-#: php/DB/allergen.php:247
-msgid "Can't delete a default allergen option: '"
-msgstr "Can't delete a default allergen option: '"
-
-#: php/DB/allergen.php:285
-msgid "Error deleting allergen: '"
-msgstr "Error deleting allergen: '"
 
 #: php/activator.php:414
 msgid "allergens-dietary"
@@ -174,37 +166,45 @@ msgstr "Turning the use of allergies on/off"
 msgid "%1$sAllergens and Dietary is inactive:%2$s"
 msgstr "%1$sAllergens and Dietary is inactive:%2$s"
 
-#: php/tables/allergen_show_allergen.php:215
+#: php/tables/allergen_show_allergen.php:216
 msgid "Change status"
 msgstr "Change status"
 
-#: php/tables/allergen_show_allergen.php:216
+#: php/tables/allergen_show_allergen.php:217
 msgid "Delete"
 msgstr "Delete"
 
-#: php/tables/allergen_show_allergen.php:274
+#: php/tables/allergen_show_allergen.php:275
 msgid "Allergy name"
 msgstr "Allergy name"
 
-#: php/tables/allergen_show_allergen.php:275
+#: php/tables/allergen_show_allergen.php:276
 msgid "Allergy description"
 msgstr "Allergy description"
 
-#: php/tables/allergen_show_allergen.php:276
+#: php/tables/allergen_show_allergen.php:277
 msgid "Allergy or Dietary"
 msgstr "Allergy or Dietary"
 
-#: php/tables/allergen_show_allergen.php:277
+#: php/tables/allergen_show_allergen.php:278
 msgid "Status"
 msgstr "Status"
 
-#: php/tables/allergen_show_allergen.php:333
+#: php/tables/allergen_show_allergen.php:324
+msgid "Security check failed for changing status!"
+msgstr "Security check failed for changing status!"
+
+#: php/tables/allergen_show_allergen.php:326
+msgid "Security check failed for deletion!"
+msgstr "Security check failed for deletion!"
+
+#: php/tables/allergen_show_allergen.php:328
+msgid "Security check failed for quick edit!"
+msgstr "Security check failed for quick edit!"
+
+#: php/tables/allergen_show_allergen.php:334
 msgid "Status changed"
 msgstr "Status changed"
-
-#: php/tables/allergen_show_allergen.php:340
-msgid "Allergen deleted"
-msgstr "Allergen deleted"
 
 #: php/tabs/allergen_tabs.php:35
 msgid "See allergens"
@@ -213,6 +213,15 @@ msgstr "See allergens"
 #: php/woocommerce/product_settings.php:79
 msgid "Select allergen('s) and/or dietary restrictions:"
 msgstr "Select allergen('s) and/or dietary restrictions:"
+
+#~ msgid "Can't delete a default allergen option: '"
+#~ msgstr "Can't delete a default allergen option: '"
+
+#~ msgid "Error deleting allergen: '"
+#~ msgstr "Error deleting allergen: '"
+
+#~ msgid "Allergen deleted"
+#~ msgstr "Allergen deleted"
 
 #~ msgid "Add allergen"
 #~ msgstr "Add allergen"
