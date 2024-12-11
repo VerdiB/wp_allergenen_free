@@ -175,11 +175,7 @@ package "php"{
             -{static} _instance : Allergens_Dietary_Allergen_Queries
             +{static} getInstance() : Allergens_Dietary_Allergen_Queries
             - __construct() : void
-            + addAllergens(data:array) : boolean
-            + checkAllergenExists(allergenName:string) : boolean
             + getAllAllergens() : array
-            + updateAllergens(data:array) : void
-            + getAllergen(allergenName:string) : array
             + {static} is_default_allergen(allergy_name:string) : boolean
             + {static} send_header(page:string) : string
             + {static} activationUpdate(data:array) : void
@@ -190,7 +186,6 @@ package "php"{
             + {static} is_default_allergen(allergy_name:string) : boolean
             + {static} activationUpdate(data:array) : void
             + {static} singleActivationUpdate() : void
-
         }
 
         class Allergens_Dietary_Attachment_Queries{
@@ -199,12 +194,6 @@ package "php"{
             - _url : string
             +{static} getInstance() : Allergens_Dietary_Attachment_Queries
             - __construct() : void
-            + addAttachment(data:array) : boolean
-            + deleteAttachment(attachment:string) : void
-            + checkAttachmentExists(attachmentName:string) : boolean
-            + updateAttachment(data:array, oldName:string) : void
-            - placeAttachment(data:array) : void
-            - removeAttachment(attachmentName: string) : void
             + {static} attachment_insert(result:array) : void
         }
 
@@ -212,15 +201,10 @@ package "php"{
             -{static} _instance : Allergens_Dietary_Allergy_Attachment_Queries
             +{static} getInstance() : Allergens_Dietary_Allergy_Attachment_Queries
             - __construct() : void
-            + addAllergyAttachment(data:array) : boolean
             + getAllergyAttachment(allergyAttachmentName:string, isForm:boolean) : array
             + getAllAllergyAttachmments(skip_default:boolean) : array
-            + checkAllergyAttachmentExists(allergyName:string) : boolean
             + find_allergy(allergy_name:string) : string
-            + updateAllergyAttachment(data:array) : void
             + getAllergyAttachment() : array
-            + deleteAllergyAttachment(allergy:string) : void
-            + checkMultipleAttachmentsExists(icon:string, bool:boolean) : boolean
             + find_allergy(allergy_name:string) : string
             + {static} allergy_connection(result:array) : array
         }

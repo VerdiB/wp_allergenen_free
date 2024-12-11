@@ -49,14 +49,8 @@ class Allergens_Dietary_Form
 
 	private function __construct(bool $isTable = false)
 	{
-		if (FormType::ALLERGENS === self::$_formType) {
-			self::$_formObject = new Allergens_Dietary_Allergen_Form();
-		}
 		if (FormType::LICENSE === self::$_formType) {
 			self::$_formObject = new Allergens_Dietary_License_Form();
-		}
-		if (FormType::UPDATE === self::$_formType) {
-			self::$_formObject = new Allergens_Dietary_Ictoria_Update_Allergen_Form();
 		}
 		if (!isset(self::$_formType) || false === self::$_formType->match(self::$_formType)) {
 			throw new Exception('FormType not yet supported/implemented');

@@ -16,6 +16,10 @@ if ( ! class_exists( 'Allergens_Dietary_Notices' ) ) {
     require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
 }
 
+if ( ! class_exists( 'Allergens_Dietary_Form' ) ) {
+    require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_form.php';
+}
+
 /**
  * @class Allergens_Dietary_Show_Allergens
  * @brief Class that shows the allergens
@@ -138,51 +142,14 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     private function build_action_url($action, $item) // loop-build actions for quick actions.
     {
         $color = "blue";
-        $disabled = "";
-        $is_default = Allergens_Dietary_Allergen_Queries::getInstance();
-        if (esc_attr($action) == "delete" || esc_attr($action) == "quick_edit") {
-            $is_default = Allergens_Dietary_Allergen_Queries::getInstance()->is_default_allergen($item['allergy_name']);
-        }
 
-        (esc_attr($action) == "delete") ? $color = "red" : $color = "blue";
-
-        if ($is_default){
-            $disabled = "none";
-        }else{
-            $disabled = "auto";
-        }
-
-        /*While using quick_edit you always need to add a file.
-        This can't be solved, because you can't put a value into
-        a file input*/
-    if (esc_attr($action) !== 'quick_edit' && esc_attr($action) !== 'change_status'){
-        return $is_default ? '<a style="color: grey;">' . ucfirst(str_replace('_', ' ', $action)) . '</a>' : sprintf(
-            '<a style="color: ' . $color . ';" href="?page=%s' . (self::$_page > 0 ? '&paged=' . strval(self::$_page) : '') . '&item=%s&action=%s&_wpnonce=%s">%s</a>',
-            esc_attr($_REQUEST['page']),
-            esc_attr($item['allergy_name']),
-            esc_attr($action),
-            wp_create_nonce('allergens_' . $action),
-            ucfirst(str_replace('_', ' ', $action)),
-        );
-    }elseif(esc_attr($action) == 'change_status'){
+    if (esc_attr($action) == 'change_status'){
         return sprintf(
             '<a style="color: ' . $color . ';" href="?page=%s' . (self::$_page > 0 ? '&paged=' . strval(self::$_page) : '') . '&item=%s&action=%s&_wpnonce=%s">%s</a>',
             esc_attr($_REQUEST['page']),
             esc_attr($item['allergy_name']),
             esc_attr($action),
             wp_create_nonce('allergens_' . $action),
-            ucfirst(str_replace('_', ' ', $action)),
-        );
-    }else{
-        Allergens_Dietary_Form::setFormType(FormType::ALLERGENS);
-        Allergens_Dietary_Form::getInstance(true)->showForm(esc_attr($item['allergy_name']));
-
-        return $is_default ? '<a style="color: grey;">' . ucfirst(str_replace('_', ' ', $action)) . '</a>' : sprintf(
-            '<a class="%s" id="%s" style="color: ' . $color . '; pointer-events: %s;" href="#&item=%s">%s</a>',
-            esc_attr($action),
-            esc_attr($item['allergy_name']),
-            $disabled,
-            esc_attr($item['allergy_name']),
             ucfirst(str_replace('_', ' ', $action)),
         );
     }
@@ -214,7 +181,6 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     {
         $actions = array();
         $actions['change_status'] = __('Change status', 'allergens-dietary');
-        $actions['delete'] = __('Delete', 'allergens-dietary');
         return $actions;
     }
 
@@ -322,10 +288,6 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             // Verify nonce based on action
             if ($action === 'change_status' && !wp_verify_nonce($nonce, 'allergens_change_status')) {
                 self::$message = __("Security check failed for changing status!", 'allergens-dietary');
-            } elseif ($action === 'delete' && !wp_verify_nonce($nonce, 'allergens_delete')) {
-                self::$message = __("Security check failed for deletion!", 'allergens-dietary');
-            }  elseif ($action === 'quick_edit' && !wp_verify_nonce($nonce, 'allergens_delete')) {
-                self::$message = __("Security check failed for quick edit!", 'allergens-dietary');
             }
 
             // Perform action based on case
@@ -364,13 +326,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         $action = $this->current_action();
         switch ($action) {
             case 'change_status':
-                Allergens_Dietary_Allergen_Queries::getInstance()->activationUpdate($data);
-                break;
-            case 'delete':
-                foreach ($data['item'] as $allergy_name) {
-                    $allergy_name = sanitize_text_field($allergy_name);
-                    Allergens_Dietary_Allergen_Queries::getInstance()->delete_allergen_by_name($allergy_name, self::$_page);
-                }
+                self::$message = __("Status changed", 'allergens-dietary');
+                Allergens_Dietary_Allergen_Queries::getInstance()->activationUpdate($data, self::$message);
                 break;
         }
     }
@@ -532,11 +489,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 } else {
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        if (isset($_GET['quick_edit'])){
-            $table = Allergens_Dietary_Show_Allergens::getInstance();
-
-            $table->process_quick_action();
-        }else{
             if (isset($_GET['messaged'])){
                 $type = Notice_Types::INFO;
                 $notice = Allergens_Dietary_Notices::getInstance();
@@ -545,6 +497,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $table = Allergens_Dietary_Show_Allergens::getInstance();
 
             $table->process_quick_action();
-        }
     }
 }

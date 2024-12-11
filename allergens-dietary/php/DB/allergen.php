@@ -42,44 +42,6 @@ class Allergens_Dietary_Allergen_Queries
 	 * @date 11-9-2024
 	 * @author Ictoria
 	 */
-	public function addAllergens(array $data)
-	{
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-
-		$wpdb->insert(
-			$table_name,
-			array(
-				'allergy_name' => $data['allergen_name'],
-				'allergy_description' => $data['allergen_description'],
-				'is_allergy' => $data['type'],
-			),
-			array(
-				'%s',
-				'%s',
-				'%d',
-			)
-		);
-
-		return (isset($wpdb->insert_id)) ? true : false;
-	}
-
-	public function checkAllergenExists(string $allergenName)
-	{
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-
-		$sql = $wpdb->prepare(
-			"SELECT allergy_name FROM $table_name WHERE allergy_name = %s",
-			$allergenName
-		);
-
-		$result = $wpdb->get_results($sql);
-
-		return (count($result) > 0) ? true : false;
-	}
 
 	public function getAllAllergens()
 	{
@@ -93,41 +55,6 @@ class Allergens_Dietary_Allergen_Queries
 		ORDER BY  is_allergy DESC, allergy_name ASC";
 
 		$result = $wpdb->get_results($sql, ARRAY_A);
-
-		return $result;
-	}
-
-	public function updateAllergens(array $data)
-	{
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-
-		$wpdb->update(
-			$table_name,
-			array(
-				'allergy_name' => $data['allergen_name'],
-				'allergy_description' => $data['allergen_description'],
-				'is_allergy' => $data['type'],
-			),
-			array(
-				'allergy_name' => $data['allergen_name_hidden'],
-			)
-		);
-	}
-
-	public function getAllergen(string $allergenName)
-	{
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-
-		$sql = $wpdb->prepare(
-			"SELECT * FROM $table_name WHERE allergy_name = %s",
-			$allergenName
-		);
-
-		$result = $wpdb->get_results($sql);
 
 		return $result;
 	}
