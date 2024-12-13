@@ -43,11 +43,11 @@ enum FormType
 
 class Allergens_Dietary_Form
 {
-	private static ?self $_instance = null;
-	private static FormType $_formType;
-	private static I_Allergens_Dietary_Form $_formObject;
+	protected static ?self $_instance = null;
+	protected static FormType $_formType;
+	protected static I_Allergens_Dietary_Form $_formObject;
 
-	private function __construct(bool $isTable = false)
+	protected function __construct(bool $isTable = false)
 	{
 		if (FormType::LICENSE === self::$_formType) {
 			self::$_formObject = new Allergens_Dietary_License_Form();

@@ -12,8 +12,8 @@ if (! class_exists('Allergens_Dietary_Allergen_Queries')) {
 
 class Allergens_Dietary_Filter
 {
-	private static $_instance = null;
-	private array $_allergens;
+	protected static $_instance = null;
+	protected array $_allergens;
 
 	public static function instance()
 	{
@@ -42,7 +42,7 @@ class Allergens_Dietary_Filter
 		wp_enqueue_script('Allergens_Dietary_Show_Allergens');
 	}
 
-	private function __construct()
+	protected function __construct()
 	{
 		add_action('wp_enqueue_scripts', array($this, 'load_css')); // For frontend
 		add_action('wp_enqueue_scripts', array($this, 'load_js')); // For frontend

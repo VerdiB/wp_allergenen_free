@@ -14,7 +14,7 @@ if (! defined('ABSPATH')) {
 
 class Allergens_Dietary_Allergy_Product_Queries
 {
-    private static ?self $_instance = null;
+    protected static ?self $_instance = null;
 
     public static function getInstance()
     {
@@ -24,7 +24,7 @@ class Allergens_Dietary_Allergy_Product_Queries
         return self::$_instance;
     }
 
-    private function __construct() {}
+    protected function __construct() {}
 
     public function addAllergyProduct(int $product_id, string $allergen)
     {

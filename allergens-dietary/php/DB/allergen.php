@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
  */
 class Allergens_Dietary_Allergen_Queries
 {
-	private static ?self $_instance = null;
+	protected static ?self $_instance = null;
 
 	/**
 	 * @brief This method returns the instance of the class.
@@ -30,7 +30,7 @@ class Allergens_Dietary_Allergen_Queries
 		return self::$_instance;
 	}
 
-	private function __construct()
+	protected function __construct()
 	{
 	}
 

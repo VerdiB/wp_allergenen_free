@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
 
 class Allergens_Dietary_Tabs
 {
-    private static ?self $_instance = null;
+    protected static ?self $_instance = null;
     
     public function __construct()
 	{
