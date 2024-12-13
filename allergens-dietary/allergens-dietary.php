@@ -4,9 +4,35 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
+/**
+ * @brief This function handles dependencies in the old way if the user has an old version of WordPress
+ * @author T.K
+ * @date 11-12-2024
+ * @since 0.18.5.1
+ */
+
+ define('ALLERGENS_DIETARY_DIRNAME', __DIR__);
+
+ function prevent_Wrong_Activation(){
+	if (!is_plugin_active('woocommerce/woocommerce.php')) {
+		require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
+		// WooCommerce is not installed or inactive, show error message
+	
+		$level = 'notice-error';
+		$message = __('WooCommerce is inactive or not installed. Please install & activate WooCommerce', 'allergens-dietary');
+		Allergens_Dietary_Notices::getInstance()->error_notice($level, $message);
+		deactivate_plugins('allergens-dietary/allergens-dietary.php');
+		$return_url = admin_url('plugins.php?plugin_status=all&paged=1&s');
+		$message = 'WooCommerce is inactive or not installed. Please install & activate WooCommerce <br><br> <a href="' . esc_url($return_url) . '">Go back</a>';
+		wp_die($message);
+		exit;
+	}
+	}
+
 '
 /*
 Plugin Name: Allergens and Dietary
+Requires plugins: woocommerce
 Plugin URI:
 Version:     0.18.5.1
 Description: Adds Allergens and Dietary options that can be used with WooCommerce products.
@@ -24,8 +50,6 @@ WC Tested Up To: 9.3.3
 
 __('Adds Allergens and Dietary options that can be used with WooCommerce products.', 'allergens-dietary');
 
-
-
 // "Allergens and Dietary" is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -42,7 +66,6 @@ __('Adds Allergens and Dietary options that can be used with WooCommerce product
 // Set constant values that are used to retain file location references
 define('ALLERGENS_DIETARY_NAME', 'allergens-dietary');
 define('ALLERGENS_DIETARY_FILE', __FILE__); // contains the full path to the plugin file
-define('ALLERGENS_DIETARY_DIRNAME', __DIR__);
 define('ALLERGENS_DIETARY_BASE', plugin_basename(__FILE__)); // contains the path: plugin_directory/plugin_file
 // Check if WooCommerce is active and store the result in a constant value
 if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
@@ -78,6 +101,8 @@ class load_language
 $nl_NL = new load_language();
 $en_US = new load_language();
 
+
+
 // class that contains the functions that are used by the activation/deactivation/uninstall hooks
 class Allergens_Dietary_Startup
 {
@@ -110,6 +135,8 @@ class Allergens_Dietary_Startup
 
 		$inhoud = "<?php\n";
 		$inhoud .= "// this is an automaticly generated PHP-file\n";
+
+		
 	}
 
 	// function that runs when the deactivation hook is called
@@ -122,6 +149,7 @@ class Allergens_Dietary_Startup
 		// delete_option('allergens_dietary_ictoria_options');
 	}
 }
+
 register_activation_hook(ALLERGENS_DIETARY_BASE, array('Allergens_Dietary_Startup', 'on_activation'));
 register_deactivation_hook(ALLERGENS_DIETARY_BASE, array('Allergens_Dietary_Startup', 'on_deactivation'));
 
@@ -144,8 +172,8 @@ if (ALLERGENS_DIETARY_WC_ACTIVE) {
 					// add_filter('woocommerce_integrations', array($this, 'add_integration'));
 					require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
 					$level = Notice_Types::ERROR;
-					$message = __('%1$sThe WooCommerce Integration class was not found. Please make sure WooCommerce is installed correctly%2$s', 'allergens-dietary');
-					Allergens_Dietary_Notices::getInstance()->display_admin_notice($level, $message);
+					$message = __('The WooCommerce Integration class was not found. Please make sure WooCommerce is installed correctly', 'allergens-dietary');
+					Allergens_Dietary_Notices::getInstance()->error_notice($level, $message);
 				}
 			}
 		}
@@ -167,13 +195,13 @@ if (ALLERGENS_DIETARY_WC_ACTIVE) {
 	include_once ALLERGENS_DIETARY_DIRNAME . '/php/Allergens_Dietary_Plugin_Menu.php';
 	Allergens_Dietary_Plugin_Menu::instance();
 } else {
-	require_once ALLERGENS_DIETARY_DIRNAME . '/php/errors/error_notice.php';
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
 	// WooCommerce is not installed or inactive, show error message
-	require_once ALLERGENS_DIETARY_DIRNAME . '/php/errors/error_notice.php';
 
-	$level = Notice_Types::ERROR;
-	$message = __('%1$sWooCommerce is inactive or not installed. Please install & activate WooCommerce%2$s', 'allergens-dietary');
-	Allergens_Dietary_Notices::getInstance()->display_admin_notice($level, $message);
+	if (!function_exists('is_plugin_active')) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+		prevent_Wrong_Activation();
 }
 // Add a filter to modify the HTML for the auto-update setting link
 add_filter('plugin_auto_update_setting_html', 'my_plugin_auto_update_link_html', 10, 3);
