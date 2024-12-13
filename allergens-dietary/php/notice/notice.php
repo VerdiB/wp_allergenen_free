@@ -11,7 +11,7 @@ if (! enum_exists('Notice_Types')) {
 /**
  * @brief This class handles the errors. 
  * and carries out potential error logs for future development
- * @author Ictoria
+ * @author ictoriabv
  * @since 1.0.0
  * @date 4-11-2024
  */
@@ -24,7 +24,7 @@ class Allergens_Dietary_Notices
 	/**
 	 * @brief singleton method to get the instance of the class
 	 * @return Allergens_Dietary_Notices
-	 * @author Ictoria
+	 * @author ictoriabv
 	 * @since 0.17.0.0
 	 * @date 18-11-2024
 	 */
@@ -40,7 +40,7 @@ class Allergens_Dietary_Notices
 	/**
 	 * @brief a private constructor for the class
 	 * sets css amongst other things
-	 * @author Ictoria
+	 * @author ictoriabv
 	 * @since 0.17.0.0
 	 * @date 18-11-2024
 	 */
@@ -51,7 +51,7 @@ class Allergens_Dietary_Notices
 	 * @param Notice_Types $type
 	 * @param string $message
 	 * @return void
-	 * @author Ictoria
+	 * @author ictoriabv
 	 * @since 1.0.0
 	 * @date 4-11-2024
 	 */

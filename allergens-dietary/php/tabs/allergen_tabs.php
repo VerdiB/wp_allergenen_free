@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
  * @class Allergens_Dietary_License_Tabs
  * @brief Class that creates the tabs after you filled in the licence key
  * the user can click on the tabs to edit their allergens
- * @author Ictoria
+ * @author ictoriabv
  * @date 12-9-2024
  * @since 1.0.0
  */

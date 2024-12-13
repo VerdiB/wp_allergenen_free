@@ -55,9 +55,6 @@
 - Automatic updates
 
 ## added feature
-- The option to update allergens for premium users
-- The option to add diets for premium users
-- The option to add allergens for premium users
 
 
 # Allergens Dietary Ictoria - V0.16.5.1
@@ -81,7 +78,6 @@
 - An option to change the status of an allergen (active or inactive)
 - Allergen title visible when hovering over it
 - A submenu with info about the plugin
-- A standard image for an allergen without an image selected
 - UK translations
 - UX/conform front-end
 - Made the plugin wordpress theme friendly
@@ -90,7 +86,6 @@
 # Allergens Dietary Ictoria - V0.17.1.1
 
 ## Fixes and changes
-- Made a show allergens table update after updating an allergen directly visible instead of doing a refresh (bug fix)
 
 ### Performance
 
