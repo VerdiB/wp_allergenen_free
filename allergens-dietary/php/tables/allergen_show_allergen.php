@@ -36,12 +36,12 @@ if ( ! function_exists( 'is_plugin_active' ) ) {
 class Allergens_Dietary_Show_Allergens extends WP_List_Table
 {
 
-    private static $_instance = [];
-    private static int $_page = 0;
-    private static string $message = "";
+    protected static $_instance = [];
+    protected static int $_page = 0;
+    protected static string $message = "";
     // Page is statisch zodat er maar 1 is, en de zelfde waarde blijft.
 
-    private function __construct()
+    protected function __construct()
     {
         parent::__construct([
             'singular' => 'item',
@@ -55,7 +55,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         // $notice->display_admin_notice(Notice_Types::WARNING, __('is great success', 'allergens-dietary'));
     }
 
-    private $table_action_options = ['change_status'];
+    protected $table_action_options = ['change_status'];
 
     public $search_query;
 
@@ -63,7 +63,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     {
         return get_option('items_per_page', 10);
     }
-    private function set_items_per_pages($value)
+    protected function set_items_per_pages($value)
     {
         update_option('items_per_page', $value);
     }
@@ -159,7 +159,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     }
 
 
-    private function build_action_url($action, $item) // loop-build actions for quick actions.
+    protected function build_action_url($action, $item) // loop-build actions for quick actions.
     {
         $color = "blue";
 
@@ -175,7 +175,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     }
     }
 
-    private function handle_search()
+    protected function handle_search()
     {
         if (isset($_POST['search'])) {
             $this->search_query = isset($_POST['search'])
@@ -184,7 +184,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         }
     }
 
-    private function handle_items_per_page()
+    protected function handle_items_per_page()
     {
         if (isset($_POST['items_per_page'])) {
             if ($_POST['items_per_page'] < 1) {
