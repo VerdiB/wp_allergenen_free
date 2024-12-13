@@ -39,7 +39,7 @@ Adds Allergens and Dietary options that can be used with WooCommerce products
 * Added allergen title visible when hovering over it
 * Added a submenu with info about the plugin
 * Added UK translations
-* Made UX/conform front-end
+* Made the UX conform on the front-end
 * Made the plugin wordpress theme friendly
 
 = 0.4.0.0 =
