@@ -62,7 +62,7 @@ class Allergens_Dietary_Notices
 		add_action(
 			'admin_notices',
 			static function () use ($type, $message_full) {
-				echo '<div class="notice notice-alt ' . esc_attr($type) . '" style="padding:12px 12px"> <p>
+				echo '<div class="notice notice ' . esc_attr($type) . '" style="padding:12px 12px"> <p>
 					' . wp_kses_post($message_full) . '
 				</p></div>';
 			}
