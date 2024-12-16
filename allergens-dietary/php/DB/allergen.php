@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 /**
  * @class Allergens_Dietary_Allergen_Queries
  * @brief This class is a singleton that handles all the queries for the allergens and dietary restrictions DB table.
- * @author Ictoria
+ * @author ictoriabv
  * @date 11-9-2024
  * @since 1.0.0
  */
@@ -18,7 +18,7 @@ class Allergens_Dietary_Allergen_Queries
 	/**
 	 * @brief This method returns the instance of the class.
 	 * @return Allergens_Dietary_Allergen_Queries
-	 * @author Ictoria
+	 * @author ictoriabv
 	 * @since 1.0.0
 	 * @date 11-9-2024
 	 */
@@ -40,7 +40,7 @@ class Allergens_Dietary_Allergen_Queries
 	 * @return bool
 	 * @since 1.0.0
 	 * @date 11-9-2024
-	 * @author Ictoria
+	 * @author ictoriabv
 	 */
 	public function addAllergens(array $data)
 	{

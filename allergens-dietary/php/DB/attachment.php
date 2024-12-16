@@ -104,7 +104,7 @@ class Allergens_Dietary_Attachment_Queries
 	 * @param array $data
 	 * @since 1.0.0
 	 * @date 11-9-2024
-	 * @author Ictoria
+	 * @author ictoriabv
 	 */
 	private function placeAttachment(array $data)
 	{
@@ -126,7 +126,7 @@ class Allergens_Dietary_Attachment_Queries
 	 * @param string $attachmentName
 	 * @since 1.0.0
 	 * @date 6-11-2024
-	 * @author Ictoria
+	 * @author ictoriabv
 	 */
 	private function removeAttachment(string $attachmentName)
 	{

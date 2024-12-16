@@ -103,7 +103,7 @@ class Allergens_Dietary_Product_Settings
 
 	/**
 	 * @param int $post_id
-	 * @author Ictoria
+	 * @author ictoriabv
 	 * @important This method is not yet completed the function on deleting and adding allergens is still bugged
 	 * @brief This method saves or deletes the selected allergens and dietary restrictions to the product. depending on the (de-)selected options 
 	 * @return void
