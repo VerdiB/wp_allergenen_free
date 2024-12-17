@@ -75,27 +75,35 @@ class Allergens_Dietary_Product_Settings
 		}
 		$this->_attachedAllergens = $tmpArr;
 
-		$html = '<div id="allergens_dietary_ictoria_product_data" class="panel woocommerce_options_panel">
-			<h2>' . __('Select allergen(\'s) and/or dietary restrictions:', 'allergens-dietary') . '</h2>';
-		// create the html for all options, seperating them by category
-		foreach ($allergens as $allergen) {
-			// check if option is globally enabled
-			//TODO: replace with actual check in use with new db structure
-			// add the html to the relevant array entry
-
-			$html .= '
-				<div class="allergen-field">
-					<input type="checkbox" class="checkbox" value="1" name="' . $this->replace_space_chars($allergen['allergy_name']) . '_allergens_dietary_ictoria" ' . ((array_search($allergen['allergy_name'], $this->_attachedAllergens)) ? 'checked="" ' : '') . '/>
-					<span class="description">
-						<img style="max-height: 40px; max-width: 40px;" alt="' . $allergen['allergy_name'] . '" src="' . $allergen['attachment_path'] . '"/>&nbsp;' . $allergen['allergy_name'] . '
-					</span>
-				</div>';
-		}
-
-		$html .= '</div><br/>';
-
-
-		echo $html;
+		?>
+		<div id="allergens_dietary_ictoria_product_data" class="panel woocommerce_options_panel">
+		<h2><?php echo esc_html__( 'Select allergen(s) and/or dietary restrictions:', 'allergens-dietary' ); ?></h2>
+		<?php foreach ( $allergens as $allergen ) : ?>
+			<?php 
+				// Controleer of het item is aangevinkt
+				$checked = in_array( $allergen['allergy_name'], $this->_attachedAllergens, true ) ? 'checked' : ''; 
+			?>
+			<div class="allergen-field">
+				<input 
+					type="checkbox" 
+					class="checkbox" 
+					value="1" 
+					name="<?php echo esc_attr( $this->replace_space_chars( $allergen['allergy_name'] ) . '_allergens_dietary_ictoria' ); ?>" 
+					<?php echo esc_attr( $checked ); ?>
+				/>
+				<span class="description">
+					<img 
+						style="max-height: 40px; max-width: 40px;" 
+						alt="<?php echo esc_attr( $allergen['allergy_name'] ); ?>" 
+						src="<?php echo esc_url( $allergen['attachment_path'] ); ?>"
+					/>
+					&nbsp;<?php echo esc_html( $allergen['allergy_name'] ); ?>
+				</span>
+			</div>
+		<?php endforeach; ?>
+	</div>
+	<br/>
+	<?php
 
 	}
 

@@ -57,6 +57,9 @@ class Allergens_Dietary_Notices
 	 */
 	public function error_notice($type, $message)
 	{
+		/*
+		 * translators: placeholders in the __() function are there to seen as html tags when in use with sprintf()
+		 */
 		$message_header = sprintf(__('%1$sAllergens and Dietary is inactive:%2$s', 'allergens-dietary'), '<p><strong>', '</strong></p>');
 		$message_full   = $message_header . $message;
 		add_action(
@@ -73,11 +76,11 @@ class Allergens_Dietary_Notices
 	private static function admin_notice(Notice_Types $type, string $message)
 	{
 		$message_full   = '<strong>Allergens and Dietary: </strong> '. $message;
-		$html = '<div class="notice is-dismissible ' . esc_attr($type->value) . '"> <p>
-			' . wp_kses_post($message_full) . '
-		</p></div>';
-		echo $html;
-
+		?>
+		<div class="notice is-dismissible <?php echo esc_attr($type->value) ?>"> <p>
+			<?php echo wp_kses_post($message_full) ?>
+		</p></div>
+		<?php
 	}
 
 	public function display_admin_notice(Notice_Types $type, string $message){

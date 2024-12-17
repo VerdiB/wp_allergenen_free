@@ -49,40 +49,40 @@ class Allergens_Dietary_Allergy_Product_Queries
         global $wpdb;
 
         $table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_product';
+        $allergy = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
         $sql = '';
         if (is_null($allergen)) {
-            $sql = $wpdb->prepare(
+            $sql = $wpdb->get_results($wpdb->prepare(
                 "SELECT ap.allergy_name
                 FROM %i as ap
-                JOIN {$wpdb->prefix}allergens_dietary_ictoria_allergy as a on ap.allergy_name = a.allergy_name
+                JOIN %i as a on ap.allergy_name = a.allergy_name
                 WHERE ap.product_id = %d and a.is_active = 1",
-                array($table_name, $product_id)
+                array($table_name, $allergy, $product_id)), ARRAY_A
             );
         } else {
-            $sql = $wpdb->prepare(
+            $sql = $wpdb->get_results($wpdb->prepare(
                 "SELECT ap.allergy_name
                 FROM %i as ap
-                JOIN {$wpdb->prefix}allergens_dietary_ictoria_allergy as a on ap.allergy_name = a.allergy_name
+                JOIN %i as a on ap.allergy_name = a.allergy_name
                 WHERE ap.product_id = %d and a.is_active = 1 and ap.allergy_name = %s",
-                array($table_name, $product_id, $allergen)
-            );
+                array($table_name, $allergy, $product_id, $allergen))
+            ,ARRAY_A);
         }
 
 
-        return $wpdb->get_results($sql, ARRAY_A);
+        return $sql;
     }
 
     public function deleteAllergyProduct(int $product_id, string $allergen)
     {
         global $wpdb;
         $table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_product';
-        $sql = $wpdb->prepare(
+        
+        return $wpdb->query($wpdb->prepare(
             "DELETE FROM %i
             WHERE product_id = %d AND allergy_name = %s",
             array($table_name, $product_id, $allergen)
-        );
-
-        return $wpdb->query($sql);
+        ));
     }
     // public function getFilteredProducts( ?array $allergens, ?array $dietary ) {
     //     $allergens = (is_null($allergens) || empty($allergens)) ? "" : $allergens;
@@ -170,6 +170,7 @@ class Allergens_Dietary_Allergy_Product_Queries
             $sql .= " WHERE " . implode(" AND ", $where_conditions);
         }
 
-        return $wpdb->get_results($sql, ARRAY_A);
+        return $wpdb->get_results($sql // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        , ARRAY_A);
     }
 }

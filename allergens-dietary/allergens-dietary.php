@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 
 /**
  * @brief This function handles dependencies in the old way if the user has an old version of WordPress
- * @author T.K
+ * @author ictoriabv
  * @date 11-12-2024
  * @since 0.18.5.1
  */
@@ -23,8 +23,8 @@ if (!defined('ABSPATH')) {
 		Allergens_Dietary_Notices::getInstance()->error_notice($level, $message);
 		deactivate_plugins('allergens-dietary/allergens-dietary.php');
 		$return_url = admin_url('plugins.php?plugin_status=all&paged=1&s');
-		$message = 'WooCommerce is inactive or not installed. Please install & activate WooCommerce <br><br> <a href="' . esc_url($return_url) . '">Go back</a>';
-		wp_die($message);
+		// $message = 'WooCommerce is inactive or not installed. Please install & activate WooCommerce <br><br> <a href="' . esc_url($return_url) . '">Go back</a>';
+		wp_die(esc_html__('WooCommerce is inactive or not installed. Please install & activate WooCommerce ', 'allergens-dietary'));
 		exit;
 	}
 	}
@@ -116,18 +116,17 @@ class Allergens_Dietary_Startup
 			// save chosen settings in the allergens_dietary_ictoria_settings(WP options table)
 			// add the initial_setup_done option to allergens_dietary_ictoria_settings (value: true) to prevent this popup from showing on every activation after the first
 		}
-		$folderName = '/var/www/html/wp-content/plugins/allergens-dietary/cache'; // Geef het juiste pad naar de map op
+		$folderName = ALLERGENS_DIETARY_DIRNAME . '/cache'; // Geef het juiste pad naar de map op
 
 		if (!file_exists($folderName)) {
 
-			mkdir("/var/www/html/wp-content/plugins/allergens-dietary/cache");
+			wp_mkdir_p($folderName);
 
 		}
 
-		$map = '/var/www/html/wp-content/plugins/allergens-dietary/cache'; // Geef het juiste pad naar de map op
 		$file = '/cache.php';
 
-		$completepath = $map . $file;
+		$completepath = $folderName . $file;
 
 		if (!file_exists($completepath)) {
 			Allergens_Dietary_Activator::activate();
@@ -241,8 +240,8 @@ function my_plugin_toggle_auto_update()
 
 	// Check if the plugin and action parameters are set
 	if (isset($_POST['plugin']) && isset($_POST['toggle_action'])) {
-		$plugin = sanitize_text_field($_POST['plugin']);
-		$action = sanitize_text_field($_POST['toggle_action']);
+		$plugin = sanitize_text_field(wp_unslash($_POST['plugin']));
+		$action = sanitize_text_field(wp_unslash($_POST['toggle_action']));
 
 		$auto_updates = get_site_option('auto_update_plugins', array());
 
@@ -299,12 +298,17 @@ function add_changelog_view_link($plugin_meta, $plugin_file)
 add_action('wp_ajax_view_changelog', 'display_changelog_in_thickbox');
 function display_changelog_in_thickbox()
 {
-	echo '<div class="wrap">';
-	echo '<h1>Changelog</h1>';
-	echo '<div>';
-	echo wpautop(get_plugin_changelog());
-	echo '</div>';
-	echo '</div>';
+	?>
+	<div class="wrap">
+		<h1><?php echo esc_html__('Changelog', 'allergens-dietary'); ?></h1>
+		<div>
+			<?php 
+			// Verwerk de changelog met wpautop() en escape met wp_kses_post()
+			echo wp_kses_post(wpautop(get_plugin_changelog())); 
+			?>
+		</div>
+	</div>
+	<?php
 	exit;
 }
 
@@ -319,7 +323,10 @@ function get_plugin_changelog()
 	$readme_file = plugin_dir_path(__FILE__) . 'readme.txt';
 
 	if (file_exists($readme_file)) {
-		$content = file_get_contents($readme_file);
+		require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
+		require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
+		$filesys = new WP_Filesystem_Direct(true);
+		$content = $filesys->get_contents($readme_file);
 		$changelog = '';
 
 		$changelog_start = strpos($content, '== Changelog ==');

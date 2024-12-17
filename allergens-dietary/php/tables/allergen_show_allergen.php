@@ -16,6 +16,10 @@ if ( ! class_exists( 'Allergens_Dietary_Notices' ) ) {
     require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
 }
 
+if ( ! class_exists('Allergens_Dietary_Form') ) {
+    require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_form.php';
+}
+
 /**
  * @class Allergens_Dietary_Show_Allergens
  * @brief Class that shows the allergens
@@ -214,7 +218,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     {
         $actions = array();
         $actions['change_status'] = __('Change status', 'allergens-dietary');
-        $actions['delete'] = __('Delete', 'allergens-dietary');
+        // $actions['delete'] = __('Delete', 'allergens-dietary');
         return $actions;
     }
 
@@ -240,29 +244,32 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
 
             if ('cb' === $column_name) {
                 echo '<th scope="row" class="check-column">';
-                echo $this->column_cb($item);
+                echo wp_kses($this->column_cb($item),
+                    array('input' => array(
+                        'type' => array(),
+                        'name' => array(),
+                        'value' => array(),
+                    ),
+                ));
                 echo '</th>';
-            } elseif (method_exists($this, '_column_' . $column_name)) {
-                echo call_user_func(
-                    array($this, '_column_' . $column_name),
-                    $item,
-                    $classes,
-                    $data,
-                    $primary
-                );
-            } elseif (method_exists($this, 'column_' . $column_name)) {
-                echo "<td $attributes>";
-                echo call_user_func(array($this, 'column_' . $column_name), $item);
-                echo $this->handle_row_actions($item, $column_name, $primary);
-                echo '</td>';
-            } else {
-                echo "<td $attributes>";
+            } 
+            // elseif (method_exists($this, '_column_' . $column_name)) {
+            //     echo call_user_func(
+            //         array($this, '_column_' . $column_name),
+            //         $item,
+            //         $classes,
+            //         $data,
+            //         $primary
+            //     );
+            // } 
+             else {
+                echo "<td ". esc_attr($attributes) .">";
                 if ($column_name !== "allergy_name"){
-                    echo $this->column_default($item, $column_name);
+                    echo esc_html($this->column_default($item, $column_name));
                 }else{
-                    echo "<span class='allergen_name'>" . $this->column_default($item, $column_name) . "</span>";
+                    echo "<span class='allergen_name'>" . esc_html($this->column_default($item, $column_name)) . "</span>";
                 }
-                echo $this->handle_row_actions($item, $column_name, $primary);
+                echo wp_kses_post($this->handle_row_actions($item, $column_name, $primary));
                 echo '</td>';
             }
         }
@@ -364,14 +371,9 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         $action = $this->current_action();
         switch ($action) {
             case 'change_status':
-                Allergens_Dietary_Allergen_Queries::getInstance()->activationUpdate($data);
+                Allergens_Dietary_Allergen_Queries::getInstance()->activationUpdate($data, 'Status changed');
                 break;
-            case 'delete':
-                foreach ($data['item'] as $allergy_name) {
-                    $allergy_name = sanitize_text_field($allergy_name);
-                    Allergens_Dietary_Allergen_Queries::getInstance()->delete_allergen_by_name($allergy_name, self::$_page);
-                }
-                break;
+           
         }
     }
 
@@ -385,20 +387,20 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             $this->screen->render_screen_reader_content('heading_pagination');
 ?>
             <span class="item-select-box" style="float: right; margin-right: 10px;">
-                <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
-                <span><?php echo $label; ?></span>
+                <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo esc_html($text); ?>:</label>
+                <span><?php echo esc_html($label); ?></span>
                 <select id="items_per_page" name="items_per_page">
                     <?php
                     foreach ($acceptable_values as $value) {
                         if ($value == 10) {
                     ?>
-                            <option value="<?php echo $value ?>" <?php echo $this->get_items_per_pages() == 10 ? 'selected' : (in_array($this->get_items_per_pages(), $acceptable_values) ? '' : 'selected'); ?>><?php echo $value ?>
+                            <option value="<?php echo esc_attr($value); ?>" <?php echo $this->get_items_per_pages() == 10 ? 'selected' : (in_array($this->get_items_per_pages(), $acceptable_values) ? '' : 'selected'); ?>><?php echo esc_html($value) ?>
                             </option>
                         <?php
                         } else {
                         ?>
-                            <option value="<?php echo $value ?>" <?php echo $this->get_items_per_pages() == $value ? 'selected' : '' ?>>
-                                <?php echo $value ?>
+                            <option value="<?php echo esc_attr($value) ?>" <?php echo $this->get_items_per_pages() == $value ? 'selected' : '' ?>>
+                                <?php echo esc_html($value) ?>
                             </option>
                     <?php
                         }
@@ -412,10 +414,10 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         if ('bottom' === $which) {
         ?>
             <span class="item-select-box" style="float: right; margin-right: 10px;">
-                <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
-                <span><?php echo $label; ?></span>
+                <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo esc_html($text); ?>:</label>
+                <span><?php echo esc_html($label); ?></span>
                 <span
-                    class="tablenav-paging-text"><?php echo !empty($this->get_items_per_pages()) ? $this->get_items_per_pages() : null; ?></span>
+                    class="tablenav-paging-text"><?php echo !empty($this->get_items_per_pages()) ? esc_html($this->get_items_per_pages()) : null; ?></span>
             </span>
         <?php
         }
@@ -450,9 +452,9 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
 
         ?>
         <span class="search-box" style="float: right; margin-bottom: 10px;">
-            <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
+            <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo esc_html($text); ?>:</label>
             <input type="search" id="<?php echo esc_attr($input_id); ?>" name="search"
-                value="<?php echo isset($this->search_query) ? $this->search_query : '' ?>" />
+                value="<?php echo isset($this->search_query) ? esc_attr($this->search_query) : '' ?>" />
             <?php submit_button($text, '', '', false, array('id' => 'search-submit')); ?>
         </span>
     <?php
@@ -511,12 +513,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $notice = Allergens_Dietary_Notices::getInstance();
         $notice->display_admin_notice($type, htmlspecialchars($_GET['messaged']));
     }
-    if (isset($_POST['action'])){
-        if ($_POST['action'] = -1){
-            Allergens_Dietary_Form::setFormType(FormType::ALLERGENS);
-            Allergens_Dietary_Form::getInstance()->submitUpdate();
-        }
-    }
+    // if (isset($_POST['action'])){
+    //     if ($_POST['action'] = -1){
+    //         Allergens_Dietary_Form::setFormType(FormType::ALLERGENS);
+    //         Allergens_Dietary_Form::getInstance()->submitUpdate();
+    //     }
+    // }
 
     if (isset($_POST['action']) && isset($_POST['post'])) {
         $process_action = sanitize_text_field($_POST['action']);
