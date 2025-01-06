@@ -6,22 +6,18 @@ if (!defined('ABSPATH')) {
 
 class Allergens_Dietary_Attachment_Queries
 {
-	protected static ?self $_instance = null;
-	protected const PATH = ALLERGENS_DIETARY_DIRNAME . '/assets/icons/custom/';
-	protected string $_url;
+	private static $instances = [];
 
 	public static function getInstance()
-	{
-		if (self::$_instance === null) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
+    {
+        $subclass = static::class;
+        if (!isset(self::$instances[$subclass])) {
+            self::$instances[$subclass] = new static();
+        }
+        return self::$instances[$subclass];
+    }
 
-	protected function __construct()
-	{
-		$this->_url = get_home_url() . '/wp-content/plugins/allergens-dietary/assets/icons/custom/';
-	}
+	protected function __construct(){}
 
 	public static function attachment_insert(array $result)
 	{

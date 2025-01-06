@@ -6,15 +6,16 @@ if (!defined('ABSPATH')) {
 
 class Allergens_Dietary_Allergy_Attachment_Queries
 {
-	protected static ?self $_instance = null;
+	private static $instances = [];
 
 	public static function getInstance()
-	{
-		if (self::$_instance === null) {
-			self::$_instance = new static();
-		}
-		return self::$_instance;
-	}
+    {
+        $subclass = static::class;
+        if (!isset(self::$instances[$subclass])) {
+            self::$instances[$subclass] = new static();
+        }
+        return self::$instances[$subclass];
+    }
 
 	protected function __construct() {}
 
@@ -73,7 +74,7 @@ class Allergens_Dietary_Allergy_Attachment_Queries
 		$prepared_sql = $wpdb->prepare($sql, $table);
 
 
-		return $wpdb->get_results($prepared_sql, ARRAY_A);
+		return $wpdb->get_results($wpdb->prepare($sql, $table), ARRAY_A);
 	}
 
 	public static function allergy_connection(array $result)

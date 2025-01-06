@@ -12,6 +12,10 @@ if (!class_exists('Allergens_Dietary_License_Form')) {
 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_form_license.php';
 }
 
+if (!class_exists('Allergens_Dietary_License_Form')) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/lists/form_type.php';
+}
+
 /*if (!class_exists('Allergens_Dietary_Allergen_Form')) {
 	include_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_add_allergen.php';
 }
@@ -20,17 +24,16 @@ if (!class_exists('Allergens_Dietary_Update_Allergen_Form')) {
 	include_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_update_allergen.php';
 }*/
 
-enum FormType
-{
-	case ALLERGENS;
-	case LICENSE;
-	case UPDATE;
-
-	public function match(FormType $formType): bool
-	{
-		return $this === $formType;
-	}
-}
+// enum FormType
+// {
+// 	case ALLERGENS;
+// 	case LICENSE;
+// 	case UPDATE;
+// 	public function match(FormType $formType): bool
+// 	{
+// 		return $this === $formType;
+// 	}
+// }
 
 /**
  * @class Allergens_Dietary_Form
@@ -47,7 +50,7 @@ class Allergens_Dietary_Form
 	protected static FormType $_formType;
 	protected static I_Allergens_Dietary_Form $_formObject;
 
-	protected function __construct(bool $isTable = false)
+	public function __construct(bool $isTable = false)
 	{
 		if (FormType::LICENSE === self::$_formType) {
 			self::$_formObject = new Allergens_Dietary_License_Form();
@@ -60,7 +63,7 @@ class Allergens_Dietary_Form
 	public static function getInstance()
 	{
 		if (self::$_instance === null) {
-			self::$_instance = new self();
+			self::$_instance = new Allergens_Dietary_Form();
 		}
 		return self::$_instance;
 	}
@@ -87,7 +90,7 @@ class Allergens_Dietary_Form
 		}
 
 		if (!empty($_POST['submit'])) {
-			self::$_formObject->submit($_data);
+			static::$_formObject->submit($_data);
 		}
 	}
 
@@ -109,22 +112,22 @@ class Allergens_Dietary_Form
 
 		if (!in_array($page, $showOnPage, true)) {
 			if (!empty($_POST['submit'])) {
-				self::$_formObject->submit($_data);
+				static::$_formObject->submit($_data);
 			}
 		}
 
 		if (in_array($page, $showOnPage, true)) {
 			echo '<div class="allergens_table_form" style="display: none;" id="' . $allergenName . '_form">';
-			self::$_formObject->showForm($allergenName);
+			static::$_formObject->showForm($allergenName);
 			echo '</div>';
 		} else {
 			if (in_array($page, $showOnPageSecondOption, true)) {
 				echo '<div class="allergens_form health-check-body"><form action="" method="post" style="max-width: 350px;" enctype="multipart/form-data" class="add_allergens_form">';
-				self::$_formObject->showForm($allergenName);
+				static::$_formObject->showForm($allergenName);
 				echo '</form></div>';
 			}else{
 				echo '<div class="allergens_form health-check-body"><form action="" method="post" enctype="multipart/form-data" class="add_allergens_form">';
-				self::$_formObject->showForm($allergenName);
+				static::$_formObject->showForm($allergenName);
 				echo '</form></div>';
 			}
 		}

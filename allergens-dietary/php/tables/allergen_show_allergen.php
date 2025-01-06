@@ -50,7 +50,6 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         ]);
         self::$_page = isset($_REQUEST['paged']) ? $_REQUEST['paged'] : (self::$_page === null ? 0 : self::$_page);
 
-
         // $notice = Allergens_Dietary_Notices::getInstance();
         // $notice->display_admin_notice(Notice_Types::WARNING, __('is great success', 'allergens-dietary'));
     }
@@ -119,40 +118,19 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         return sprintf('<input type="checkbox" name="post[]" value="%s"/>', $item['allergy_name']);
     }
 
-    public function single_row($item)
-    {
-        $this->column_location_id($item);
-        echo '<tr class="inline-edit-row-post quick-edit-row quick-edit-row-post inline-edit-post">';
-        $this->single_row_columns($item);
-        echo '</tr>';
-    }
+   
 
-      public function handle_row_actions($item, $column_name, $primary)
+    public function handle_row_actions($item, $column_name, $primary)
     {
         if ($primary !== $column_name) {
             return '';
         }
-        if ( ! is_plugin_active( 'allergens-dietary-pro/allergens-dietary-pro.php' ) ) {
-            $valid_actions = $this->table_action_options;
-        } elseif ( class_exists( 'Allergens_Dietary_Pro_Show_Allergens' ) ) {
-            // Only access the class if it exists
-            $valid_actions = Allergens_Dietary_Pro_Show_Allergens::getInstance()->table_action_options;
-        } else {
-            // Fallback if the class doesn't exist but the plugin is active
-            $valid_actions = $this->table_action_options;
-        }
 
+        $valid_actions = $this->table_action_options;
         $action_links = array();
 
-
         foreach ($valid_actions as $action) {
-            if ( ! is_plugin_active( 'allergens-dietary-pro/allergens-dietary-pro.php' ) ) {
-                $action_links[$action] = Allergens_Dietary_Show_Allergens::getInstance()->build_action_url($action, $item);
-            } elseif ( class_exists( 'Allergens_Dietary_Pro_Show_Allergens' ) ) {
-                $action_links[$action] = Allergens_Dietary_Pro_Show_Allergens::getInstance()->build_action_url($action, $item);
-            }else{
-                $action_links[$action] = Allergens_Dietary_Show_Allergens::getInstance()->build_action_url($action, $item);
-            }
+            $action_links[$action] = $this->build_action_url($action, $item);
         }
 
         return $this->row_actions($action_links);
@@ -470,7 +448,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
 
     
     public function table_page() {
-        $table = new Allergens_Dietary_Show_Allergens();
+        $table = new static();
         $table->handle_search();
         $table->handle_items_per_page();
         $table->prepare_items();
@@ -481,40 +459,40 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_GET['messaged'])){
-        $type = Notice_Types::INFO;
-        $notice = Allergens_Dietary_Notices::getInstance();
-        $notice->display_admin_notice($type, htmlspecialchars($_GET['messaged']));
-    }
-    if (isset($_POST['action'])){
-        if ($_POST['action'] = -1){
-            Allergens_Dietary_Form::setFormType(FormType::ALLERGENS);
-            Allergens_Dietary_Form::getInstance()->submitUpdate();
-        }
-    }
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//     if (isset($_GET['messaged'])){
+//         $type = Notice_Types::INFO;
+//         $notice = Allergens_Dietary_Notices::getInstance();
+//         $notice->display_admin_notice($type, htmlspecialchars($_GET['messaged']));
+//     }
+//     if (isset($_POST['action'])){
+//         if ($_POST['action'] = -1){
+//             Allergens_Dietary_Form::setFormType(FormType::ALLERGENS);
+//             Allergens_Dietary_Form::getInstance()->submitUpdate();
+//         }
+//     }
 
-    if (isset($_POST['action']) && isset($_POST['post'])) {
-        $process_action = sanitize_text_field($_POST['action']);
-        $process_item = array_map('sanitize_text_field', $_POST['post']);
-        $process_data = ['action' => $process_action, 'item' => $process_item];
-        Allergens_Dietary_Show_Allergens::getInstance()->process_bulk_action($process_data);
-    }
-    if (isset($_POST['search'])) {
-        $search_query = sanitize_text_field($_POST['search']);
-        $table = Allergens_Dietary_Show_Allergens::getInstance();
-        $table->search_query = $search_query;
-        $table->prepare_items();
-    }
-} else {
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            if (isset($_GET['messaged'])){
-                $type = Notice_Types::INFO;
-                $notice = Allergens_Dietary_Notices::getInstance();
-                $notice->display_admin_notice($type, htmlspecialchars($_GET['messaged']));
-            }
-            $table = Allergens_Dietary_Show_Allergens::getInstance();
+//     if (isset($_POST['action']) && isset($_POST['post'])) {
+//         $process_action = sanitize_text_field($_POST['action']);
+//         $process_item = array_map('sanitize_text_field', $_POST['post']);
+//         $process_data = ['action' => $process_action, 'item' => $process_item];
+//         Allergens_Dietary_Show_Allergens::getInstance()->process_bulk_action($process_data);
+//     }
+//     if (isset($_POST['search'])) {
+//         $search_query = sanitize_text_field($_POST['search']);
+//         $table = Allergens_Dietary_Show_Allergens::getInstance();
+//         $table->search_query = $search_query;
+//         $table->prepare_items();
+//     }
+// } else {
+//     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+//             // if (isset($_GET['messaged'])){
+//             //     $type = Notice_Types::INFO;
+//             //     $notice = Allergens_Dietary_Notices::getInstance();
+//             //     $notice->display_admin_notice($type, htmlspecialchars($_GET['messaged']));
+//             // }
+//             $table = Allergens_Dietary_Show_Allergens::getInstance();
 
-            $table->process_quick_action();
-    }
-}
+//             $table->process_quick_action();
+//     }
+// }

@@ -57,6 +57,10 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
 require_once ALLERGENS_DIETARY_DIRNAME . '/php/activator.php';
 add_action('plugins_loaded', array('Allergens_Dietary_Activator', 'load_textdomain'));
 
+if (!function_exists('is_plugin_active')) {
+	require_once ABSPATH . 'wp-admin/includes/plugin.php'; 	
+} 
+
 /*
 Plugin Name: Allergens and Dietary
 Text Domain: allergens-dietary
@@ -160,7 +164,15 @@ if (ALLERGENS_DIETARY_WC_ACTIVE) {
 	Allergens_Dietary_Filter::instance();
 	Allergens_Dietary_Activator::load_style();
 	include_once ALLERGENS_DIETARY_DIRNAME . '/php/Allergens_Dietary_Plugin_Menu.php';
-	Allergens_Dietary_Plugin_Menu::instance();
+
+	if (false === file_exists(dirname(__FILE__, 2) . '/allergens-dietary-pro')){
+		Allergens_Dietary_Plugin_Menu::instance();
+	}
+	elseif (false === is_plugin_active('allergens-dietary-pro/allergens-dietary-pro.php') && true === file_exists(dirname(__FILE__, 2) . '/allergens-dietary-pro')){
+		Allergens_Dietary_Plugin_Menu::instance();	
+	}
+	
+	
 } else {
 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
 	// WooCommerce is not installed or inactive, show error message

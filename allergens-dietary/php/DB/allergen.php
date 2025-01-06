@@ -13,7 +13,8 @@ if (!defined('ABSPATH')) {
  */
 class Allergens_Dietary_Allergen_Queries
 {
-	protected static ?self $_instance = null;
+
+
 
 	/**
 	 * @brief This method returns the instance of the class.
@@ -22,13 +23,16 @@ class Allergens_Dietary_Allergen_Queries
 	 * @since 1.0.0
 	 * @date 11-9-2024
 	 */
+	private static $instances = [];
+
 	public static function getInstance()
-	{
-		if (self::$_instance === null) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
+    {
+        $subclass = static::class;
+        if (!isset(self::$instances[$subclass])) {
+            self::$instances[$subclass] = new static();
+        }
+        return self::$instances[$subclass];
+    }
 
 	protected function __construct()
 	{
@@ -221,7 +225,7 @@ class Allergens_Dietary_Allergen_Queries
 	public function singleActivationUpdate(int $return_page, string $message)
 	{
 		global $wpdb;
-
+		
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 
 		$updatenumber = 0;

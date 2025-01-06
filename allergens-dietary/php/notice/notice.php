@@ -19,7 +19,7 @@ if (! enum_exists('Notice_Types')) {
 class Allergens_Dietary_Notices
 {
 
-	protected static ?Allergens_Dietary_Notices $_instance = null;
+	private static $instances = [];
 	
 	/**
 	 * @brief singleton method to get the instance of the class
@@ -28,14 +28,14 @@ class Allergens_Dietary_Notices
 	 * @since 0.17.0.0
 	 * @date 18-11-2024
 	 */
-	public static function getInstance(): Allergens_Dietary_Notices
-	{
-		if (is_null(self::$_instance)) {
-			self::$_instance = new Allergens_Dietary_Notices();
-		}
-
-		return self::$_instance;
-	}
+	public static function getInstance()
+    {
+        $subclass = static::class;
+        if (!isset(self::$instances[$subclass])) {
+            self::$instances[$subclass] = new static();
+        }
+        return self::$instances[$subclass];
+    }
 
 	/**
 	 * @brief a protected constructor for the class
