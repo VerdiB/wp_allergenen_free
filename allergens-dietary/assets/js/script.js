@@ -1,3 +1,4 @@
+console.log('asdasd')
 var button = document.getElementById("ictoria-filter-dropdown-button");
 
 function checkElementExists(id) {

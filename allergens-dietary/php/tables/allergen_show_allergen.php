@@ -37,7 +37,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
 {
 
     protected static $_instance = [];
-    protected static int $_page = 0;
+    protected static int $_page = 1;
     protected static string $message = "";
     // Page is statisch zodat er maar 1 is, en de zelfde waarde blijft.
 
@@ -48,7 +48,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             'plural' => 'items',
             'ajax' => false,
         ]);
-        self::$_page = isset($_REQUEST['paged']) ? $_REQUEST['paged'] : (self::$_page === null ? 0 : self::$_page);
+        self::$_page = isset($_REQUEST['paged']) ? $_REQUEST['paged'] : (self::$_page === null ? 1 : self::$_page);
 
         // $notice = Allergens_Dietary_Notices::getInstance();
         // $notice->display_admin_notice(Notice_Types::WARNING, __('is great success', 'allergens-dietary'));
@@ -139,11 +139,11 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
 
     protected function build_action_url($action, $item) // loop-build actions for quick actions.
     {
-        $color = "blue";
+        // $color = "blue";
 
     if (esc_attr($action) == 'change_status'){
         return sprintf(
-            '<a style="color: ' . $color . ';" href="?page=%s' . (self::$_page > 0 ? '&paged=' . strval(self::$_page) : '') . '&item=%s&action=%s&_wpnonce=%s">%s</a>',
+            '<a style="color: blue;" href="?page=%s' . (self::$_page > 0 ? '&paged=' . strval(self::$_page) : '') . '&item=%s&action=%s&_wpnonce=%s">%s</a>',
             esc_attr($_REQUEST['page']),
             esc_attr($item['allergy_name']),
             esc_attr($action),
