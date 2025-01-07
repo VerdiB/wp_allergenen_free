@@ -171,7 +171,7 @@ class Allergens_Dietary_Allergen_Queries
 		return $columns;
 	}
 
-	public function activationUpdate(array $data, string $message)
+	public function activationUpdate(array $data)
 	{
 		global $wpdb;
 
@@ -217,12 +217,12 @@ class Allergens_Dietary_Allergen_Queries
 			if (!empty($_GET)) {
 				$url = strtok($_SERVER["REQUEST_URI"], '?');
 				$separator = strpos($url, '?') === false ? '?' : '&';
-				header("Location: $url" . $separator . "page=allergens-dietary-show-allergens" . (isset($return_page) ? '&paged=' . $return_page : '') . "&messaged=" . urlencode($message));
+				header("Location: $url" . $separator . "page=allergens-dietary-show-allergens" . (isset($return_page) ? '&paged=' . $return_page : '') );
 			}
 		}
 	}
 
-	public function singleActivationUpdate(int $return_page)
+	public static function singleActivationUpdate(int $return_page)
 	{
 		global $wpdb;
 		
@@ -237,6 +237,7 @@ class Allergens_Dietary_Allergen_Queries
 			);
 
 			$result = $wpdb->get_row($sql);
+			error_log(print_r($result,true));
 
 			if ($result->is_active == 0) {
 				$updatenumber = 1;

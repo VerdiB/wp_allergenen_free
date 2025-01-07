@@ -47,9 +47,10 @@ jQuery(document).ready(function ($) {
       var reader = new FileReader();
 
       reader.onload = function (e) {
-        $(imgElement).attr("src", e.target.result);
+        imgElement.attr("src", e.target.result);
       };
 
       reader.readAsDataURL(input.files[0]);
     }
   }
+
