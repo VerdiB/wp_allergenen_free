@@ -188,8 +188,6 @@ package "php"{
             + {static} getColumns() : array
             + {static} includeItems() : void
             + {static} is_default_allergen(allergy_name:string) : boolean
-            + {static} activationUpdate(data:array) : void
-            + {static} singleActivationUpdate() : void
 
         }
 

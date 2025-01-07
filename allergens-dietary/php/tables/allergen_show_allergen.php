@@ -339,7 +339,14 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             switch ($action) {
                 case 'change_status':
                     self::$message = __("Status changed", 'allergens-dietary');
-                    Allergens_Dietary_Allergen_Queries::getInstance()->singleActivationUpdate(self::$_page, self::$message);
+                    if (isset($_GET['item'])) {
+                        Allergens_Dietary_Allergen_Queries::getInstance()->singleActivationUpdate();
+                        if (!empty($_GET)) {
+                            $url = strtok($_SERVER["REQUEST_URI"], '?');
+                            $separator = strpos($url, '?') === false ? '?' : '&';
+                            header("Location: $url" . $separator . "page=allergens-dietary-show-allergens" . (isset(self::$_page) ? '&paged=' . self::$_page : '') . "&messaged=" . urlencode(self::$message));
+                        }
+                    }
                     return self::$message;
                 break;
             }
@@ -371,7 +378,12 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         $action = $this->current_action();
         switch ($action) {
             case 'change_status':
-                Allergens_Dietary_Allergen_Queries::getInstance()->activationUpdate($data, 'Status changed');
+                Allergens_Dietary_Allergen_Queries::getInstance()->activationUpdate($data);
+                if (!empty($_GET)) { 	
+                    $url = !empty($_SERVER["REQUEST_URI"]) ? strtok(esc_url_raw(wp_unslash($_SERVER["REQUEST_URI"])), '?'):null ;
+                    $separator = strpos($url, '?') === false ? '?' : '&';
+                    header("Location: $url" . $separator . "page=allergens-dietary-show-allergens" . (isset(self::$_page) ? '&paged=' . self::$_page : '') . "&messaged=" . urlencode('Status changed'));
+                }
                 break;
            
         }

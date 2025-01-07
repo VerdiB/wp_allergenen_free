@@ -271,7 +271,7 @@ class Allergens_Dietary_Allergen_Queries
 	 * @param string $message
 	 * @return void
 	 */
-	public function activationUpdate(array $data, string $message)
+	public function activationUpdate(array $data)
 	{
 		global $wpdb;
 
@@ -312,11 +312,6 @@ class Allergens_Dietary_Allergen_Queries
 				$format
 			);
 
-			if (!empty($_GET)) { 	
-				$url = !empty($_SERVER["REQUEST_URI"]) ? strtok(esc_url_raw(wp_unslash($_SERVER["REQUEST_URI"])), '?'):null ;
-				$separator = strpos($url, '?') === false ? '?' : '&';
-				header("Location: $url" . $separator . "page=allergens-dietary-show-allergens" . (isset($return_page) ? '&paged=' . $return_page : '') . "&messaged=" . urlencode($message));
-			}
 		}
 	}
 
@@ -331,7 +326,7 @@ class Allergens_Dietary_Allergen_Queries
 	 * @param string $message
 	 * @return void
 	 */
-	public function singleActivationUpdate(int $return_page, string $message)
+	public function singleActivationUpdate()
 	{
 		global $wpdb;
 
@@ -339,41 +334,33 @@ class Allergens_Dietary_Allergen_Queries
 
 		$updatenumber = 0;
 
-		if (isset($_GET['item'])) {
 
-			$result = $wpdb->get_row($wpdb->prepare(
-				"SELECT allergy_name, is_active FROM %i WHERE allergy_name = %s",
-				array($table_name, $_GET['item'])
-			));
+		$result = $wpdb->get_row($wpdb->prepare(
+			"SELECT allergy_name, is_active FROM %i WHERE allergy_name = %s",
+			array($table_name, $_GET['item'])
+		));
 
-			if ($result->is_active == 0) {
-				$updatenumber = 1;
-			} else {
-				$updatenumber = 0;
-			}
-
-			$data = array(
-				'is_active' => $updatenumber,
-			);
-
-			$where = array(
-				'allergy_name' => $_GET['item']
-			);
-
-			$format = array('%s', '%s');
-
-			$wpdb->update(
-				$table_name,
-				$data,
-				$where,
-				$format
-			);
-
-			if (!empty($_GET)) {
-				$url = strtok($_SERVER["REQUEST_URI"], '?');
-				$separator = strpos($url, '?') === false ? '?' : '&';
-				header("Location: $url" . $separator . "page=allergens-dietary-show-allergens" . (isset($return_page) ? '&paged=' . $return_page : '') . "&messaged=" . urlencode($message));
-			}
+		if ($result->is_active == 0) {
+			$updatenumber = 1;
+		} else {
+			$updatenumber = 0;
 		}
+
+		$data = array(
+			'is_active' => $updatenumber,
+		);
+
+		$where = array(
+			'allergy_name' => $_GET['item']
+		);
+
+		$format = array('%s', '%s');
+
+		$wpdb->update(
+			$table_name,
+			$data,
+			$where,
+			$format
+		);
 	}
 }
