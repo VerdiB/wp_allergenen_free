@@ -252,6 +252,23 @@ class Allergens_Dietary_Allergen_Queries
 		return $data;
 	}
 
+	public function search_allergen(string $search_word)
+	{
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
+		
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT allergy_name, allergy_description, is_allergy, is_active, is_default_option
+				FROM %i
+				WHERE allergy_name LIKE %s",
+			array($table_name, '%'.$search_word.'%')),
+			ARRAY_A
+		);
+
+		return $results;
+	}
+
 	public static function getColumns()
 	{
 		global $wpdb;
@@ -261,6 +278,21 @@ class Allergens_Dietary_Allergen_Queries
 		return $columns;
 	}
 
+	public function change_status(array $allergen){
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
+
+		$wpdb->update(
+			$table_name,
+			array(
+				'is_active' => $allergen['is_active']
+			),
+			array(
+				'allergy_name' => $allergen['allergy_name']
+			)
+		);
+
+	}
 
 	/**
 	 * @author ictoriabv

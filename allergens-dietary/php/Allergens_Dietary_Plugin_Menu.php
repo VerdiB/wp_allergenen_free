@@ -84,6 +84,15 @@ class Allergens_Dietary_Plugin_Menu
 			'allergens-dietary-license',
 			array($this, 'licenseForm')
 		);
+
+		add_submenu_page(
+			'allergens-dietary-options',
+			__('Test table', 'allergens-dietary'),
+			__('Test table', 'allergens-dietary'),
+			'manage_options',
+			'allergens-test-table',
+			array($this, 'testTableShow')
+		);
 	}
 
 	public function myAdminPage()
@@ -144,6 +153,23 @@ class Allergens_Dietary_Plugin_Menu
 		}
 		Allergens_Dietary_Tabs::getInstance()->showtabs();
 		Allergens_Dietary_Info::getInstance()->showInfo();
+	}
+
+	public function testTableShow()
+	{
+		if ( !class_exists('TestTable') ){
+			require_once ALLERGENS_DIETARY_DIRNAME . '/php/tables/testTable.php';
+			require_once ALLERGENS_DIETARY_DIRNAME . '/php/tabs/allergen_tabs.php';
+		}
+		Allergens_Dietary_Tabs::getInstance()->showtabs();
+		$table = TestTable::getInstance();
+		$table->prepare_items();
+		echo '<form method="POST" id="show_allergens_form" enctype="multipart/form-data">';
+        wp_nonce_field('allergen_table_action', 'allergen_val');
+		$table->search_box('Search', 'show_allergens');
+
+		$table->display();
+		echo '</form>';
 	}
 }
 
