@@ -255,7 +255,7 @@ class TestTable extends WP_List_Table
             //check if there are allergens in array sends query to db
             if(isset($_POST['allergens']) && !empty($_POST['allergens'])){
                 if ('bulk-change-status' === $this->current_action()){
-                    $to_change = wp_unslash($_POST['allergens']);
+                    $to_change = array_map('sanitize_text_field', wp_unslash($_POST['allergens']));
                     $allergen_query_arr = array();
                     foreach($this->_allergens as $allergen){
                         if (in_array($allergen['allergy_name'], $to_change)){
