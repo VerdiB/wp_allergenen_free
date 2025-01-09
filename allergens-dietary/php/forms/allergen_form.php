@@ -46,14 +46,14 @@ if (!class_exists('Allergens_Dietary_Update_Allergen_Form')) {
 
 class Allergens_Dietary_Form
 {
-	protected static ?self $_instance = null;
+	private static $instances = [];
 	protected static FormType $_formType;
 	protected static I_Allergens_Dietary_Form $_formObject;
 
 	public function __construct(bool $isTable = false)
 	{
-		if (FormType::LICENSE === self::$_formType) {
-			self::$_formObject = new Allergens_Dietary_License_Form();
+		if (FormType::LICENSE === static::$_formType) {
+			static::$_formObject = new Allergens_Dietary_License_Form();
 		}
 		if (!isset(self::$_formType) || false === self::$_formType->match(self::$_formType)) {
 			throw new Exception('FormType not yet supported/implemented');
@@ -61,21 +61,22 @@ class Allergens_Dietary_Form
 	}
 
 	public static function getInstance()
-	{
-		if (self::$_instance === null) {
-			self::$_instance = new Allergens_Dietary_Form();
-		}
-		return self::$_instance;
-	}
+    {
+        $subclass = static::class;
+        if (!isset(self::$instances[$subclass])) {
+            self::$instances[$subclass] = new static();
+        }
+        return self::$instances[$subclass];
+    }
 
 	public static function setFormType(FormType $formType)
 	{
-		self::$_formType = $formType;
+		static::$_formType = $formType;
 	}
 
 	public static function getFormType()
 	{
-		return self::$_formType;
+		return static::$_formType;
 	}
 
 	public function submitUpdate()

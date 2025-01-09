@@ -12,6 +12,10 @@ if ( ! class_exists( 'Allergens_Dietary_Allergen_Queries' ) ) {
 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/allergen.php';
 }
 
+if ( ! enum_exists('FormType')) {
+    require_once ALLERGENS_DIETARY_DIRNAME . '/php/lists/form_type.php';
+}
+
 
 /**
  * @class Allergens_Dietary_License_Form

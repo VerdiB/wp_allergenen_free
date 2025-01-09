@@ -222,7 +222,7 @@ class Allergens_Dietary_Allergen_Queries
 		}
 	}
 
-	public static function singleActivationUpdate(int $return_page)
+	public function singleActivationUpdate(string $item, int $return_page)
 	{
 		global $wpdb;
 		
@@ -230,43 +230,41 @@ class Allergens_Dietary_Allergen_Queries
 
 		$updatenumber = 0;
 
-		if (isset($_GET['item'])) {
-			$sql = $wpdb->prepare(
-				"SELECT allergy_name, is_active FROM $table_name WHERE allergy_name = '%s'",
-				$_GET['item']
-			);
+		$sql = $wpdb->prepare(
+			"SELECT allergy_name, is_active FROM $table_name WHERE allergy_name = '%s'",
+			$item
+		);
 
-			$result = $wpdb->get_row($sql);
-			error_log(print_r($result,true));
+		$result = $wpdb->get_row($sql);
 
-			if ($result->is_active == 0) {
-				$updatenumber = 1;
-			} else {
-				$updatenumber = 0;
-			}
-
-			$data = array(
-				'is_active' => $updatenumber,
-			);
-
-			$where = array(
-				'allergy_name' => $_GET['item']
-			);
-
-			$format = array('%s', '%s');
-
-			$wpdb->update(
-				$table_name,
-				$data,
-				$where,
-				$format
-			);
-
-			if (!empty($_GET)) {
-				$url = strtok($_SERVER["REQUEST_URI"], '?');
-				$separator = strpos($url, '?') === false ? '?' : '&';
-				header("Location: $url" . $separator . "page=allergens-dietary-show-allergens" . (isset($return_page) ? '&paged=' . $return_page : ''));
-			}
+		if ($result->is_active == 0) {
+			$updatenumber = 1;
+		} else {
+			$updatenumber = 0;
 		}
+
+		$data = array(
+			'is_active' => $updatenumber,
+		);
+
+		$where = array(
+			'allergy_name' => $item
+		);
+
+		$format = array('%s', '%s');
+
+		$wpdb->update(
+			$table_name,
+			$data,
+			$where,
+			$format
+		);
+
+		if (!empty($_GET)) {
+			$url = strtok($_SERVER["REQUEST_URI"], '?');
+			$separator = strpos($url, '?') === false ? '?' : '&';
+			header("Location: $url" . $separator . "page=allergens-dietary-show-allergens" . (isset($return_page) ? '&paged=' . $return_page : ''));
+		}
+		
 	}
 }

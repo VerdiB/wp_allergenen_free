@@ -24,6 +24,10 @@ if ( ! function_exists( 'is_plugin_active' ) ) {
     require_once ABSPATH . 'wp-admin/includes/plugin.php';
 }
 
+if ( ! enum_exists('FormType')) {
+    require_once ALLERGENS_DIETARY_DIRNAME . '/php/lists/form_type.php';
+}
+
 /**
  * @class Allergens_Dietary_Show_Allergens
  * @brief Class that shows the allergens
@@ -36,7 +40,7 @@ if ( ! function_exists( 'is_plugin_active' ) ) {
 class Allergens_Dietary_Show_Allergens extends WP_List_Table
 {
 
-    protected static $_instance = [];
+    private static $_instance = [];
     protected static int $_page = 1;
     protected static string $message = "";
     // Page is statisch zodat er maar 1 is, en de zelfde waarde blijft.
@@ -280,33 +284,36 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
 
     public function process_quick_action()
     {
-        if (isset($_GET['action']) && isset($_GET['item'])) {
-            $item = sanitize_text_field($_GET['item']);
-            $action = sanitize_text_field($_GET['action']);
-            $nonce = filter_input(INPUT_GET, '_wpnonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!isset($_GET['action']) || !isset($_GET['item'])) 
+        {
+            return;
+        }
 
-            // Verify nonce based on action
-            if ($action === 'change_status' && !wp_verify_nonce($nonce, 'allergens_change_status')) {
-                self::$message = __("Security check failed for changing status!", 'allergens-dietary');
-            }
+        $item = sanitize_text_field($_GET['item']);
+        $action = sanitize_text_field($_GET['action']);
+        $nonce = filter_input(INPUT_GET, '_wpnonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            // Perform action based on case
-            switch ($action) {
-                case 'change_status':
-                    self::$message = __("Status changed", 'allergens-dietary');
-                    Allergens_Dietary_Allergen_Queries::getInstance()->singleActivationUpdate(self::$_page);
-                    return self::$message;
-                break;
-            }
+        // Verify nonce based on action
+        if ($action === 'change_status' && !wp_verify_nonce($nonce, 'allergens_change_status')) {
+            self::$message = __("Security check failed for changing status!", 'allergens-dietary');
+        }
+
+        // Perform action based on case
+        switch ($action) {
+            case 'change_status':
+                self::$message = __("Status changed", 'allergens-dietary');
+                Allergens_Dietary_Allergen_Queries::getInstance()->singleActivationUpdate($item, self::$_page);
+                return self::$message;
+            break;
         }
     }
 
     public function process_bulk_action($data)
     {
+        $action = $this->current_action();
         // Check if nonce is set and not empty
         if (isset($_GET['_wpnonce']) && !empty($_GET['_wpnonce'])) {
             $nonce = filter_input(INPUT_GET, '_wpnonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $action = $this->current_action();
             foreach ($this->table_action_options as $bulk_action) {
                 if ($action === $bulk_action) {
                     $nonce_action = 'bulk_' . $bulk_action;
@@ -317,13 +324,13 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             if (!wp_verify_nonce($nonce, $nonce_action)) {
                 wp_die('Invalid token.');
             }
+        }else{
         }
 
         if (!isset($data['item'])) {
             return;
         }
 
-        $action = $this->current_action();
         switch ($action) {
             case 'change_status':
                 self::$message = __("Status changed", 'allergens-dietary');
@@ -451,23 +458,17 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
 
     
     public function table_page() {
-        $table = new static();
-        $table->handle_search();
-        $table->handle_items_per_page();
-        $table->prepare_items();
+        $this->handle_search();
+        $this->handle_items_per_page();
+        $this->prepare_items();
         echo '<form action="#" method="POST" id="show_allergens_form" enctype="multipart/form-data">';
-        $table->search_box('Search', 'allergens');
-            $table->display();
+        $this->search_box('Search', 'allergens');
+        $this->display();
         echo "</form>";
     }
 
     public function setup(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // if (isset($_GET['messaged'])){
-            //     $type = Notice_Types::INFO;
-            //     $notice = Allergens_Dietary_Notices::getInstance();
-            //     $notice->display_admin_notice($type, htmlspecialchars($_GET['messaged']));
-            // }
             // if (isset($_POST['action'])){
             //     if ($_POST['action'] = -1){
             //         Allergens_Dietary_Form::setFormType(FormType::ALLERGENS);
@@ -488,7 +489,9 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             }
         } else {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                $this->process_quick_action();
+                if (isset($_GET['action'])){
+                    $this->process_quick_action();
+                }
             }
         }
     }
