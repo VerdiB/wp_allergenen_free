@@ -75,8 +75,7 @@ class TestTable extends WP_List_Table
      */
     public function prepare_items()
     {      
-
-        if (!empty($_POST['s']) && check_admin_referer('allergen_val')){
+        if (!empty($_POST['s']) && wp_verify_nonce($_POST['allergen_val'], 'allergen_table_action')){
             $this->_allergens = Allergens_Dietary_Allergen_Queries::getInstance()->search_allergen(
                 htmlspecialchars(sanitize_text_field(wp_unslash($_POST['s'])))
             );
