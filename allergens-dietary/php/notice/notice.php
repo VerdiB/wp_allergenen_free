@@ -11,7 +11,7 @@ if (! enum_exists('Notice_Types')) {
 /**
  * @brief This class handles the errors. 
  * and carries out potential error logs for future development
- * @author Ictoria
+ * @author ictoriabv
  * @since 1.0.0
  * @date 4-11-2024
  */
@@ -24,7 +24,7 @@ class Allergens_Dietary_Notices
 	/**
 	 * @brief singleton method to get the instance of the class
 	 * @return Allergens_Dietary_Notices
-	 * @author Ictoria
+	 * @author ictoriabv
 	 * @since 0.17.0.0
 	 * @date 18-11-2024
 	 */
@@ -40,7 +40,7 @@ class Allergens_Dietary_Notices
 	/**
 	 * @brief a protected constructor for the class
 	 * sets css amongst other things
-	 * @author Ictoria
+	 * @author ictoriabv
 	 * @since 0.17.0.0
 	 * @date 18-11-2024
 	 */
@@ -51,7 +51,7 @@ class Allergens_Dietary_Notices
 	 * @param Notice_Types $type
 	 * @param string $message
 	 * @return void
-	 * @author Ictoria
+	 * @author ictoriabv
 	 * @since 1.0.0
 	 * @date 4-11-2024
 	 */
@@ -62,7 +62,7 @@ class Allergens_Dietary_Notices
 		add_action(
 			'admin_notices',
 			static function () use ($type, $message_full) {
-				echo '<div class="notice is-dismissible ' . esc_attr($type->value) . '" style="padding:12px 12px"> <p>
+				echo '<div class="notice ' . esc_attr($type) . '" style="padding:12px 12px"> <p>
 					' . wp_kses_post($message_full) . '
 				</p></div>';
 			}

@@ -32,7 +32,7 @@ if ( ! enum_exists('FormType')) {
  * @class Allergens_Dietary_Show_Allergens
  * @brief Class that shows the allergens
  * the user can see the already created allergies
- * @author Ictoria
+ * @author ictoriabv
  * @date 24-9-2024
  * @since 1.0.0
  */
