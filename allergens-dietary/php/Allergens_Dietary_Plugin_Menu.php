@@ -84,6 +84,7 @@ class Allergens_Dietary_Plugin_Menu
 			'allergens-dietary-license',
 			array($this, 'licenseForm')
 		);
+
 	}
 
 	public function myAdminPage()
@@ -102,29 +103,6 @@ class Allergens_Dietary_Plugin_Menu
 		Allergens_Dietary_Form::getInstance()->showForm();
 	}
 
-	public function addallergens()
-	{
-		if (!class_exists('Allergens_Dietary_Form') && !class_exists('Allergens_Dietary_Tabs')) {
-			require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_form.php';
-			require_once ALLERGENS_DIETARY_DIRNAME . '/php/tabs/allergen_tabs.php';
-		}
-		Allergens_Dietary_Tabs::getInstance()->showtabs();
-		Allergens_Dietary_Form::setFormType(FormType::ALLERGENS);
-		Allergens_Dietary_Form::getInstance()->showForm();
-	}
-
-	public function updateallergens()
-	{
-		if (!class_exists('Allergens_Dietary_Form')) {
-			require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_form.php';
-			require_once ALLERGENS_DIETARY_DIRNAME . '/php/tabs/allergen_tabs.php';
-		}
-
-		Allergens_Dietary_Tabs::getInstance()->showtabs();
-		Allergens_Dietary_Form::setFormType(FormType::UPDATE);
-		Allergens_Dietary_Form::getInstance()->showForm();
-	}
-
 	public function showallergens()
 	{
 		if (!class_exists('Allergens_Dietary_Show_Allergens')) {
@@ -132,8 +110,15 @@ class Allergens_Dietary_Plugin_Menu
 			require_once ALLERGENS_DIETARY_DIRNAME . '/php/tabs/allergen_tabs.php';
 		}
 		Allergens_Dietary_Tabs::getInstance()->showtabs();
-		$singleton = Allergens_Dietary_Show_Allergens::getInstance();
-		$singleton->table_page();
+		$table = Allergens_Dietary_Show_Allergens::getInstance();
+		$table->prepare_items();
+		echo '<form method="POST" id="show_allergens_form" enctype="multipart/form-data">';
+        wp_nonce_field('allergen_table_action', 'allergen_val');
+		$table->search_box('Search', 'show_allergens');
+
+		$table->display();
+		echo '</form>';
+
 	}
 
 	public function info()
@@ -145,6 +130,7 @@ class Allergens_Dietary_Plugin_Menu
 		Allergens_Dietary_Tabs::getInstance()->showtabs();
 		Allergens_Dietary_Info::getInstance()->showInfo();
 	}
+
 }
 
 // call the class and add the menus automatically

@@ -31,14 +31,13 @@ class Allergens_Dietary_Tabs
     public function showtabs()
     {
         //flexbox voor tabs
-        $html = '<div id="tabs_flexbox" class="nav-tab-wrapper">';
-        $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-show-allergens').'">' . __("See allergens", "allergens-dietary") . '</a>';
-        // $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-add-allergen').'">' . __("Create allergens", "allergens-dietary") . '</a>';
-        // $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-update-allergen').'">' . __("Change allergens", "allergens-dietary") . '</a>';
-        $html .= '<a class="nav-tab" href="'.get_admin_url(null, 'admin.php?page=allergens-dietary-Info').'">' . __("Info", "allergens-dietary") . '</a>';
-        $html .= '</div>';
-        $html .= '<section id="added"></section> <br> <br>';
-        echo $html;
+        ?>
+        <div id="tabs_flexbox" class="nav-tab-wrapper">
+            <a class="nav-tab" href="<?php echo esc_attr(get_admin_url(null, 'admin.php?page=allergens-dietary-show-allergens'))?>"><?php echo esc_html_e("See allergens", "allergens-dietary") ?></a>
+            <a class="nav-tab" href="<?php echo esc_attr(get_admin_url(null, 'admin.php?page=allergens-dietary-Info'))?>"><?php echo esc_html_e("Info", "allergens-dietary")?></a>
+        </div>
+        <section id="added"></section> <br> <br>
+        <?php
         //moet nog aangepast worden in css
     }
     public function showpages()

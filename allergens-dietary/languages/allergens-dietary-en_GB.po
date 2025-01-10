@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Allergens-Dietary-Ictoria v1.0.0\n"
 "Report-Msgid-Bugs-To: Translator Name <translations@example.com>\n"
-"POT-Creation-Date: 2024-12-10 15:46+0100\n"
+"POT-Creation-Date: 2025-01-10 14:57+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Your Team <translations@example.com>\n"
@@ -35,7 +35,23 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-7: tests\n"
 "X-Poedit-SearchPathExcluded-8: UML\n"
 
-#: allergens-dietary.php:25
+#: allergens-dietary.php:22
+msgid ""
+"WooCommerce is inactive or not installed. Please install & activate "
+"WooCommerce"
+msgstr ""
+"WooCommerce is inactive or not installed. Please install & activate "
+"WooCommerce"
+
+#: allergens-dietary.php:27
+msgid ""
+"WooCommerce is inactive or not installed. Please install & activate "
+"WooCommerce "
+msgstr ""
+"WooCommerce is inactive or not installed. Please install & activate "
+"WooCommerce"
+
+#: allergens-dietary.php:51
 msgid ""
 "Adds Allergens and Dietary options that can be used with WooCommerce "
 "products."
@@ -43,30 +59,24 @@ msgstr ""
 "Adds Allergens and Dietary options that can be used with WooCommerce "
 "products."
 
-#: allergens-dietary.php:147
-#, php-format
+#: allergens-dietary.php:174
 msgid ""
-"%1$sThe WooCommerce Integration class was not found. Please make sure "
-"WooCommerce is installed correctly%2$s"
+"The WooCommerce Integration class was not found. Please make sure "
+"WooCommerce is installed correctly"
 msgstr ""
-"%1$sThe WooCommerce Integration class was not found. Please make sure "
-"WooCommerce is installed correctly%2$s"
+"The WooCommerce Integration class was not found. Please make sure "
+"WooCommerce is installed correctly"
 
-#: allergens-dietary.php:175
-#, php-format
-msgid ""
-"%1$sWooCommerce is inactive or not installed. Please install & activate "
-"WooCommerce%2$s"
-msgstr ""
-"%1$sWooCommerce is inactive or not installed. Please install & activate "
-"WooCommerce%2$s"
+#: allergens-dietary.php:303
+msgid "Changelog"
+msgstr "Changelog"
 
 #: php/Allergens_Dietary_Plugin_Menu.php:43
 msgid "Allergens and Dietary"
 msgstr "Allergens and Dietary"
 
 #: php/Allergens_Dietary_Plugin_Menu.php:57
-#: php/Allergens_Dietary_Plugin_Menu.php:58 php/tabs/allergen_tabs.php:38
+#: php/Allergens_Dietary_Plugin_Menu.php:58 php/tabs/allergen_tabs.php:37
 msgid "Info"
 msgstr "Info"
 
@@ -77,7 +87,7 @@ msgstr "See allergens"
 
 #: php/Allergens_Dietary_Plugin_Menu.php:81
 #: php/Allergens_Dietary_Plugin_Menu.php:82
-#: php/forms/allergen_form_license.php:42
+#: php/forms/allergen_form_license.php:43
 msgid "License key"
 msgstr "Licence key"
 
@@ -85,134 +95,143 @@ msgstr "Licence key"
 msgid "allergens-dietary"
 msgstr "allergens-dietary"
 
-#: php/filter.php:70
+#: php/filter.php:71
 msgid "Show allergen filters"
 msgstr "Show allergen filters"
 
-#: php/filter.php:76 php/woocommerce/product_settings.php:49
+#: php/filter.php:80 php/woocommerce/product_settings.php:49
 msgid "Allergens"
 msgstr "Allergens"
 
-#: php/filter.php:87
+#: php/filter.php:96
 msgid "No "
 msgstr "No "
 
-#: php/filter.php:94
+#: php/filter.php:106
 msgid "Dietary restrictions"
 msgstr "Dietary restrictions"
 
-#: php/filter.php:112
+#: php/filter.php:133
 msgid "Apply Filters"
 msgstr "Apply Filters"
 
-#: php/filter.php:113
+#: php/filter.php:140
 msgid "Clear Filters"
 msgstr "Clear Filters"
 
-#: php/forms/allergen_form_license.php:44
+#: php/forms/allergen_form_license.php:55
 msgid "Verify license key"
 msgstr "Verify licence key"
 
-#: php/lists/allergen_info.php:30
+#: php/lists/allergen_info.php:32
 msgid "PREMIUM  [Requires licence]"
 msgstr "PREMIUM [Requires licence]"
 
-#: php/lists/allergen_info.php:32
+#: php/lists/allergen_info.php:34
 msgid "Updating allergies"
 msgstr "Updating allergies"
 
-#: php/lists/allergen_info.php:33
+#: php/lists/allergen_info.php:35
 msgid "Changing allergy themes"
 msgstr "Changing allergy themes"
 
-#: php/lists/allergen_info.php:34
+#: php/lists/allergen_info.php:36
 msgid "Deleting allergies"
 msgstr "Deleting allergies"
 
-#: php/lists/allergen_info.php:35
+#: php/lists/allergen_info.php:37
 msgid "Adding allergies"
 msgstr "Adding allergies"
 
-#: php/lists/allergen_info.php:36
+#: php/lists/allergen_info.php:38
 msgid "Custom look on product"
 msgstr "Custom look on product"
 
-#: php/lists/allergen_info.php:37
+#: php/lists/allergen_info.php:39
 msgid "Custom look in store"
 msgstr "Custom look in store"
 
-#: php/lists/allergen_info.php:40
+#: php/lists/allergen_info.php:44
 msgid "FREE VERSION  [Standard]"
 msgstr "FREE VERSION [Standard]"
 
-#: php/lists/allergen_info.php:42
+#: php/lists/allergen_info.php:46
 msgid "Connecting allergies to products"
 msgstr "Connecting allergies to products"
 
-#: php/lists/allergen_info.php:43
-msgid "Wordpress theme fiendly styles"
-msgstr "Wordpress theme fiendly styles"
+#: php/lists/allergen_info.php:47
+msgid "WordPress theme friendly styles"
+msgstr "WordPress theme friendly styles"
 
-#: php/lists/allergen_info.php:44
+#: php/lists/allergen_info.php:48
 msgid "An allergen overview"
 msgstr "An allergen overview"
 
-#: php/lists/allergen_info.php:45
+#: php/lists/allergen_info.php:49
 msgid "Turning the use of allergies on/off"
 msgstr "Turning the the use of allergies on/off"
 
-#: php/notice/notice.php:60
+#: php/notice/notice.php:63
 #, php-format
 msgid "%1$sAllergens and Dietary is inactive:%2$s"
 msgstr "%1$sAllergens and Dietary is inactive:%2$s"
 
-#: php/tables/allergen_show_allergen.php:216
-msgid "Change status"
-msgstr "Change status"
-
-#: php/tables/allergen_show_allergen.php:217
-msgid "Delete"
-msgstr "Delete"
-
-#: php/tables/allergen_show_allergen.php:275
-msgid "Allergy name"
-msgstr "Allergen name"
-
-#: php/tables/allergen_show_allergen.php:276
-msgid "Allergy description"
-msgstr "Allergen description"
-
-#: php/tables/allergen_show_allergen.php:277
-msgid "Allergy or Dietary"
-msgstr "Allergens or Dietary"
-
-#: php/tables/allergen_show_allergen.php:278
-msgid "Status"
-msgstr "Status"
-
-#: php/tables/allergen_show_allergen.php:324
-msgid "Security check failed for changing status!"
-msgstr "Security check failed for changing status!"
-
-#: php/tables/allergen_show_allergen.php:326
-msgid "Security check failed for deletion!"
-msgstr "Security check failed for deletion!"
-
-#: php/tables/allergen_show_allergen.php:328
-msgid "Security check failed for quick edit!"
-msgstr "Security check failed for quick edit!"
-
-#: php/tables/allergen_show_allergen.php:334
+#: php/tables/allergen_show_allergen.php:67
 msgid "Status changed"
 msgstr "Status changed"
 
-#: php/tabs/allergen_tabs.php:35
+#: php/tables/allergen_show_allergen.php:73
+msgid "Multiple statuses changed"
+msgstr "Multiple statuses changed"
+
+#: php/tables/allergen_show_allergen.php:136
+msgid "Change status"
+msgstr "Change status"
+
+#: php/tables/allergen_show_allergen.php:150
+#: php/tables/allergen_show_allergen.php:169
+msgid "Allergy name"
+msgstr "Allergen name"
+
+#: php/tables/allergen_show_allergen.php:151
+#: php/tables/allergen_show_allergen.php:170
+msgid "Allergy description"
+msgstr "Allergen description"
+
+#: php/tables/allergen_show_allergen.php:152
+#: php/tables/allergen_show_allergen.php:171
+msgid "Allergy or Dietary"
+msgstr "Allergens or Dietary"
+
+#: php/tables/allergen_show_allergen.php:153
+#: php/tables/allergen_show_allergen.php:172
+msgid "Status"
+msgstr "Status"
+
+#: php/tables/allergen_show_allergen.php:233
+msgid "Change Status"
+msgstr "Change Status"
+
+#: php/tables/allergen_show_allergen.php:270
+msgid "Security check failed!"
+msgstr "Security check failed!"
+
+#: php/tabs/allergen_tabs.php:36
 msgid "See allergens"
 msgstr "See allergens"
 
-#: php/woocommerce/product_settings.php:79
-msgid "Select allergen('s) and/or dietary restrictions:"
-msgstr "Select allergen('s) and/or dietary restrictions:"
+#: php/woocommerce/product_settings.php:80
+msgid "Select allergen(s) and/or dietary restrictions:"
+msgstr "Select allergen(s) and/or dietary restrictions:"
+
+#~ msgid "Delete"
+#~ msgstr "Delete"
+
+#~ msgid "Security check failed for changing status!"
+#~ msgstr "Security check failed for changing status!"
+
+#~ msgid "Security check failed for quick edit!"
+#~ msgstr "Security check failed for quick edit!"
 
 #~ msgid "Can't delete a default allergen option: '"
 #~ msgstr "Can't delete a default allergen option: '"
@@ -297,9 +316,6 @@ msgstr "Select allergen('s) and/or dietary restrictions:"
 
 #~ msgid "Create allergens"
 #~ msgstr "Create allergens"
-
-#~ msgid "Change allergens"
-#~ msgstr "Change allergens"
 
 #~ msgid "Allergens and Dietary Ictoria plugin settings"
 #~ msgstr "Allergens and Dietary Ictoria plugin settings"

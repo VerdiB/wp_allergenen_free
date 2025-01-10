@@ -120,7 +120,7 @@ class Allergens_Dietary_Form
 		}
 
 		if (in_array($page, $showOnPage, true)) {
-			echo '<div class="allergens_table_form" style="display: none;" id="' . $allergenName . '_form">';
+			echo '<div class="allergens_table_form" style="display: none;" id="' . esc_attr($allergenName) . '_form">';
 			self::$_formObject->showForm($allergenName);
 			echo '</div>';
 		} else {

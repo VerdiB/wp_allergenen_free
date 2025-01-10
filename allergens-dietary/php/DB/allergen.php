@@ -30,9 +30,7 @@ class Allergens_Dietary_Allergen_Queries
 		return self::$_instance;
 	}
 
-	private function __construct()
-	{
-	}
+	private function __construct() {}
 
 	/**
 	 * @brief This method adds an allergen to the DB.
@@ -71,12 +69,11 @@ class Allergens_Dietary_Allergen_Queries
 
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 
-		$sql = $wpdb->prepare(
-			"SELECT allergy_name FROM $table_name WHERE allergy_name = %s",
-			$allergenName
-		);
+		$result = $wpdb->get_results($wpdb->prepare(
+			"SELECT allergy_name FROM %i WHERE allergy_name = %s",
+			array($table_name, $allergenName)
+		));
 
-		$result = $wpdb->get_results($sql);
 
 		return (count($result) > 0) ? true : false;
 	}
@@ -87,12 +84,13 @@ class Allergens_Dietary_Allergen_Queries
 
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 
-		$sql = "SELECT allergy_name, is_allergy 
-		FROM $table_name
-		WHERE is_active = 1
-		ORDER BY  is_allergy DESC, allergy_name ASC";
-
-		$result = $wpdb->get_results($sql, ARRAY_A);
+		$result = $wpdb->get_results(
+			$wpdb->prepare("SELECT allergy_name, is_allergy 
+			FROM %i
+			WHERE is_active = 1
+			ORDER BY  is_allergy DESC, allergy_name ASC", $table_name),
+			ARRAY_A
+		);
 
 		return $result;
 	}
@@ -116,22 +114,33 @@ class Allergens_Dietary_Allergen_Queries
 		);
 	}
 
+	/**
+	 * @author ictoriabv
+	 * @param string $allergenName
+	 * @return object
+	 */
 	public function getAllergen(string $allergenName)
 	{
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 
-		$sql = $wpdb->prepare(
-			"SELECT * FROM $table_name WHERE allergy_name = %s",
-			$allergenName
-		);
-
-		$result = $wpdb->get_results($sql);
+		$result = $wpdb->get_results($wpdb->prepare(
+			"SELECT * FROM %i WHERE allergy_name = %s",
+			array($table_name, $allergenName)
+		));
 
 		return $result;
 	}
 
+	/**
+	 * @author ictoriabv
+	 * @brief method that activates once during the first instal
+	 * making sure all standard allergens are inserted in the db
+	 * And calls related methods for inserting the images and paths
+	 * @return void
+	 * @since 0.1.0.0
+	 */
 	public static function includeItems()
 	{
 		if (!class_exists('Allergens_Dietary_Allergy_Attachment_Queries')) {
@@ -154,24 +163,27 @@ class Allergens_Dietary_Allergen_Queries
 		$table_allergens = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 
 
-		$sql = $wpdb->prepare(
-			"SELECT * FROM $table_allergens WHERE allergy_name = 'alcohol'"
-		);
 
-		$exists = $wpdb->get_var($sql);
+		$exists = $wpdb->get_var($wpdb->prepare(
+			"SELECT * FROM %i WHERE allergy_name = 'alcohol'",
+			$table_allergens
+		));
 
 		//checks if database record of the standard allergies already exists
 		if ($exists == 0) {
 
-	foreach($allergens_result as $key => $value){
-		$sql = $wpdb->prepare(
-			"SELECT allergy_name FROM $table_allergens WHERE allergy_name = %s"
-			,$value['title']);
-			
-			$exists = $wpdb->get_var( $sql );
-		if ($exists == 0){
-			$isallergy = 0;
-			$isdefault = 0;
+			foreach ($allergens_result as $key => $value) {
+
+				$exists = $wpdb->get_var($wpdb->prepare(
+					"SELECT allergy_name
+					FROM %i
+					WHERE allergy_name = %s",
+					array($table_allergens, $value['title'])
+				));
+
+				if ($exists == 0) {
+					$isallergy = 0;
+					$isdefault = 0;
 					if ($value['default']) {
 						$isdefault = 1;
 					}
@@ -213,34 +225,85 @@ class Allergens_Dietary_Allergen_Queries
 
 			$is_default = $wpdb->get_var($wpdb->prepare(
 				"SELECT is_default_option 
-				 FROM $table_allergy 
+				 FROM %i
 				 WHERE allergy_name = %s",
-				$allergy_name
+				array($table_allergy, $allergy_name)
 			));
 		} catch (Exception $e) {
-			echo 'Error: ' . $e->getMessage();
+			echo esc_html('Error: ' . $e->getMessage());
 		}
 
 		return $is_default == 1 ? true : false;
 	}
 
-	public static function getItems(){
+	public static function getItems()
+	{
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-		$data = $wpdb->get_results("SELECT allergy_name, allergy_description, is_allergy, is_active FROM $table_name", ARRAY_A);
-	
+		$data = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT allergy_name, allergy_description, is_allergy, is_active
+				 FROM %i",
+				$table_name
+			),
+			ARRAY_A
+		);
+
 		return $data;
 	}
 
-	public static function getColumns(){
+	public function search_allergen(string $search_word)
+	{
 		global $wpdb;
-        $table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-		$columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name", ARRAY_A);
-	
+		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
+		
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT allergy_name, allergy_description, is_allergy, is_active, is_default_option
+				FROM %i
+				WHERE allergy_name LIKE %s",
+			array($table_name, '%'.$search_word.'%')),
+			ARRAY_A
+		);
+
+		return $results;
+	}
+
+	public static function getColumns()
+	{
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
+		$columns = $wpdb->get_results($wpdb->prepare("SHOW COLUMNS FROM %i", $table_name), ARRAY_A);
+
 		return $columns;
 	}
 
-	public function activationUpdate(array $data, string $message)
+	public function change_status(array $allergen){
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
+
+		$wpdb->update(
+			$table_name,
+			array(
+				'is_active' => $allergen['is_active']
+			),
+			array(
+				'allergy_name' => $allergen['allergy_name']
+			)
+		);
+
+	}
+
+	/**
+	 * @author ictoriabv
+	 * @important This method has GET and SERVER globals
+	 * These globals need to be checked, sanitized and moved
+	 * These globals need to move to where the method is being used 
+	 * @param array $data
+	 * @param string $message
+	 * @return void
+	 */
+	public function activationUpdate(array $data)
 	{
 		global $wpdb;
 
@@ -250,12 +313,10 @@ class Allergens_Dietary_Allergen_Queries
 
 		foreach ($data['item'] as $key => $value) {
 
-			$sql = $wpdb->prepare(
-				"SELECT * FROM $table_name WHERE allergy_name = '%s'",
-				$value
-			);
-
-			$result = $wpdb->get_row($sql);
+			$result = $wpdb->get_row($wpdb->prepare(
+				"SELECT * FROM %i WHERE allergy_name = %s",
+				array($table_name, $value)
+			));
 
 			if (!empty($result)) {
 
@@ -283,15 +344,21 @@ class Allergens_Dietary_Allergen_Queries
 				$format
 			);
 
-			if (!empty($_GET)) {
-				$url = strtok($_SERVER["REQUEST_URI"], '?');
-				$separator = strpos($url, '?') === false ? '?' : '&';
-				header("Location: $url" . $separator . "page=allergens-dietary-show-allergens" . (isset($return_page) ? '&paged=' . $return_page : '') . "&messaged=" . urlencode($message));
-			}
 		}
 	}
 
-	public function singleActivationUpdate(int $return_page, string $message)
+	
+	/**
+	 * @author ictoriabv
+	 * @important This method has GET and SERVER globals
+	 * These globals need to be checked, sanitized and moved
+	 * These globals need to move to where the method is being used 
+	 * the same goes for the redirection
+	 * @param int $return_page
+	 * @param string $message
+	 * @return void
+	 */
+	public function singleActivationUpdate()
 	{
 		global $wpdb;
 
@@ -299,42 +366,33 @@ class Allergens_Dietary_Allergen_Queries
 
 		$updatenumber = 0;
 
-		if (isset($_GET['item'])) {
-			$sql = $wpdb->prepare(
-				"SELECT allergy_name, is_active FROM $table_name WHERE allergy_name = '%s'",
-				$_GET['item']
-			);
 
-			$result = $wpdb->get_row($sql);
+		$result = $wpdb->get_row($wpdb->prepare(
+			"SELECT allergy_name, is_active FROM %i WHERE allergy_name = %s",
+			array($table_name, $_GET['item'])
+		));
 
-			if ($result->is_active == 0) {
-				$updatenumber = 1;
-			} else {
-				$updatenumber = 0;
-			}
-
-			$data = array(
-				'is_active' => $updatenumber,
-			);
-
-			$where = array(
-				'allergy_name' => $_GET['item']
-			);
-
-			$format = array('%s', '%s');
-
-			$wpdb->update(
-				$table_name,
-				$data,
-				$where,
-				$format
-			);
-
-			if (!empty($_GET)) {
-				$url = strtok($_SERVER["REQUEST_URI"], '?');
-				$separator = strpos($url, '?') === false ? '?' : '&';
-				header("Location: $url" . $separator . "page=allergens-dietary-show-allergens" . (isset($return_page) ? '&paged=' . $return_page : '') . "&messaged=" . urlencode($message));
-			}
+		if ($result->is_active == 0) {
+			$updatenumber = 1;
+		} else {
+			$updatenumber = 0;
 		}
+
+		$data = array(
+			'is_active' => $updatenumber,
+		);
+
+		$where = array(
+			'allergy_name' => $_GET['item']
+		);
+
+		$format = array('%s', '%s');
+
+		$wpdb->update(
+			$table_name,
+			$data,
+			$where,
+			$format
+		);
 	}
 }

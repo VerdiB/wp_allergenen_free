@@ -86,34 +86,20 @@ package "php"{
     }
     package "tables"{
          class Allergens_Dietary_Show_Allergens{
+            # PAGE :string
             - {static} _instance : Allergens_Dietary_Show_Allergens
-            - {static} _page : int
-            - {static} message : string
-            - __construct() : void
-            # display_tablenav(which:string) : void
-            - table_action_options : array
-            + search_query : string
-            + get_table_columns_and_data() : array
-            + get_items_per_pages() : int
-            - set_items_per_pages(value:int) : void
-            + column_default(item:array, column_name:string) : string
-            + column_cb(item:array) : string
-            + single_row(item:array) : void
-            + get_bulk_actions() : array
-            # edit_row_action(id:string) : string
-            + handle_row_actions(item:array, column_name:string, primary:string) : array
-            - build_action_url(action:string, item:array) : string
-            - handle_search() : void
-            - handle_items_per_page() : void
-            # single_row_columns(item:object) : void
-            + get_columns() : array
-            + prepare_items() : void
-            + process_quick_action() : void
-            + process_bulk_action(data:array) : void
-            + items_per_page_form(text:string, input_id:string, label:string, which:string) : void
-            + search_box(text:string, input_id:string) : voi
+            # _allergens : array
             + {static} getInstance() : Allergens_Dietary_Show_Allergens
-            + table_page() : void
+            - __construct() : void
+            + prepare_items() : void
+            # get_bulk_actions() : array
+            # get_column_headers() : void
+            + get_columns() : array
+            + column_default(item:array, column_name:string) : string|array
+            # column_allergy_name(item:array, column_name:string) : string|array
+            # column_cb(item:array) : string
+            # process_bulk_action() : void
+            # handle_row_actions(item:object|array, column_name:string, primary:string) : void
         }
     }
     package "notice"{
@@ -188,8 +174,6 @@ package "php"{
             + {static} getColumns() : array
             + {static} includeItems() : void
             + {static} is_default_allergen(allergy_name:string) : boolean
-            + {static} activationUpdate(data:array) : void
-            + {static} singleActivationUpdate() : void
 
         }
 
