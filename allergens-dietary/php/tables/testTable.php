@@ -63,6 +63,26 @@ class TestTable extends WP_List_Table
             'ajax' => false,
             'rest_api',
         ]);
+        
+        if (!empty(sanitize_url(wp_unslash($_COOKIE['notice-type'])))){
+            $type = sanitize_text_field(wp_unslash($_COOKIE['notice-type']));
+            
+            if ('single-status' === $type){
+                $message = __('Status changed','allergens-dietary');
+                $notice = Allergens_Dietary_Notices::getInstance();
+                $notice->display_admin_notice(Notice_Types::INFO, $message);
+                setcookie('notice-type','0', time() - 30);
+            }
+            if ('bulk-status' === $type){
+                $message = __('Multiple statuses changed','allergens-dietary');
+                $notice = Allergens_Dietary_Notices::getInstance();
+                $notice->display_admin_notice(Notice_Types::INFO, $message);
+                setcookie('notice-type','0', time() - 30);
+            }
+            if ('0' === $type){
+                return;
+            }
+        }
     }
 
     /**
@@ -75,10 +95,13 @@ class TestTable extends WP_List_Table
      */
     public function prepare_items()
     {      
-        if (!empty($_POST['s']) && wp_verify_nonce($_POST['allergen_val'], 'allergen_table_action')){
-            $this->_allergens = Allergens_Dietary_Allergen_Queries::getInstance()->search_allergen(
-                htmlspecialchars(sanitize_text_field(wp_unslash($_POST['s'])))
-            );
+        if (!empty($_POST['s'])){
+            if (!empty(sanitize_text_field(wp_unslash($_POST['allergen_val']))) && 
+            wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['allergen_val'])), 'allergen_table_action')){
+                $this->_allergens = Allergens_Dietary_Allergen_Queries::getInstance()->search_allergen(
+                    htmlspecialchars(sanitize_text_field(wp_unslash($_POST['s'])))
+                );
+            }
         }else{
             $this->_allergens = Allergens_Dietary_Allergen_Queries::getItems();
         }
@@ -265,6 +288,7 @@ class TestTable extends WP_List_Table
                         $allergen_query['is_active'] =  ($allergen_query['is_active'] == 1)? 0 : 1;
                         Allergens_Dietary_Allergen_Queries::getInstance()->change_status($allergen_query);
                     }
+                    setcookie('notice-type','bulk-status', time() + 30);
                     wp_redirect(admin_url('admin.php?page=' . self::PAGE . '&paged='. $this->get_pagenum()));
                     exit;
                 }
@@ -307,6 +331,7 @@ class TestTable extends WP_List_Table
                     $allergen_active['is_active'] = ($allergen_active['is_active'] == 1)? 0 : 1;
                     Allergens_Dietary_Allergen_Queries::getInstance()->change_status($allergen_active);
                     
+                    setcookie('notice-type','single-status', time() + 30);
                     wp_redirect(admin_url('admin.php?page=' . self::PAGE . '&paged='. $this->get_pagenum()));
                     exit;
                 }
