@@ -112,7 +112,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         $this->items = $this->_allergens;
         
         $total_items = count($this->items);
-        $items_per_page = $this->get_items_per_page('allergens_per_page');
+        $items_per_page = $this->get_items_per_page('allergens_per_page',25);
         $current_page = $this->get_pagenum();
 
         $this->items = array_slice($this->items, ($current_page - 1) * $items_per_page, $items_per_page);
