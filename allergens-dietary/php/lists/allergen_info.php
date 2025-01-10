@@ -26,28 +26,32 @@ class Allergens_Dietary_Info
         Allergens_Dietary_Activator::enqueue_styles();
         
         //flexbox voor tabs
-        $html = '<div id="info_grid" class="nav-tab-wrapper">';
-        $html .= '<div><h1 class="premium">' . __("PREMIUM  [Requires licence]", "allergens-dietary") . '</h1>';
-        $html .= '<ol>';
-        $html .= '<li class="contains">' . __('Updating allergies', 'allergens-dietary') . '</li>';
-        $html .= '<li class="contains">' . __("Changing allergy themes", "allergens-dietary") . '</li>';
-        $html .= '<li class="contains">' . __("Deleting allergies", "allergens-dietary") . '</li>';
-        $html .= '<li class="contains">' . __("Adding allergies", "allergens-dietary") . '</li>';
-        $html .= '<li class="contains">' . __("Custom look on product", "allergens-dietary") . '</li>';
-        $html .= '<li class="contains">' . __("Custom look in store", "allergens-dietary") . '</li>';
-        $html .= ' </ol>';
-        $html .= ' </div>';
-        $html .= '<div><h1 class="free">' . __("FREE VERSION  [Standard]", "allergens-dietary") . '</h1>';
-        $html .= ' <ol>';
-        $html .= '<li class="contains">' . __("Connecting allergies to products", "allergens-dietary") . '</li>';
-        $html .= '<li class="contains">' . __("Wordpress theme fiendly styles", "allergens-dietary") . '</li>';
-        $html .= '<li class="contains">' . __("An allergen overview", "allergens-dietary") . '</li>';
-        $html .= '<li class="contains">' . __("Turning the use of allergies on/off", "allergens-dietary") . '</li>';
-        $html .= '      </ol>';
-        $html .= '  </div>';
-        $html .= '  </div>';
-        $html .= ' <br> <br>';
-        echo $html;
+        ?>
+        <div id="info_grid" class="nav-tab-wrapper">
+            <div>
+                <h1 class="premium"><?php echo esc_html__( 'PREMIUM  [Requires licence]', 'allergens-dietary' ); ?></h1>
+                <ol>
+                    <li class="contains"><?php echo esc_html__( 'Updating allergies', 'allergens-dietary' ); ?></li>
+                    <li class="contains"><?php echo esc_html__( 'Changing allergy themes', 'allergens-dietary' ); ?></li>
+                    <li class="contains"><?php echo esc_html__( 'Deleting allergies', 'allergens-dietary' ); ?></li>
+                    <li class="contains"><?php echo esc_html__( 'Adding allergies', 'allergens-dietary' ); ?></li>
+                    <li class="contains"><?php echo esc_html__( 'Custom look on product', 'allergens-dietary' ); ?></li>
+                    <li class="contains"><?php echo esc_html__( 'Custom look in store', 'allergens-dietary' ); ?></li>
+                </ol>
+            </div>
+
+            <div>
+                <h1 class="free"><?php echo esc_html__( 'FREE VERSION  [Standard]', 'allergens-dietary' ); ?></h1>
+                <ol>
+                    <li class="contains"><?php echo esc_html__( 'Connecting allergies to products', 'allergens-dietary' ); ?></li>
+                    <li class="contains"><?php echo esc_html__( 'WordPress theme friendly styles', 'allergens-dietary' ); ?></li>
+                    <li class="contains"><?php echo esc_html__( 'An allergen overview', 'allergens-dietary' ); ?></li>
+                    <li class="contains"><?php echo esc_html__( 'Turning the use of allergies on/off', 'allergens-dietary' ); ?></li>
+                </ol>
+            </div>
+        </div>
+        <br><br>
+        <?php   
         //moet nog aangepast worden in css
     }
 

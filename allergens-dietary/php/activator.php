@@ -406,45 +406,51 @@ class Allergens_Dietary_Activator
 		dbDelta($sql_allergy);
 		dbDelta($sql_allergy_attachment);
 		dbDelta($sql_allergy_product);
-
 	}
 
 	// function to get a translation of all text contained within __() functions throughout the plugin IF the .mo and .po files for the local/server language are available
-	public static function load_textdomain() {
-		load_plugin_textdomain( __( 'allergens-dietary', 'allergens-dietary' ), false, basename( ALLERGENS_DIETARY_FILE ) . '/l10n' );
+	public static function load_textdomain()
+	{
+		load_plugin_textdomain(__('allergens-dietary', 'allergens-dietary'), false, basename(ALLERGENS_DIETARY_FILE) . '/l10n');
 	}
 
 	// adds the external css file(s) to the current WP execution
-	public static function load_style() {
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_styles' ) );
+	public static function load_style()
+	{
+		add_action('wp_enqueue_scripts', array(__CLASS__, 'enqueue_styles'));
+		add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_styles'));
 	}
 
-	public static function enqueue_styles() {
-		wp_enqueue_style( 'allergens-dietary-css', plugins_url( 'assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE ) );
+	public static function enqueue_styles()
+	{
+		wp_enqueue_style('allergens-dietary-css', plugins_url('assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE));
 	}
 
-	public static function enqueue_admin_styles() {
+	public static function enqueue_admin_styles()
+	{
 		// wp_enqueue_style('allergens-dietary-admin-css', plugins_url('assets/css/allergens-dietary-admin.css', ALLERGENS_DIETARY_FILE));
-		wp_enqueue_style( 'allergens-dietary-admin-css', plugins_url( 'assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE ) );
+		wp_enqueue_style('allergens-dietary-admin-css', plugins_url('assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE));
 	}
 
 	// Enqueue admin JS script
-	public static function load_admin_js() {
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
+	public static function load_admin_js()
+	{
+		add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts'));
 	}
 
-	public static function enqueue_admin_scripts() {
+	public static function enqueue_admin_scripts()
+	{
 		wp_enqueue_script(
 			'allergens-dietary-admin-js',
-			plugins_url( 'assets/js/admin_set_options_by_category.js', ALLERGENS_DIETARY_FILE ),
-			array( 'jquery' ),
+			plugins_url('assets/js/admin_set_options_by_category.js', ALLERGENS_DIETARY_FILE),
+			array('jquery'),
 			false,
 			true
 		);
 	}
 
-	public function upload_language_file() {
+	public function upload_language_file()
+	{
 		$language_path          = WP_LANG_DIR . '/plugins';
 		$language_file_basename = 'allergens-dietary';
 		$user_locale            = get_user_locale();
@@ -453,20 +459,21 @@ class Allergens_Dietary_Activator
 			'.mo',
 		);
 
-		foreach ( $files_templates as $files_template ) {
+		foreach ($files_templates as $files_template) {
 			$language_file_fullname = $language_file_basename . $user_locale . $files_template;
-			$plugin_language_file   = ALLERGENS_DIETARY . '/languages/' . $language_file_fullname;
+			$plugin_language_file   = ALLERGENS_DIETARY_DIRNAME . '/languages/' . $language_file_fullname;
 
-			if ( file_exists( $plugin_language_file ) && $language_path . '/' . $language_file_fullname ) {
+			if (file_exists($plugin_language_file) && $language_path . '/' . $language_file_fullname) {
 
-				copy( $plugin_language_file, $language_path . '/' . $language_file_fullname );
+				copy($plugin_language_file, $language_path . '/' . $language_file_fullname);
 			}
 		}
 	}
 
-    public static function initialize() {
-        new self();
-    }
+	public static function initialize()
+	{
+		new self();
+	}
 
 	public static function allergens_options()
 	{
@@ -493,12 +500,13 @@ class Allergens_Dietary_Activator
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 		$allergy_name = 'Nuts';  // Ensure this is correctly defined
 
-		$sql = $wpdb->prepare(
-			"SELECT allergy_name FROM $table_name WHERE allergy_name = %s",
-			$allergy_name
-		);
+		
+		$exists = $wpdb->get_var( $wpdb->prepare(
+			"SELECT allergy_name FROM %i WHERE allergy_name = %s",
+			array($table_name,$allergy_name)
+		));
 
-		$exists = $wpdb->get_var($sql);
+
 
 		if ($exists > 0) {
 			// Record exists!
@@ -506,6 +514,5 @@ class Allergens_Dietary_Activator
 			// Record does not exist
 			Allergens_Dietary_Allergen_Queries::includeItems();
 		}
-
 	}
 }
