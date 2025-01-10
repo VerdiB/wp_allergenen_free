@@ -72,6 +72,9 @@ class Allergens_Dietary_Filter
 		</button>
 		<div id="ictoria-filter-dropdown" style="display: none;">
 			<form action="" method="post" class="">
+				<?php
+				wp_nonce_field('allergen-filter-action', 'allergen-filter-nonce'); 
+				?>
 				<div class="filter-container">
 
 					<!-- Allergens Section -->
@@ -160,21 +163,26 @@ class Allergens_Dietary_Filter
 	public function filter_query($query)
 	{
 		if ($query->is_main_query() && is_shop() && isset($_POST['allergen_filter'])) {
-			$selected_options = isset($_POST['allergen_filter_options']) ? $_POST['allergen_filter_options'] : array();
-			$selected_allergens = array();
-			$selected_diatary = array();
+			if(!empty(sanitize_text_field(wp_unslash($_POST['allergen-filter-nonce']))) &&
+			wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['allergen-filter-nonce'])), 'allergen-filter-action'))
+			{
 
-			// Sort the selected options
-			foreach ($this->_allergens as $allergen) {
-				if (isset($selected_options[$allergen['allergy_name']]))
-					//check if the allergen is an allergy or diatary restriction
-					//where 0 is a dietary restriction and 1 is an allergy
-					if ($allergen['is_allergy'] == 0) {
-						$selected_diatary[] = $allergen['allergy_name'];
-					} else {
-						$selected_allergens[] = $allergen['allergy_name'];
-					}
+				$selected_options = isset($_POST['allergen_filter_options']) ? $_POST['allergen_filter_options'] : array();
+				$selected_allergens = array();
+				$selected_diatary = array();
+	
+				// Sort the selected options
+				foreach ($this->_allergens as $allergen) {
+					if (isset($selected_options[$allergen['allergy_name']]))
+						//check if the allergen is an allergy or diatary restriction
+						//where 0 is a dietary restriction and 1 is an allergy
+						if ($allergen['is_allergy'] == 0) {
+							$selected_diatary[] = $allergen['allergy_name'];
+						} else {
+							$selected_allergens[] = $allergen['allergy_name'];
+						}
 			}
+		}
 
 
 			// Check if there are any options selected
