@@ -14,6 +14,7 @@ class Allergens_Dietary_Filter
 {
 	private static $_instance = null;
 	private array $_allergens;
+	private string $_filter_nonce;
 
 	public static function instance()
 	{
@@ -54,6 +55,12 @@ class Allergens_Dietary_Filter
 
 	public function create_filter()
 	{
+		if (isset($_POST['allergen-filter-nonce']) && !empty($_POST['allergen-filter-nonce'])){
+			// $nonce = sanitize_text_field(wp_unslash($_POST['allergen-filter-nonce']));
+			if (!wp_verify_nonce($this->_filter_nonce, 'allergen-filter-action')){
+				wp_die(esc_html(__('Something went wrong!','allergens-dietary')));
+			}
+		}
 		$diet_arr = array();
 		$allergen_arr = array();
 		foreach ($this->_allergens as $allergen) {
@@ -84,6 +91,7 @@ class Allergens_Dietary_Filter
 						</div>
 						<div class="checkbox-group">
 							<?php foreach ($allergen_arr as $allergen) : 
+
 								$checked = isset($_POST['allergen_filter_options'][$allergen['allergy_name']]) ? 'checked' : '';
 							?>
 								<div class="checkbox-item">
@@ -166,8 +174,8 @@ class Allergens_Dietary_Filter
 			if(!empty(sanitize_text_field(wp_unslash($_POST['allergen-filter-nonce']))) &&
 			wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['allergen-filter-nonce'])), 'allergen-filter-action'))
 			{
-
-				$selected_options = isset($_POST['allergen_filter_options']) ? $_POST['allergen_filter_options'] : array();
+				$this->_filter_nonce = sanitize_text_field(wp_unslash($_POST['allergen-filter-nonce']));
+				$selected_options = isset($_POST['allergen_filter_options']) ? sanitize_text_field(wp_unslash($_POST['allergen_filter_options'])) : array();
 				$selected_allergens = array();
 				$selected_diatary = array();
 	

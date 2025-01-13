@@ -49,14 +49,12 @@ class Allergens_Dietary_Form
 
 	private function __construct(bool $isTable = false)
 	{
-		if (FormType::ALLERGENS === self::$_formType) {
-			self::$_formObject = new Allergens_Dietary_Allergen_Form();
-		}
 		if (FormType::LICENSE === self::$_formType) {
-			self::$_formObject = new Allergens_Dietary_License_Form();
-		}
-		if (FormType::UPDATE === self::$_formType) {
-			self::$_formObject = new Allergens_Dietary_Ictoria_Update_Allergen_Form();
+			try{
+				self::$_formObject = new Allergens_Dietary_License_Form();
+			} catch(Exception $error){
+				wp_die(esc_html(__('Something went wrong!', 'allergens-dietary')));
+			}
 		}
 		if (!isset(self::$_formType) || false === self::$_formType->match(self::$_formType)) {
 			throw new Exception('FormType not yet supported/implemented');
@@ -81,58 +79,49 @@ class Allergens_Dietary_Form
 		return self::$_formType;
 	}
 
-	public function submitUpdate()
-	{
-
-		if (!empty($_POST)) {
-			$_data = $_POST;
-		}
-
-		if (!empty($_FILES)) {
-			$_data = array_merge($_data, $_FILES);
-		}
-
-		if (!empty($_POST['submit'])) {
-			self::$_formObject->submit($_data);
-		}
-	}
-
+	/**
+	 * @author ictoriabv
+	 * @brief Handles the html of the selected form in $_formObject
+	 * The sanitizing and processing of the information given by the form is handled elsewhere
+	 * In the correct class of the selected form type
+	 * @param string $allergenName
+	 * @return void
+	 * @since V0.3.0.0
+	 * @version V0.18.6.0
+	 */
 	public function showForm(string $allergenName = null)
 	{
-
-		$showOnPage = ["allergens-dietary-show-allergens"];
-		$showOnPageSecondOption = ["allergens-dietary-add-allergen"];
-
-		$page = isset($_GET['page']) ? sanitize_text_field(wp_unslash($_GET['page'])) : '';
-
-		if (!empty($_POST)) {
-			$_data = $_POST;
-		}
-
-		if (!empty($_FILES)) {
-			$_data = array_merge($_data, $_FILES);
-		}
-
-		if (!in_array($page, $showOnPage, true)) {
+		if(isset($_POST['allergens-forms-nonce']) && !empty($_POST['allergens-forms-nonce'])){
+			$nonce = sanitize_text_field(wp_unslash($_POST['allergens-forms-nonce']));
+			if (!wp_verify_nonce($nonce,'allergen-forms-action')){
+				wp_die(esc_html(__('Something went wrong!','allergens-dietary')));
+			}
+			
+			if (!empty($_POST)) {
+				$_data = $_POST;
+			}
+	
+			if (!empty($_FILES)) {
+				$_data = array_merge($_data, $_FILES);
+			}
+	
 			if (!empty($_POST['submit'])) {
 				self::$_formObject->submit($_data);
 			}
 		}
 
-		if (in_array($page, $showOnPage, true)) {
-			echo '<div class="allergens_table_form" style="display: none;" id="' . esc_attr($allergenName) . '_form">';
+		
+		?>
+		<div class="allergens_form health-check-body">
+			<form action="" method="post" enctype="multipart/form-data" class="add_allergens_form">
+			<?php 
+			wp_nonce_field('allergen-forms-action', 'allergens-forms-nonce');
 			self::$_formObject->showForm($allergenName);
-			echo '</div>';
-		} else {
-			if (in_array($page, $showOnPageSecondOption, true)) {
-				echo '<div class="allergens_form health-check-body"><form action="" method="post" style="max-width: 350px;" enctype="multipart/form-data" class="add_allergens_form">';
-				self::$_formObject->showForm($allergenName);
-				echo '</form></div>';
-			}else{
-				echo '<div class="allergens_form health-check-body"><form action="" method="post" enctype="multipart/form-data" class="add_allergens_form">';
-				self::$_formObject->showForm($allergenName);
-				echo '</form></div>';
-			}
-		}
+			?>
+			</form>
+		</div>
+		<?php
+	
+	
 	}
 }
