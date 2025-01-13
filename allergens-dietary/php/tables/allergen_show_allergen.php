@@ -99,7 +99,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
                 );
             }
         }else{
-            $this->_allergens = Allergens_Dietary_Allergen_Queries::getItems();
+            $this->_allergens = Allergens_Dietary_Allergen_Queries::getInstance()->getItems();
         }
         
         $this->_column_headers = array(

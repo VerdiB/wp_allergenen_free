@@ -32,51 +32,6 @@ class Allergens_Dietary_Allergen_Queries
 
 	private function __construct() {}
 
-	/**
-	 * @brief This method adds an allergen to the DB.
-	 * @param array $data
-	 * @return bool
-	 * @since 1.0.0
-	 * @date 11-9-2024
-	 * @author ictoriabv
-	 */
-	public function addAllergens(array $data)
-	{
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-
-		$wpdb->insert(
-			$table_name,
-			array(
-				'allergy_name' => $data['allergen_name'],
-				'allergy_description' => $data['allergen_description'],
-				'is_allergy' => $data['type'],
-			),
-			array(
-				'%s',
-				'%s',
-				'%d',
-			)
-		);
-
-		return (isset($wpdb->insert_id)) ? true : false;
-	}
-
-	public function checkAllergenExists(string $allergenName)
-	{
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-
-		$result = $wpdb->get_results($wpdb->prepare(
-			"SELECT allergy_name FROM %i WHERE allergy_name = %s",
-			array($table_name, $allergenName)
-		));
-
-
-		return (count($result) > 0) ? true : false;
-	}
 
 	public function getAllAllergens()
 	{
@@ -84,54 +39,20 @@ class Allergens_Dietary_Allergen_Queries
 
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 
+		$query = $wpdb->prepare("SELECT allergy_name, is_allergy 
+		FROM %i
+		WHERE is_active = 1
+		ORDER BY  is_allergy DESC, allergy_name ASC",
+		$table_name);
+
 		$result = $wpdb->get_results(
-			$wpdb->prepare("SELECT allergy_name, is_allergy 
-			FROM %i
-			WHERE is_active = 1
-			ORDER BY  is_allergy DESC, allergy_name ASC", $table_name),
+			$wpdb->query($query),
 			ARRAY_A
 		);
 
 		return $result;
 	}
 
-	public function updateAllergens(array $data)
-	{
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-
-		$wpdb->update(
-			$table_name,
-			array(
-				'allergy_name' => $data['allergen_name'],
-				'allergy_description' => $data['allergen_description'],
-				'is_allergy' => $data['type'],
-			),
-			array(
-				'allergy_name' => $data['allergen_name_hidden'],
-			)
-		);
-	}
-
-	/**
-	 * @author ictoriabv
-	 * @param string $allergenName
-	 * @return object
-	 */
-	public function getAllergen(string $allergenName)
-	{
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-
-		$result = $wpdb->get_results($wpdb->prepare(
-			"SELECT * FROM %i WHERE allergy_name = %s",
-			array($table_name, $allergenName)
-		));
-
-		return $result;
-	}
 
 	/**
 	 * @author ictoriabv
@@ -212,31 +133,7 @@ class Allergens_Dietary_Allergen_Queries
 		Allergens_Dietary_Allergy_Attachment_Queries::allergy_connection($icon_result);
 	}
 
-	public function is_default_allergen(string $allergy_name): bool
-	{
-		global $wpdb;
-
-		$table_allergy = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-
-		try {
-			if (empty($allergy_name)) {
-				throw new Exception('No correct allergy given.');
-			}
-
-			$is_default = $wpdb->get_var($wpdb->prepare(
-				"SELECT is_default_option 
-				 FROM %i
-				 WHERE allergy_name = %s",
-				array($table_allergy, $allergy_name)
-			));
-		} catch (Exception $e) {
-			echo esc_html('Error: ' . $e->getMessage());
-		}
-
-		return $is_default == 1 ? true : false;
-	}
-
-	public static function getItems()
+	public function getItems()
 	{
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
@@ -269,14 +166,6 @@ class Allergens_Dietary_Allergen_Queries
 		return $results;
 	}
 
-	public static function getColumns()
-	{
-		global $wpdb;
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-		$columns = $wpdb->get_results($wpdb->prepare("SHOW COLUMNS FROM %i", $table_name), ARRAY_A);
-
-		return $columns;
-	}
 
 	public function change_status(array $allergen){
 		global $wpdb;
@@ -293,59 +182,5 @@ class Allergens_Dietary_Allergen_Queries
 		);
 
 	}
-
-	/**
-	 * @author ictoriabv
-	 * @important This method has GET and SERVER globals
-	 * These globals need to be checked, sanitized and moved
-	 * These globals need to move to where the method is being used 
-	 * @param array $data
-	 * @param string $message
-	 * @return void
-	 */
-	public function activationUpdate(array $data)
-	{
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-
-		$updatenumber = 0;
-
-		foreach ($data['item'] as $key => $value) {
-
-			$result = $wpdb->get_row($wpdb->prepare(
-				"SELECT * FROM %i WHERE allergy_name = %s",
-				array($table_name, $value)
-			));
-
-			if (!empty($result)) {
-
-				if ($result->is_active == 0) {
-					$updatenumber = 1;
-				} else {
-					$updatenumber = 0;
-				}
-			}
-
-			$data = array(
-				'is_active' => $updatenumber,
-			);
-
-			$where = array(
-				'allergy_name' => $value
-			);
-
-			$format = array('%s', '%s');
-
-			$wpdb->update(
-				$table_name,
-				$data,
-				$where,
-				$format
-			);
-
-		}
-	}
-
 	
 }
