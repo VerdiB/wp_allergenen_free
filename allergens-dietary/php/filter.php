@@ -167,6 +167,7 @@ class Allergens_Dietary_Filter
 			// Sort the selected options
 			foreach ($this->_allergens as $allergen) {
 				if (isset($selected_options[$allergen['allergy_name']]))
+				{
 					//check if the allergen is an allergy or diatary restriction
 					//where 0 is a dietary restriction and 1 is an allergy
 					if ($allergen['is_allergy'] == 0) {
@@ -174,6 +175,7 @@ class Allergens_Dietary_Filter
 					} else {
 						$selected_allergens[] = $allergen['allergy_name'];
 					}
+				}
 			}
 
 
@@ -187,7 +189,7 @@ class Allergens_Dietary_Filter
 				$query->set('post__in', $product_arr);
 
 
-				$query->set('post__in', $product_arr);
+				// $query->set('post__in', $product_arr);
 			}
 		}
 	}
