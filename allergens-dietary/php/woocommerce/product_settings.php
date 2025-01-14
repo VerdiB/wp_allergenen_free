@@ -32,7 +32,8 @@ class Allergens_Dietary_Product_Settings
 
 	public function __construct()
 	{
-		$this->_allergens = Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens();
+		$this->_allergens = is_null(Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens()) ? array() : 
+		Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens();
 
 		add_filter('woocommerce_product_data_tabs', array($this, 'data_tab'));
 		add_action('woocommerce_product_data_panels', array($this, 'data_fields'));

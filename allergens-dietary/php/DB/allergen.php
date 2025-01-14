@@ -39,14 +39,13 @@ class Allergens_Dietary_Allergen_Queries
 
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 
-		$query = $wpdb->prepare("SELECT allergy_name, is_allergy 
-		FROM %i
-		WHERE is_active = 1
-		ORDER BY  is_allergy DESC, allergy_name ASC",
-		$table_name);
-
-		$result = $wpdb->get_results(
-			$wpdb->query($query),
+		$result = $wpdb->get_results($wpdb->prepare(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+				"	SELECT allergy_name, is_allergy 
+					FROM %i
+					WHERE is_active = 1
+					ORDER BY  is_allergy DESC, allergy_name ASC",
+				$table_name
+			),
 			ARRAY_A
 		);
 
@@ -85,7 +84,7 @@ class Allergens_Dietary_Allergen_Queries
 
 
 
-		$exists = $wpdb->get_var($wpdb->prepare(
+		$exists = $wpdb->get_var($wpdb->prepare(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			"SELECT * FROM %i WHERE allergy_name = 'alcohol'",
 			$table_allergens
 		));
@@ -95,7 +94,7 @@ class Allergens_Dietary_Allergen_Queries
 
 			foreach ($allergens_result as $key => $value) {
 
-				$exists = $wpdb->get_var($wpdb->prepare(
+				$exists = $wpdb->get_var($wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 					"SELECT allergy_name
 					FROM %i
 					WHERE allergy_name = %s",
@@ -115,7 +114,7 @@ class Allergens_Dietary_Allergen_Queries
 						$isallergy = 0;
 					}
 					//insert allergies
-					$wpdb->insert(
+					$wpdb->insert(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 						$table_allergens,
 						array(
 							'allergy_name' => $value['title'],
@@ -137,7 +136,7 @@ class Allergens_Dietary_Allergen_Queries
 	{
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-		$data = $wpdb->get_results(
+		$data = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$wpdb->prepare(
 				"SELECT allergy_name, allergy_description, is_allergy, is_active
 				 FROM %i",
@@ -154,7 +153,7 @@ class Allergens_Dietary_Allergen_Queries
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 		
-		$results = $wpdb->get_results(
+		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$wpdb->prepare(
 				"SELECT allergy_name, allergy_description, is_allergy, is_active, is_default_option
 				FROM %i
@@ -171,7 +170,7 @@ class Allergens_Dietary_Allergen_Queries
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 
-		$wpdb->update(
+		$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$table_name,
 			array(
 				'is_active' => $allergen['is_active']

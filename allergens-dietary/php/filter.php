@@ -50,7 +50,8 @@ class Allergens_Dietary_Filter
 
 		add_action('woocommerce_before_shop_loop', array($this, 'create_filter'));
 		add_action('woocommerce_product_query', array($this, 'filter_query'));
-		$this->_allergens = Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens();
+		$this->_allergens = is_null(Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens()) ? array() : 
+		Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens();
 	}
 
 	public function create_filter()
