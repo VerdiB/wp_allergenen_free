@@ -72,7 +72,7 @@ class Allergens_Dietary_Filter
 		</button>
 		<div id="ictoria-filter-dropdown" style="display: none;">
 			<form action="" method="post" class="">
-				<div class="filter-container">
+				<div class="ictoria-filter-container">
 
 					<!-- Allergens Section -->
 					<div class="checkbox-container">

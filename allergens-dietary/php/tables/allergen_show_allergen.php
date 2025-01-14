@@ -137,52 +137,6 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         ));
     }
 
-    public function items_per_page_form($text, $input_id, $label, $which) // Custom form for selecting items per page.
-    {
-        if (empty($_POST['items_per_page']) && !$this->has_items()) {
-            return;
-        }
-        $acceptable_values = array(10, 20, 50, 100);
-        if ('top' === $which) {
-            $this->screen->render_screen_reader_content('heading_pagination');
-?>
-            <span class="item-select-box" style="float: right; margin-right: 10px;">
-                <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
-                <span><?php echo $label; ?></span>
-                <select id="items_per_page" name="items_per_page">
-                    <?php
-                    foreach ($acceptable_values as $value) {
-                        if ($value == 10) {
-                    ?>
-                            <option value="<?php echo $value ?>" <?php echo $this->get_items_per_pages() == 10 ? 'selected' : (in_array($this->get_items_per_pages(), $acceptable_values) ? '' : 'selected'); ?>><?php echo $value ?>
-                            </option>
-                        <?php
-                        } else {
-                        ?>
-                            <option value="<?php echo $value ?>" <?php echo $this->get_items_per_pages() == $value ? 'selected' : '' ?>>
-                                <?php echo $value ?>
-                            </option>
-                    <?php
-                        }
-                    }
-                    ?>
-                </select>
-                <?php submit_button($text, '', '', false, array('id' => 'items-per-page-submit')); ?>
-            </span>
-        <?php
-        }
-        if ('bottom' === $which) {
-        ?>
-            <span class="item-select-box" style="float: right; margin-right: 10px;">
-                <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
-                <span><?php echo $label; ?></span>
-                <span
-                    class="tablenav-paging-text"><?php echo !empty($this->get_items_per_pages()) ? $this->get_items_per_pages() : null; ?></span>
-            </span>
-        <?php
-        }
-    }
-
     /**
      * @author ictoriabv
      * @return array
