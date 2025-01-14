@@ -119,6 +119,7 @@ class Allergens_Dietary_Plugin_Menu
 		echo '<form method="POST" id="show_allergens_form" enctype="multipart/form-data">';
         wp_nonce_field('allergen_table_action', 'allergen_val');
 		$table->search_box('Search', 'show_allergens');
+		$table->items_per_page_form();
 
 		$table->display();
 		echo '</form>';

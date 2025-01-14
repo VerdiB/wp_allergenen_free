@@ -34,8 +34,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     // is used for redirects of the page
     protected const PAGE = 'allergens-dietary-show-allergens';
     
-    //instance of the class being called
-    private static $_instance = null;
+    //instances of the classes being called
+    private static $instances = array();
 
     // is mostlly used to read from
     protected array $_allergens;
@@ -50,11 +50,12 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
      */
     public static function getInstance()
     {
-        if (!isset(self::$_instance) || is_null(self::$_instance)) {
-            self::$_instance = new static();
+        $cls = static::class;
+        if (!isset(self::$instances[$cls])) {
+            self::$instances[$cls] = new static();
         }
 
-        return self::$_instance;
+        return self::$instances[$cls];
     }
 
     /**
@@ -114,7 +115,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             $this->_allergens = Allergens_Dietary_Allergen_Queries::getItems();
         }
         
-        $this->_column_headers = array(
+        $this->_column_headers = array(     
             $this->get_column_headers(), // All columns.
             array(), // Hidden columns.
         );
@@ -134,6 +135,52 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             'items_per_page' => $items_per_page,
             'total_pages' => ceil($total_items / $items_per_page)
         ));
+    }
+
+    public function items_per_page_form($text, $input_id, $label, $which) // Custom form for selecting items per page.
+    {
+        if (empty($_POST['items_per_page']) && !$this->has_items()) {
+            return;
+        }
+        $acceptable_values = array(10, 20, 50, 100);
+        if ('top' === $which) {
+            $this->screen->render_screen_reader_content('heading_pagination');
+?>
+            <span class="item-select-box" style="float: right; margin-right: 10px;">
+                <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
+                <span><?php echo $label; ?></span>
+                <select id="items_per_page" name="items_per_page">
+                    <?php
+                    foreach ($acceptable_values as $value) {
+                        if ($value == 10) {
+                    ?>
+                            <option value="<?php echo $value ?>" <?php echo $this->get_items_per_pages() == 10 ? 'selected' : (in_array($this->get_items_per_pages(), $acceptable_values) ? '' : 'selected'); ?>><?php echo $value ?>
+                            </option>
+                        <?php
+                        } else {
+                        ?>
+                            <option value="<?php echo $value ?>" <?php echo $this->get_items_per_pages() == $value ? 'selected' : '' ?>>
+                                <?php echo $value ?>
+                            </option>
+                    <?php
+                        }
+                    }
+                    ?>
+                </select>
+                <?php submit_button($text, '', '', false, array('id' => 'items-per-page-submit')); ?>
+            </span>
+        <?php
+        }
+        if ('bottom' === $which) {
+        ?>
+            <span class="item-select-box" style="float: right; margin-right: 10px;">
+                <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
+                <span><?php echo $label; ?></span>
+                <span
+                    class="tablenav-paging-text"><?php echo !empty($this->get_items_per_pages()) ? $this->get_items_per_pages() : null; ?></span>
+            </span>
+        <?php
+        }
     }
 
     /**
@@ -229,7 +276,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         // $page = 'allergens-test-table';
         $status_url = add_query_arg(
             array(
-                'page'      =>  self::PAGE,
+                'page'      =>  static::PAGE,
                 'action'    =>  'change-status',
                 'item'      =>  $item['allergy_name'],
                 'paged'     =>  $this->get_pagenum(),
@@ -297,7 +344,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
                         Allergens_Dietary_Allergen_Queries::getInstance()->change_status($allergen_query);
                     }
                     setcookie('notice-type','bulk-status', time() + 30);
-                    wp_redirect(admin_url('admin.php?page=' . self::PAGE . '&paged='. $this->get_pagenum()));
+                    wp_redirect(admin_url('admin.php?page=' . static::PAGE . '&paged='. $this->get_pagenum()));
                     exit;
                 }
             }
@@ -339,7 +386,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
                     Allergens_Dietary_Allergen_Queries::getInstance()->change_status($allergen_active);
                     
                     setcookie('notice-type','single-status', time() + 30);
-                    wp_redirect(admin_url('admin.php?page=' . self::PAGE . '&paged='. $this->get_pagenum()));
+                    wp_redirect(admin_url('admin.php?page=' . static::PAGE . '&paged='. $this->get_pagenum()));
                     exit;
                 }
             }
