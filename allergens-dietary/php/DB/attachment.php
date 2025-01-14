@@ -34,7 +34,7 @@ class Allergens_Dietary_Attachment_Queries
 		foreach ($result as $key => $value) {
 
 			//insert allergies
-			$wpdb->insert(
+			$wpdb->insert(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$table_icons,
 				array(
 					'attachment_path' => $value['path'],

@@ -50,8 +50,7 @@ class Allergens_Dietary_Filter
 
 		add_action('woocommerce_before_shop_loop', array($this, 'create_filter'));
 		add_action('woocommerce_product_query', array($this, 'filter_query'));
-		$this->_allergens = is_null(Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens()) ? array() : 
-		Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens();
+		$this->_allergens = Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens();
 	}
 
 	public function create_filter()
@@ -176,13 +175,13 @@ class Allergens_Dietary_Filter
 			wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['allergen-filter-nonce'])), 'allergen-filter-action'))
 			{
 				$this->_filter_nonce = sanitize_text_field(wp_unslash($_POST['allergen-filter-nonce']));
-				$selected_options = isset($_POST['allergen_filter_options']) ? sanitize_text_field(wp_unslash($_POST['allergen_filter_options'])) : array();
+				$selected_options = isset($_POST['allergen_filter_options']) ? array_map('sanitize_text_field', wp_unslash($_POST['allergen_filter_options'])) : array();
 				$selected_allergens = array();
 				$selected_diatary = array();
-	
+
 				// Sort the selected options
 				foreach ($this->_allergens as $allergen) {
-					if (isset($selected_options[$allergen['allergy_name']]))
+					if (isset($selected_options[$allergen['allergy_name']])){
 						//check if the allergen is an allergy or diatary restriction
 						//where 0 is a dietary restriction and 1 is an allergy
 						if ($allergen['is_allergy'] == 0) {
@@ -190,21 +189,22 @@ class Allergens_Dietary_Filter
 						} else {
 							$selected_allergens[] = $allergen['allergy_name'];
 						}
-			}
-		}
-
-
-			// Check if there are any options selected
-			if (! empty($selected_options)) {
-				$filtered_products = Allergens_Dietary_Allergy_Product_Queries::getInstance()->getFilteredProducts($selected_allergens, $selected_diatary);
-				$product_arr = array();
-				foreach ($filtered_products as $product) {
-					$product_arr[] = $product['product_id'];
+					}
 				}
-				$query->set('post__in', $product_arr);
-
-
-				$query->set('post__in', $product_arr);
+				
+				// Check if there are any options selected
+				if (! empty($selected_options)) {
+					$filtered_products = Allergens_Dietary_Allergy_Product_Queries::getInstance()->getFilteredProducts($selected_allergens, $selected_diatary);
+					$product_arr = array();
+					foreach ($filtered_products as $product) {
+						$product_arr[] = $product['product_id'];
+					}
+					$query->set('post__in', $product_arr);
+	
+	
+					$query->set('post__in', $product_arr);
+				}
+				
 			}
 		}
 	}
