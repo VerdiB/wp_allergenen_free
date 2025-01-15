@@ -116,7 +116,7 @@ class Allergens_Dietary_Startup
 			// save chosen settings in the allergens_dietary_ictoria_settings(WP options table)
 			// add the initial_setup_done option to allergens_dietary_ictoria_settings (value: true) to prevent this popup from showing on every activation after the first
 		}
-		$folderName = ALLERGENS_DIETARY_DIRNAME . '/cache'; // Geef het juiste pad naar de map op
+		$folderName = ALLERGENS_DIETARY_DIRNAME . '/logs'; // Geef het juiste pad naar de map op
 
 		if (!file_exists($folderName)) {
 
@@ -124,17 +124,13 @@ class Allergens_Dietary_Startup
 
 		}
 
-		$file = '/cache.php';
 
-		$completepath = $folderName . $file;
+		if (!file_exists($folderName)) {
+			$activator = new Allergens_Dietary_Activator();
+			$activator::activate();
 
-		if (!file_exists($completepath)) {
-			Allergens_Dietary_Activator::activate();
+			// fopen($completepath, 'w');
 		}
-
-		$inhoud = "<?php\n";
-		$inhoud .= "// this is an automaticly generated PHP-file\n";
-
 		
 	}
 

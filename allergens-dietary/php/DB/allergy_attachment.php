@@ -93,23 +93,4 @@ class Allergens_Dietary_Allergy_Attachment_Queries
 			ARRAY_A);
 	}
 
-	public static function allergy_connection(array $result)
-	{
-
-		global $wpdb;
-
-		//get database table
-		$table_allergens_icons = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_attachment';
-
-		//insert allergies
-		foreach ($result as $value) {
-			$wpdb->insert(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-				$table_allergens_icons,
-				array(
-					'attachment_name' => $value['name'],
-					'allergy_name' => $value['title'],
-				)
-			);
-		}
-	}
 }

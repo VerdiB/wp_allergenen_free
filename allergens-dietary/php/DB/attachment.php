@@ -23,24 +23,4 @@ class Allergens_Dietary_Attachment_Queries
 		$this->_url = get_home_url() . '/wp-content/plugins/allergens-dietary/assets/icons/custom/';
 	}
 
-	public static function attachment_insert(array $result)
-	{
-		global $wpdb;
-
-		//get database table
-		$table_icons = $wpdb->prefix . 'allergens_dietary_ictoria_attachments';
-
-
-		foreach ($result as $key => $value) {
-
-			//insert allergies
-			$wpdb->insert(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-				$table_icons,
-				array(
-					'attachment_path' => $value['path'],
-					'attachment_name' => $value['name'],
-				)
-			);
-		}
-	}
 }
