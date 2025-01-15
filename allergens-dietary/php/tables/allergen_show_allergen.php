@@ -73,8 +73,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             'rest_api',
         ]);
         
-        if (!empty(sanitize_url(wp_unslash($_COOKIE['notice-type'])))){
-            $type = sanitize_text_field(wp_unslash($_COOKIE['notice-type']));
+        if (!empty($_COOKIE['notice-type']) && isset($_COOKIE['notice-type'])){
+            $type = $_COOKIE['notice-type'];
             
             if ('single-status' === $type){
                 $message = __('Status changed','allergens-dietary');
@@ -246,7 +246,11 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
                 __('Change Status', 'allergens-dietary')
             )
         );
-        return sprintf('%1$s %2$s',$item['allergy_name'] , $this->row_actions($actions));
+        if(self::class !== static::class){
+            return $actions['change status'];
+        }else{
+            return sprintf('%1$s %2$s',$item['allergy_name'] , $this->row_actions($actions));
+        }
     }
 
     /**
@@ -321,30 +325,33 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     {
         parent::handle_row_actions($item, $column_name, $primary);
         
-        if (!empty(sanitize_url(wp_unslash($_GET['item']))) &&
-            !empty(sanitize_url(wp_unslash($_GET['action']))) &&
-            !empty(sanitize_url(wp_unslash($_GET['page'])))
+        if (empty($_GET['item']) ||
+            empty(sanitize_url(wp_unslash($_GET['action']))) ||
+            empty(sanitize_url(wp_unslash($_GET['page'])))
         ){
-            $allergen_name = preg_replace('/^https?:\/\//','',sanitize_url(wp_unslash($_GET['item'])));
-            $table_action = preg_replace('/^https?:\/\//','', sanitize_url(wp_unslash($_GET['action'])));
-            if(check_admin_referer("change-status-" . $allergen_name)){
-                if ($table_action === 'change-status'){
-                    $allergen_active = array();
-                    foreach ($this->_allergens as $allergen){
-                        if(array_search($allergen_name, $allergen)){
-                            $allergen_active = $allergen;
-                            break;
-                        }
+            return;
+        }
+        $allergen_name = preg_replace('/^https?:\/\//','',sanitize_url(wp_unslash($_GET['item'])));
+        $table_action = preg_replace('/^https?:\/\//','', sanitize_url(wp_unslash($_GET['action'])));
+
+        if(check_admin_referer("change-status-" . $allergen_name)){
+            if ($table_action === 'change-status'){
+                $allergen_active = array();
+                foreach ($this->_allergens as $allergen){
+                    if(array_search($allergen_name, $allergen)){
+                        $allergen_active = $allergen;
+                        break;
                     }
-                    $allergen_active['is_active'] = ($allergen_active['is_active'] == 1)? 0 : 1;
-                    Allergens_Dietary_Allergen_Queries::getInstance()->change_status($allergen_active);
-                    
-                    setcookie('notice-type','single-status', time() + 30);
-                    wp_redirect(admin_url('admin.php?page=' . static::PAGE . '&paged='. $this->get_pagenum()));
-                    exit;
                 }
+                $allergen_active['is_active'] = ($allergen_active['is_active'] == 1)? 0 : 1;
+                Allergens_Dietary_Allergen_Queries::getInstance()->change_status($allergen_active);
+                
+                setcookie('notice-type','single-status', time() + 30);
+                wp_redirect(admin_url('admin.php?page=' . static::PAGE . '&paged='. $this->get_pagenum()));
+                exit;
             }
         }
+        
     }
 }
 
