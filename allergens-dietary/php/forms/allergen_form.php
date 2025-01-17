@@ -86,8 +86,8 @@ class Allergens_Dietary_Form
 	 * In the correct class of the selected form type
 	 * @param string $allergenName
 	 * @return void
-	 * @since V0.3.0.0
-	 * @version V0.18.6.0
+	 * @since 0.3.0.0
+	 * @version 0.18.6.0
 	 */
 	public function showForm(string $allergenName = null)
 	{
