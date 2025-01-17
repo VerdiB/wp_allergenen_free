@@ -73,25 +73,18 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             'rest_api',
         ]);
         
-        if (!empty($_COOKIE['notice-type']) && isset($_COOKIE['notice-type'])){
-            $type = $_COOKIE['notice-type'];
-            
-            if ('single-status' === $type){
-                $message = __('Status changed','allergens-dietary');
-                $notice = Allergens_Dietary_Notices::getInstance();
-                $notice->display_admin_notice(Notice_Types::INFO, $message);
-                setcookie('notice-type','0', time() - 30);
-            }
-            if ('bulk-status' === $type){
-                $message = __('Multiple statuses changed','allergens-dietary');
-                $notice = Allergens_Dietary_Notices::getInstance();
-                $notice->display_admin_notice(Notice_Types::INFO, $message);
-                setcookie('notice-type','0', time() - 30);
-            }
-            if ('0' === $type){
-                return;
-            }
+        // Succes message from edit page when using button: Return and save.
+        if(isset($_COOKIE['Error'])){
+			$message = sanitize_text_field(wp_unslash($_COOKIE['Error']));
+			Allergens_Dietary_Notices::getInstance()->display_admin_notice(Notice_Types::ERROR, esc_html(__($message, 'allergens-dietary-pro')) );
+			setcookie('Error', '', time() - 60 );
+		}
+        if(isset($_COOKIE['Success'])){
+            $message = sanitize_text_field(wp_unslash($_COOKIE['Success']));
+			Allergens_Dietary_Notices::getInstance()->display_admin_notice(Notice_Types::SUCCESS, __($message, 'allergens-dietary-pro') );
+			setcookie('Success', '', time() - 60 );
         }
+
     }
 
     /**
@@ -277,35 +270,38 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
      */
     protected function process_bulk_action(){
         //check the nonce
-        if(isset($_POST['_wpnonce']) && !empty($_POST['_wpnonce'])){
-            //sanitize the nonce
-            $nonce = sanitize_text_field(wp_unslash($_POST['_wpnonce']));
-            $action = 'bulk-' . $this->_args['plural'];
+        if(!isset($_POST['_wpnonce']) || empty($_POST['_wpnonce'])){
+            return;
+        }
+        //sanitize the nonce
+        $nonce = sanitize_text_field(wp_unslash($_POST['_wpnonce']));
+        $action = 'bulk-' . $this->_args['plural'];
+        
+        //verify nonce
+        if(!wp_verify_nonce($nonce, $action)) {
+            wp_die(esc_html(__('Security check failed!', 'allergens-dietary')));
+        }
+        
+        //check if there are allergens in array sends query to db
+        if(!isset($_POST['allergens']) || empty($_POST['allergens'])){
+            return;
+        }
 
-            //verify nonce
-            if(!wp_verify_nonce($nonce, $action)) {
-                wp_die(esc_html(__('Security check failed!', 'allergens-dietary')));
-            }
-
-            //check if there are allergens in array sends query to db
-            if(isset($_POST['allergens']) && !empty($_POST['allergens'])){
-                if ('bulk-change-status' === $this->current_action()){
-                    $to_change = array_map('sanitize_text_field', wp_unslash($_POST['allergens']));
-                    $allergen_query_arr = array();
-                    foreach($this->_allergens as $allergen){
-                        if (in_array($allergen['allergy_name'], $to_change)){
-                            $allergen_query_arr[]= $allergen;
-                        }
-                    }
-                    foreach($allergen_query_arr as $allergen_query){
-                        $allergen_query['is_active'] =  ($allergen_query['is_active'] == 1)? 0 : 1;
-                        Allergens_Dietary_Allergen_Queries::getInstance()->change_status($allergen_query);
-                    }
-                    setcookie('notice-type','bulk-status', time() + 30);
-                    wp_redirect(admin_url('admin.php?page=' . static::PAGE . '&paged='. $this->get_pagenum()));
-                    exit;
+        if ('bulk-change-status' === $this->current_action()){
+            $to_change = array_map('sanitize_text_field', wp_unslash($_POST['allergens']));
+            $allergen_query_arr = array();
+            foreach($this->_allergens as $allergen){
+                if (in_array($allergen['allergy_name'], $to_change)){
+                    $allergen_query_arr[]= $allergen;
                 }
             }
+            foreach($allergen_query_arr as $allergen_query){
+                $allergen_query['is_active'] =  ($allergen_query['is_active'] == 1)? 0 : 1;
+                Allergens_Dietary_Allergen_Queries::getInstance()->change_status($allergen_query);
+            }
+            setcookie('Success','Succesfully changed the statuses of one or more allergens', time() + 30);
+            wp_redirect(admin_url('admin.php?page=' . static::PAGE . '&paged='. $this->get_pagenum()));
+            exit;
         }
     }
 
@@ -326,15 +322,16 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         parent::handle_row_actions($item, $column_name, $primary);
         
         if (empty($_GET['item']) ||
-            empty(sanitize_url(wp_unslash($_GET['action']))) ||
-            empty(sanitize_url(wp_unslash($_GET['page'])))
+            empty($_GET['action']) ||
+            empty($_GET['page'])
         ){
             return;
         }
         $allergen_name = preg_replace('/^https?:\/\//','',sanitize_url(wp_unslash($_GET['item'])));
         $table_action = preg_replace('/^https?:\/\//','', sanitize_url(wp_unslash($_GET['action'])));
+		$nonce = preg_replace('/^https?:\/\//','', sanitize_url(wp_unslash($_GET['_wpnonce'])));
 
-        if(check_admin_referer("change-status-" . $allergen_name)){
+        if(false !== wp_verify_nonce($nonce, "change-status-" . $allergen_name)){
             if ($table_action === 'change-status'){
                 $allergen_active = array();
                 foreach ($this->_allergens as $allergen){
@@ -346,7 +343,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
                 $allergen_active['is_active'] = ($allergen_active['is_active'] == 1)? 0 : 1;
                 Allergens_Dietary_Allergen_Queries::getInstance()->change_status($allergen_active);
                 
-                setcookie('notice-type','single-status', time() + 30);
+                setcookie('Success','Succesfully changed status', time() + 30);
                 wp_redirect(admin_url('admin.php?page=' . static::PAGE . '&paged='. $this->get_pagenum()));
                 exit;
             }
