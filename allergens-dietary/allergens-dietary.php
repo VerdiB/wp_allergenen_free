@@ -36,15 +36,16 @@ Requires plugins: woocommerce
 Plugin URI:
 Version:     0.18.5.1
 Description: Adds Allergens and Dietary options that can be used with WooCommerce products.
-Requires at least: 6.3.1
-Requires PHP: 7.4
 Author:      ictoriabv
 Author URI:  http://ictoria.nl
 License:     GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: allergens-dietary
 Domain Path: /languages/
+Requires at least: 6.3.1
+Requires PHP: 7.4
 WC Tested Up To: 9.3.3
+
 */
 ';
 
@@ -198,152 +199,4 @@ if (ALLERGENS_DIETARY_WC_ACTIVE) {
 	}
 		prevent_Wrong_Activation();
 }
-// Add a filter to modify the HTML for the auto-update setting link
-add_filter('plugin_auto_update_setting_html', 'my_plugin_auto_update_link_html', 10, 3);
 
-// get auto-update links
-function my_plugin_auto_update_link_html($html, $plugin_file, $plugin_data)
-{
-	if ($plugin_file === 'allergens-dietary/allergens-dietary.php') {
-		$auto_updates_enabled = get_site_option('auto_update_plugins', array());
-
-		// Check if the current plugin is in the list of auto-updated plugins
-		if (in_array($plugin_file, $auto_updates_enabled)) {
-			$html = '<a href="#" class="my-plugin-toggle-auto-update" data-plugin="' . esc_attr($plugin_file) . '" data-action="disable">Auto-updates uitschakelen</a>';
-		} else {
-			$html = '<a href="#" class="my-plugin-toggle-auto-update" data-plugin="' . esc_attr($plugin_file) . '" data-action="enable">Auto-updates inschakelen</a>';
-		}
-	}
-	return $html;
-}
-
-// Enqueue the JavaScript file for handling auto-update toggles
-add_action('admin_enqueue_scripts', 'my_plugin_enqueue_admin_script');
-function my_plugin_enqueue_admin_script()
-{
-	wp_enqueue_script('my-plugin-admin-js', plugins_url('admin.js', __FILE__), array('jquery'), null, true);
-	wp_localize_script('my-plugin-admin-js', 'myPluginAjax', array(
-		'ajax_url' => admin_url('admin-ajax.php'),
-		'nonce' => wp_create_nonce('my_plugin_auto_update_nonce')
-	));
-}
-
-// Handle the Ajax request to toggle auto-updates
-add_action('wp_ajax_my_plugin_toggle_auto_update', 'my_plugin_toggle_auto_update');
-function my_plugin_toggle_auto_update()
-{
-	check_ajax_referer('my_plugin_auto_update_nonce', 'security');
-
-	// Check if the plugin and action parameters are set
-	if (isset($_POST['plugin']) && isset($_POST['toggle_action'])) {
-		$plugin = sanitize_text_field(wp_unslash($_POST['plugin']));
-		$action = sanitize_text_field(wp_unslash($_POST['toggle_action']));
-
-		$auto_updates = get_site_option('auto_update_plugins', array());
-
-		// Enable auto-updates if requested
-		if ($action === 'enable') {
-			if (!in_array($plugin, $auto_updates)) {
-				$auto_updates[] = $plugin;
-				update_site_option('auto_update_plugins', $auto_updates);
-			}
-			// Disable auto-updates if requested
-		} elseif ($action === 'disable') {
-			if (in_array($plugin, $auto_updates)) {
-				$auto_updates = array_diff($auto_updates, array($plugin));
-				update_site_option('auto_update_plugins', $auto_updates);
-			}
-		}
-
-		wp_send_json_success();
-	} else {
-		wp_send_json_error();
-	}
-}
-
-// Filter to control auto-update settings for the plugin
-add_filter('auto_update_plugin', 'my_plugin_auto_update_control', 10, 2);
-function my_plugin_auto_update_control($update, $item)
-{
-	if ($item->plugin === 'allergens-dietary/allergens-dietary.php') {
-		return get_site_option('auto_update_plugins', array()) ? true : false;
-	}
-
-	return $update;
-}
-
-// Enqueue Thickbox scripts and styles
-add_action('admin_enqueue_scripts', 'load_thickbox');
-function load_thickbox()
-{
-	wp_enqueue_script('thickbox');
-	wp_enqueue_style('thickbox');
-}
-
-// Add a "View Details" link for the changelog
-add_filter('plugin_row_meta', 'add_changelog_view_link', 10, 2);
-function add_changelog_view_link($plugin_meta, $plugin_file)
-{
-	if ($plugin_file == 'allergens-dietary/allergens-dietary.php') {
-		$plugin_meta[] = '<a href="' . esc_url(admin_url('admin-ajax.php?action=view_changelog&TB_iframe=true&width=600&height=550')) . '" class="thickbox">Details bekijken</a>';
-	}
-	return $plugin_meta;
-}
-
-// Ajax handler for displaying changelog in Thickbox
-add_action('wp_ajax_view_changelog', 'display_changelog_in_thickbox');
-function display_changelog_in_thickbox()
-{
-	?>
-	<div class="wrap">
-		<h1><?php echo esc_html__('Changelog', 'allergens-dietary'); ?></h1>
-		<div>
-			<?php 
-			// Verwerk de changelog met wpautop() en escape met wp_kses_post()
-			echo wp_kses_post(wpautop(get_plugin_changelog())); 
-			?>
-		</div>
-	</div>
-	<?php
-	exit;
-}
-
-// // Changelog voor admin menu
-// add_action('admin_menu', 'allergens_dietary_changelog_menu');
-// function allergens_dietary_changelog_menu() {
-//     add_menu_page('Changelog', 'Changelog', 'manage_options', 'allergens-dietary-changelog', 'allergens_dietary_changelog_pagina');
-// }
-
-function get_plugin_changelog()
-{
-	$readme_file = plugin_dir_path(__FILE__) . 'readme.txt';
-
-	if (file_exists($readme_file)) {
-		require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
-		require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
-		$filesys = new WP_Filesystem_Direct(true);
-		$content = $filesys->get_contents($readme_file);
-		$changelog = '';
-
-		$changelog_start = strpos($content, '== Changelog ==');
-		if ($changelog_start !== false) {
-			$changelog_start += strlen('== Changelog ==');
-			$changelog_end = strpos($content, '==', $changelog_start);
-			$changelog = substr($content, $changelog_start, $changelog_end - $changelog_start);
-		}
-
-		return trim($changelog);
-	}
-
-	return 'Changelog not found.';
-}
-
-// // Changelog voor admin menu
-// function allergens_dietary_changelog_pagina() {
-//     echo '<div class="wrap">';
-//     echo '<h1>Changelog</h1>';
-//     echo '<div>';
-//     echo wpautop(get_plugin_changelog()); 
-//     echo '</div>';
-//     echo '</div>';
-// }
