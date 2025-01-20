@@ -120,19 +120,13 @@ class Allergens_Dietary_Startup
 		$folderName = ALLERGENS_DIETARY_DIRNAME . '/logs'; // Geef het juiste pad naar de map op
 
 		if (!file_exists($folderName)) {
+			$activator = new Allergens_Dietary_Activator();
+			$activator::activate();
 
 			wp_mkdir_p($folderName);
 
 		}
 
-
-		if (!file_exists($folderName)) {
-			$activator = new Allergens_Dietary_Activator();
-			$activator::activate();
-
-			// fopen($completepath, 'w');
-		}
-		
 	}
 
 	// function that runs when the deactivation hook is called
