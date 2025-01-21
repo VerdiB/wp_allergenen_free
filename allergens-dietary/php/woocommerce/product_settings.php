@@ -32,7 +32,8 @@ class Allergens_Dietary_Product_Settings
 
 	public function __construct()
 	{
-		$this->_allergens = Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens();
+		$this->_allergens = is_null(Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens()) ? array() : 
+		Allergens_Dietary_Allergen_Queries::getInstance()->getAllAllergens();
 
 		add_filter('woocommerce_product_data_tabs', array($this, 'data_tab'));
 		add_action('woocommerce_product_data_panels', array($this, 'data_fields'));
@@ -77,6 +78,7 @@ class Allergens_Dietary_Product_Settings
 
 		?>
 		<div id="allergens_dietary_ictoria_product_data" class="panel woocommerce_options_panel">
+			<?php wp_nonce_field('allergen-product-action','allergen-product-nonce'); ?>
 		<h2><?php echo esc_html__( 'Select allergen(s) and/or dietary restrictions:', 'allergens-dietary' ); ?></h2>
 		<?php foreach ( $allergens as $allergen ) : ?>
 			<?php 
@@ -120,38 +122,46 @@ class Allergens_Dietary_Product_Settings
 	 */
 	public function save_product_options($post_id)
 	{
-		$allergensSelected = array();
-		$allergenNames = array();
-		unset($this->_attachedAllergens);
-		$this->_attachedAllergens = Allergens_Dietary_Allergy_Product_Queries::getInstance()->getAllergyProduct($post_id);
-
-		foreach ($this->_allergens as $allergen) {
-			if (isset($_POST[($this->replace_space_chars($allergen['allergy_name']) . '_allergens_dietary_ictoria')])) {
-				$allergensSelected[] = $allergen['allergy_name'];
+		if(isset($_POST['allergen-product-nonce']) && !empty($_POST['allergen-product-nonce']))
+		{
+			$nonce = sanitize_text_field(wp_unslash($_POST['allergen-product-nonce']));
+			if(!wp_verify_nonce($nonce, 'allergen-product-action')){
+				wp_die(esc_html(__('Something went wrong!','allergens-dietary')));
 			}
-		}
-		// Set old allergen name settings
-		foreach ($this->_attachedAllergens as $allergen) {
-			$allergenNames[] = $allergen['allergy_name'];
-		}
-		
-		$new_diff = array_diff($allergensSelected, $allergenNames);
-		$old_diff = array_diff($allergenNames, $allergensSelected);
-
-		// If the new doesnt contain allergens from the old one, Delete the old.
-		if ($old_diff) {
-			foreach ($old_diff as $allergen) {
-				Allergens_Dietary_Allergy_Product_Queries::getInstance()->deleteAllergyProduct($post_id, $allergen);
+			
+			$allergensSelected = array();
+			$allergenNames = array();
+			unset($this->_attachedAllergens);
+			$this->_attachedAllergens = Allergens_Dietary_Allergy_Product_Queries::getInstance()->getAllergyProduct($post_id);
+	
+			foreach ($this->_allergens as $allergen) {
+				if (isset($_POST[($this->replace_space_chars($allergen['allergy_name']) . '_allergens_dietary_ictoria')])) {
+					$allergensSelected[] = $allergen['allergy_name'];
+				}
 			}
-		}
-		// If the old doesn't contain allergens from the new one, Add the new.
-		if ($new_diff) {
-			foreach ($new_diff as $allergen) {
-				Allergens_Dietary_Allergy_Product_Queries::getInstance()->addAllergyProduct($post_id, $allergen);
+			// Set old allergen name settings
+			foreach ($this->_attachedAllergens as $allergen) {
+				$allergenNames[] = $allergen['allergy_name'];
 			}
+			
+			$new_diff = array_diff($allergensSelected, $allergenNames);
+			$old_diff = array_diff($allergenNames, $allergensSelected);
+	
+			// If the new doesnt contain allergens from the old one, Delete the old.
+			if ($old_diff) {
+				foreach ($old_diff as $allergen) {
+					Allergens_Dietary_Allergy_Product_Queries::getInstance()->deleteAllergyProduct($post_id, $allergen);
+				}
+			}
+			// If the old doesn't contain allergens from the new one, Add the new.
+			if ($new_diff) {
+				foreach ($new_diff as $allergen) {
+					Allergens_Dietary_Allergy_Product_Queries::getInstance()->addAllergyProduct($post_id, $allergen);
+				}
+			}
+	
+			return;
 		}
-
-		return;
 	}
 
 	private function replace_space_chars(string $allergens): string

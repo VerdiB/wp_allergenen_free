@@ -33,8 +33,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
      * @brief singleton object makes sure that the class is only called once
      * during lifetime
      * @return object
-     * @since V0.18.6.0
-     * @version V0.18.6.0
+     * @since 0.18.6.0
+     * @version 0.18.6.0
      */
     public static function getInstance()
     {
@@ -48,8 +48,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     /**
      * @author ictoriabv
      * @return void
-     * @since V0.18.6.0
-     * @version V0.18.6.0
+     * @since 0.18.6.0
+     * @version 0.18.6.0
      */
     protected function __construct()
     {
@@ -60,8 +60,9 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             'rest_api',
         ]);
         
-        if (!empty(sanitize_url(wp_unslash($_COOKIE['notice-type'])))){
-            $type = sanitize_text_field(wp_unslash($_COOKIE['notice-type']));
+        if (!empty($_COOKIE['notice-type']) && isset($_COOKIE['notice-type'])){
+            $type = array_map('sanitize_text_field',wp_unslash($_COOKIE));
+            $type = $type['notice-type'];
             
             if ('single-status' === $type){
                 $message = __('Status changed','allergens-dietary');
@@ -86,8 +87,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
      * @brief prepares items for the table and must be called
      * after the instance
      * @return void
-     * @since V0.18.6.0
-     * @version V0.18.6.0
+     * @since 0.18.6.0
+     * @version 0.18.6.0
      */
     public function prepare_items()
     {      
@@ -99,7 +100,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
                 );
             }
         }else{
-            $this->_allergens = Allergens_Dietary_Allergen_Queries::getItems();
+            $this->_allergens = Allergens_Dietary_Allergen_Queries::getInstance()->getItems();
         }
         
         $this->_column_headers = array(
@@ -127,8 +128,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     /**
      * @author ictoriabv
      * @return array
-     * @since V0.18.6.0
-     * @version V0.18.6.0
+     * @since 0.18.6.0
+     * @version 0.18.6.0
      */
     protected function get_bulk_actions()
     {
@@ -140,8 +141,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     /**
      * @author ictoriabv
      * @return void
-     * @since V0.18.6.0
-     * @version V0.18.6.0
+     * @since 0.18.6.0
+     * @version 0.18.6.0
      */
     protected function get_column_headers()
     {
@@ -159,8 +160,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     /**
      * @author ictoriabv
      * @return array
-     * @since V0.18.6.0
-     * @version V0.18.6.0
+     * @since 0.18.6.0
+     * @version 0.18.6.0
      */
     public function get_columns()
     {
@@ -181,8 +182,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
      * @param array|object $item
      * @param string $column_name
      * @return string|array
-     * @since V0.18.6.0
-     * @version V0.18.6.0
+     * @since 0.18.6.0
+     * @version 0.18.6.0
      */
     protected function column_default($item, $column_name)
     {
@@ -209,8 +210,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
      * In this case only to change its status
      * @param array|object $item
      * @return string
-     * @since V0.18.6.0
-     * @version V0.18.6.0
+     * @since 0.18.6.0
+     * @version 0.18.6.0
      */
     protected function column_allergy_name(array|object $item){
         $status_nonce = esc_attr(wp_create_nonce("change-status-" . $item['allergy_name']));
@@ -239,8 +240,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     /**
      * @author ictoriabv
      * @return string
-     * @since V0.18.6.0
-     * @version V0.18.6.0
+     * @since 0.18.6.0
+     * @version 0.18.6.0
      */
     protected function column_cb($item)
     {
@@ -255,8 +256,8 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
      * @brief Handles bulk action on all allergens
      * where as for now only changes the status of an allergy/dietary
      * @return void
-     * @since V0.18.6.0
-     * @version V0.18.6.0
+     * @since 0.18.6.0
+     * @version 0.18.6.0
      */
     protected function process_bulk_action(){
         //check the nonce
@@ -301,35 +302,36 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
      * @param string $column_name
      * @param string $primary
      * @return void
-     * @since V0.18.6.0
-     * @version V0.18.6.0
+     * @since 0.18.6.0
+     * @version 0.18.6.0
      */
     protected function handle_row_actions($item, $column_name, $primary)
     {
         parent::handle_row_actions($item, $column_name, $primary);
         
-        if (!empty(sanitize_url(wp_unslash($_GET['item']))) &&
-            !empty(sanitize_url(wp_unslash($_GET['action']))) &&
-            !empty(sanitize_url(wp_unslash($_GET['page'])))
+        if (empty($_GET['item']) ||
+            empty($_GET['action']) ||
+            empty($_GET['page'])
         ){
-            $allergen_name = preg_replace('/^https?:\/\//','',sanitize_url(wp_unslash($_GET['item'])));
-            $table_action = preg_replace('/^https?:\/\//','', sanitize_url(wp_unslash($_GET['action'])));
-            if(check_admin_referer("change-status-" . $allergen_name)){
-                if ($table_action === 'change-status'){
-                    $allergen_active = array();
-                    foreach ($this->_allergens as $allergen){
-                        if(array_search($allergen_name, $allergen)){
-                            $allergen_active = $allergen;
-                            break;
-                        }
+            return;
+        }
+        $allergen_name = preg_replace('/^https?:\/\//','',sanitize_url(wp_unslash($_GET['item'])));
+        $table_action = preg_replace('/^https?:\/\//','', sanitize_url(wp_unslash($_GET['action'])));
+        if(check_admin_referer("change-status-" . $allergen_name)){
+            if ($table_action === 'change-status'){
+                $allergen_active = array();
+                foreach ($this->_allergens as $allergen){
+                    if(array_search($allergen_name, $allergen)){
+                        $allergen_active = $allergen;
+                        break;
                     }
-                    $allergen_active['is_active'] = ($allergen_active['is_active'] == 1)? 0 : 1;
-                    Allergens_Dietary_Allergen_Queries::getInstance()->change_status($allergen_active);
-                    
-                    setcookie('notice-type','single-status', time() + 30);
-                    wp_redirect(admin_url('admin.php?page=' . self::PAGE . '&paged='. $this->get_pagenum()));
-                    exit;
                 }
+                $allergen_active['is_active'] = ($allergen_active['is_active'] == 1)? 0 : 1;
+                Allergens_Dietary_Allergen_Queries::getInstance()->change_status($allergen_active);
+                
+                setcookie('notice-type','single-status', time() + 30);
+                wp_redirect(admin_url('admin.php?page=' . self::PAGE . '&paged='. $this->get_pagenum()));
+                exit;
             }
         }
     }

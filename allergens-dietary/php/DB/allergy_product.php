@@ -33,7 +33,7 @@ class Allergens_Dietary_Allergy_Product_Queries
 
         $table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_product';
 
-        $wpdb->insert(
+        $wpdb->insert(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
             $table_name,
             array(
                 'product_id'    => $product_id,
@@ -52,7 +52,7 @@ class Allergens_Dietary_Allergy_Product_Queries
         $allergy = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
         $sql = '';
         if (is_null($allergen)) {
-            $sql = $wpdb->get_results($wpdb->prepare(
+            $sql = $wpdb->get_results($wpdb->prepare(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
                 "SELECT ap.allergy_name
                 FROM %i as ap
                 JOIN %i as a on ap.allergy_name = a.allergy_name
@@ -60,7 +60,7 @@ class Allergens_Dietary_Allergy_Product_Queries
                 array($table_name, $allergy, $product_id)), ARRAY_A
             );
         } else {
-            $sql = $wpdb->get_results($wpdb->prepare(
+            $sql = $wpdb->get_results($wpdb->prepare(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
                 "SELECT ap.allergy_name
                 FROM %i as ap
                 JOIN %i as a on ap.allergy_name = a.allergy_name
@@ -78,36 +78,12 @@ class Allergens_Dietary_Allergy_Product_Queries
         global $wpdb;
         $table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_product';
         
-        return $wpdb->query($wpdb->prepare(
+        return $wpdb->query($wpdb->prepare(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
             "DELETE FROM %i
             WHERE product_id = %d AND allergy_name = %s",
             array($table_name, $product_id, $allergen)
         ));
     }
-    // public function getFilteredProducts( ?array $allergens, ?array $dietary ) {
-    //     $allergens = (is_null($allergens) || empty($allergens)) ? "" : $allergens;
-    //     $dietary = (is_null($dietary) || empty($dietary)) ? "" : $dietary;
-    //     global $wpdb;
-
-    //     $table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_product';
-    //     $sql = $wpdb->prepare(
-    //         "SELECT DISTINCT ap.product_id
-    //         FROM %i AS ap
-    //         JOIN {$wpdb->prefix}allergens_dietary_ictoria_allergy AS a ON ap.allergy_name = a.allergy_name
-    //         WHERE ap.product_id NOT IN (
-    //             SELECT ap_sub.product_id
-    //             FROM {$wpdb->prefix}allergens_dietary_ictoria_allergy_product AS ap_sub
-    //             JOIN {$wpdb->prefix}allergens_dietary_ictoria_allergy AS a_sub ON ap_sub.allergy_name = a_sub.allergy_name
-    //             WHERE a_sub.is_allergy = 1
-    //             AND a_sub.allergy_name IN ('". (is_array($allergens)?implode("','",$allergens): $allergens) ."')
-    //         )".(!empty($dietary) ? "
-    //         AND a.is_allergy = 0
-    //         AND a.allergy_name IN ('" .(is_array($dietary)?implode("','",$dietary): $dietary)."')": "") ,
-    //         $table_name
-    //     );
-    //     error_log($sql);
-    //     return $wpdb->get_results( $sql, ARRAY_A);
-    // }
 
     /**
      * @param array $allergens
@@ -128,7 +104,7 @@ class Allergens_Dietary_Allergy_Product_Queries
 
         // Initialize base query
         $query_parts[] = "SELECT DISTINCT ap.product_id 
-                          FROM {$table_name} ap
+                          FROM %i ap
                           JOIN {$allergens_table} a ON ap.allergy_name = a.allergy_name";
 
         $where_conditions = [];
@@ -169,8 +145,12 @@ class Allergens_Dietary_Allergy_Product_Queries
         if (!empty($where_conditions)) {
             $sql .= " WHERE " . implode(" AND ", $where_conditions);
         }
-
-        return $wpdb->get_results($sql // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-        , ARRAY_A);
+        
+        return $wpdb->get_results(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+            $wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+                $sql, 
+                $table_name),
+            ARRAY_A);
     }
 }

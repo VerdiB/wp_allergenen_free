@@ -14,6 +14,7 @@ class Allergens_Dietary_Filter
 {
 	private static $_instance = null;
 	private array $_allergens;
+	private string $_filter_nonce;
 
 	public static function instance()
 	{
@@ -54,6 +55,12 @@ class Allergens_Dietary_Filter
 
 	public function create_filter()
 	{
+		if (isset($_POST['allergen-filter-nonce']) && !empty($_POST['allergen-filter-nonce'])){
+			// $nonce = sanitize_text_field(wp_unslash($_POST['allergen-filter-nonce']));
+			if (!wp_verify_nonce($this->_filter_nonce, 'allergen-filter-action')){
+				wp_die(esc_html(__('Something went wrong!','allergens-dietary')));
+			}
+		}
 		$diet_arr = array();
 		$allergen_arr = array();
 		foreach ($this->_allergens as $allergen) {
@@ -72,6 +79,9 @@ class Allergens_Dietary_Filter
 		</button>
 		<div id="ictoria-filter-dropdown" style="display: none;">
 			<form action="" method="post" class="">
+				<?php
+				wp_nonce_field('allergen-filter-action', 'allergen-filter-nonce'); 
+				?>
 				<div class="filter-container">
 
 					<!-- Allergens Section -->
@@ -81,6 +91,7 @@ class Allergens_Dietary_Filter
 						</div>
 						<div class="checkbox-group">
 							<?php foreach ($allergen_arr as $allergen) : 
+
 								$checked = isset($_POST['allergen_filter_options'][$allergen['allergy_name']]) ? 'checked' : '';
 							?>
 								<div class="checkbox-item">
@@ -160,34 +171,40 @@ class Allergens_Dietary_Filter
 	public function filter_query($query)
 	{
 		if ($query->is_main_query() && is_shop() && isset($_POST['allergen_filter'])) {
-			$selected_options = isset($_POST['allergen_filter_options']) ? $_POST['allergen_filter_options'] : array();
-			$selected_allergens = array();
-			$selected_diatary = array();
+			if(!empty(sanitize_text_field(wp_unslash($_POST['allergen-filter-nonce']))) &&
+			wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['allergen-filter-nonce'])), 'allergen-filter-action'))
+			{
+				$this->_filter_nonce = sanitize_text_field(wp_unslash($_POST['allergen-filter-nonce']));
+				$selected_options = isset($_POST['allergen_filter_options']) ? array_map('sanitize_text_field', wp_unslash($_POST['allergen_filter_options'])) : array();
+				$selected_allergens = array();
+				$selected_diatary = array();
 
-			// Sort the selected options
-			foreach ($this->_allergens as $allergen) {
-				if (isset($selected_options[$allergen['allergy_name']]))
-					//check if the allergen is an allergy or diatary restriction
-					//where 0 is a dietary restriction and 1 is an allergy
-					if ($allergen['is_allergy'] == 0) {
-						$selected_diatary[] = $allergen['allergy_name'];
-					} else {
-						$selected_allergens[] = $allergen['allergy_name'];
+				// Sort the selected options
+				foreach ($this->_allergens as $allergen) {
+					if (isset($selected_options[$allergen['allergy_name']])){
+						//check if the allergen is an allergy or diatary restriction
+						//where 0 is a dietary restriction and 1 is an allergy
+						if ($allergen['is_allergy'] == 0) {
+							$selected_diatary[] = $allergen['allergy_name'];
+						} else {
+							$selected_allergens[] = $allergen['allergy_name'];
+						}
 					}
-			}
-
-
-			// Check if there are any options selected
-			if (! empty($selected_options)) {
-				$filtered_products = Allergens_Dietary_Allergy_Product_Queries::getInstance()->getFilteredProducts($selected_allergens, $selected_diatary);
-				$product_arr = array();
-				foreach ($filtered_products as $product) {
-					$product_arr[] = $product['product_id'];
 				}
-				$query->set('post__in', $product_arr);
-
-
-				$query->set('post__in', $product_arr);
+				
+				// Check if there are any options selected
+				if (! empty($selected_options)) {
+					$filtered_products = Allergens_Dietary_Allergy_Product_Queries::getInstance()->getFilteredProducts($selected_allergens, $selected_diatary);
+					$product_arr = array();
+					foreach ($filtered_products as $product) {
+						$product_arr[] = $product['product_id'];
+					}
+					$query->set('post__in', $product_arr);
+	
+	
+					$query->set('post__in', $product_arr);
+				}
+				
 			}
 		}
 	}
