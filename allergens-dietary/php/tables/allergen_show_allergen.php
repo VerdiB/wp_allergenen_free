@@ -35,7 +35,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     protected const PAGE = 'allergens-dietary-show-allergens';
     
     //instances of the classes being called
-    private static $instances = array();
+    private static array $instances;
 
     // is mostlly used to read from
     protected array $_allergens;

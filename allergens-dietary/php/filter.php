@@ -187,9 +187,6 @@ class Allergens_Dietary_Filter
 					$product_arr[] = $product['product_id'];
 				}
 				$query->set('post__in', $product_arr);
-
-
-				// $query->set('post__in', $product_arr);
 			}
 		}
 	}

@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 class Allergens_Dietary_Plugin_Menu
 {
 
-	private static $instances = [];
+	private static array $instances;
 
 	
 
@@ -109,7 +109,6 @@ class Allergens_Dietary_Plugin_Menu
 	public function showallergens()
 	{
 		if (!class_exists('Allergens_Dietary_Pro_Show_Allergens')) {
-			// require_once ALLERGENS_DIETARY_DIRNAME_PRO . '/php/tables/allergen_show_allergen.php';
 			require_once ALLERGENS_DIETARY_DIRNAME . '/php/tables/allergen_show_allergen.php';
 			require_once ALLERGENS_DIETARY_DIRNAME . '/php/tabs/allergen_tabs.php';
 		}

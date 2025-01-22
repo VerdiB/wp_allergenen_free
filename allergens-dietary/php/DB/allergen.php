@@ -23,7 +23,7 @@ class Allergens_Dietary_Allergen_Queries
 	 * @since 1.0.0
 	 * @date 11-9-2024
 	 */
-	private static $instances = [];
+	private static array $instances;
 
 	public static function getInstance()
     {

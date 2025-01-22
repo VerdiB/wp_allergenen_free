@@ -14,7 +14,7 @@ if (! defined('ABSPATH')) {
 
 class Allergens_Dietary_Allergy_Product_Queries
 {
-    private static $instances = [];
+    private static array $instances;
 
 	public static function getInstance()
     {

@@ -7,12 +7,12 @@ if (!defined('ABSPATH')) {
 
 class Allergens_Dietary_Activator
 {
-	protected static $counter = 0;
+	protected static int $counter = 0;
 	protected static string $_url;
 
-	protected static $_ALLERGENS_OPTIONS = [];
-	protected static $_ALLERGY_ICON_OPTIONS = [];
-	protected static $_ICON_OPTIONS = [];
+	protected static array $_ALLERGENS_OPTIONS;
+	protected static array $_ALLERGY_ICON_OPTIONS;
+	protected static array $_ICON_OPTIONS;
 
 	public static function activate()
 	{

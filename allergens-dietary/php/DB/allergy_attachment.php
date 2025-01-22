@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 
 class Allergens_Dietary_Allergy_Attachment_Queries
 {
-	private static $instances = [];
+	private static array $instances;
 
 	public static function getInstance()
     {
@@ -74,9 +74,6 @@ class Allergens_Dietary_Allergy_Attachment_Queries
 		}
 		$sql .= " ORDER BY al.is_allergy DESC, al.allergy_name ASC";
 
-
-
-		// return $wpdb->get_results($wpdb->prepare($sql, $table), ARRAY_A);
 		return $wpdb->get_results(
 			$wpdb->prepare($sql // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			,array($allergy_attachment, $allergy, $attachment)),

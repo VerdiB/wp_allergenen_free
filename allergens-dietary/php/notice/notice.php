@@ -19,7 +19,7 @@ if (! enum_exists('Notice_Types')) {
 class Allergens_Dietary_Notices
 {
 
-	private static $instances = [];
+	private static array $instances;
 	
 	/**
 	 * @brief singleton method to get the instance of the class

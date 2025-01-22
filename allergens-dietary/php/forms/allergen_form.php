@@ -16,25 +16,6 @@ if (!class_exists('Allergens_Dietary_License_Form')) {
 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/lists/form_type.php';
 }
 
-/*if (!class_exists('Allergens_Dietary_Allergen_Form')) {
-	include_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_add_allergen.php';
-}
-
-if (!class_exists('Allergens_Dietary_Update_Allergen_Form')) {
-	include_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_update_allergen.php';
-}*/
-
-// enum FormType
-// {
-// 	case ALLERGENS;
-// 	case LICENSE;
-// 	case UPDATE;
-// 	public function match(FormType $formType): bool
-// 	{
-// 		return $this === $formType;
-// 	}
-// }
-
 /**
  * @class Allergens_Dietary_Form
  * @brief This class is a singleton strategy
@@ -46,7 +27,7 @@ if (!class_exists('Allergens_Dietary_Update_Allergen_Form')) {
 
 class Allergens_Dietary_Form
 {
-	private static $instances = [];
+	private static array $instances;
 	protected static FormType $_formType;
 	protected static I_Allergens_Dietary_Form $_formObject;
 
