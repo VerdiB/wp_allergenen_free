@@ -90,13 +90,16 @@ class load_language
 {
 	public function __construct()
 	{
+		add_action('init', 'translation_init');
 		add_action('plugins_loaded', array($this, 'translation_init'));
 	}
+
 
 	function translation_init()
 	{
 		load_plugin_textdomain('allergens-dietary', false, dirname(plugin_basename(__FILE__)) . '/languages');
 	}
+
 }
 
 $nl_NL = new load_language();
