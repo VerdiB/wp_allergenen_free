@@ -1,0 +1,250 @@
+/* product css */
+.woocommerce .allergen-icon {
+  position: relative;
+  width: 36px;
+  margin-right: 6px;
+  margin-bottom: 2px;
+}
+
+.woocommerce ul.products li.product .allergen-icon {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  z-index: 99;
+}
+
+/* Filter css shop page */
+
+div#ictoria-filter-dropdown {
+  max-width: 75%;
+  min-width: 50%;
+  border-radius: 10px;
+  padding: 10px 20px 20px 20px;
+  margin-top: 10px;
+}
+
+.ictoria-filter-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.filter-button {
+  display: inline-block;
+  font-size: 13px;
+  line-height: 2;
+  min-height: 30px;
+  padding: 0 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  white-space: nowrap;
+  margin-bottom: 16px;
+}
+
+.filter-reset {
+  /* margin-right: 10px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.filter-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+@media screen and (max-width: 550px) {
+  .ictoria-filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+/* admin product css*/
+.allergen-field {
+  display: inline-block;
+  float: left;
+  margin-top: 12px;
+  margin-left: 12px;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.filter-ictoria {
+  margin-top: 12px;
+  margin-right: 12px;
+}
+
+.nav-tab {
+  line-height: 1;
+}
+
+#info_grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+#tabs_flexbox > .tabs {
+  color: black;
+  background-color: darkgray;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  margin-left: 20px;
+  border-top-left-radius: 20%;
+  border-top-right-radius: 20%;
+  border-left: 2px solid gray;
+  border-right: 2px solid gray;
+  border-bottom: 2px solid gray;
+  width: auto;
+  font-family: Arial, Helvetica, sans-serif;
+  align-content: center;
+  font-weight: 900;
+  font-size: 9px;
+  text-decoration: none;
+  height: auto;
+}
+
+#tabs_flexbox > .tabs:hover {
+  color: black;
+  background-color: #f0f0f1;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  margin-left: 20px;
+  border-top-left-radius: 20%;
+  border-top-right-radius: 20%;
+  border-left: 2px solid gray;
+  border-right: 2px solid gray;
+  border-top: 2px solid gray;
+  border-bottom: 0px solid gray;
+  width: auto;
+  font-family: Arial, Helvetica, sans-serif;
+  align-content: center;
+  font-weight: 900;
+  font-size: 9px;
+  text-decoration: none;
+  height: auto;
+}
+
+#tabs_flexbox {
+  display: flex;
+  height: 31px;
+  background-color: transparent;
+  align-items: left;
+  border-bottom: 2px solid gray;
+  justify-content: left;
+  flex-direction: row;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.contains {
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding-top: 10px;
+}
+
+.allergen-field > input {
+  float: left;
+}
+
+.allergen-field img {
+  max-height: 36px;
+  display: table-cell;
+  vertical-align: middle;
+  float: left;
+  padding-left: 4px;
+}
+
+.allergen-div {
+  overflow: auto;
+}
+
+.woocommerce_options_panel .allergen-div {
+  margin-bottom: 10px;
+}
+
+.woocommerce_options_panel .allergen-div > p,
+.woocommerce_options_panel .allergen-div > span {
+  margin-bottom: -10px;
+  font-size: 20px;
+}
+
+.woocommerce_options_panel .allergen-div span.description {
+  font-size: 16px;
+}
+
+#woocommerce-product-data ul.wc-tabs li.allergens-tab_options a:before {
+  font-family: WooCommerce;
+  content: "\e016";
+}
+
+/* admin settings css */
+.woocommerce_options_panel .settings_header {
+  font-size: 20px;
+  color: black;
+  margin-bottom: -10px;
+  padding-left: 0;
+}
+
+/* QUICK EDIT */
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+label.label-quick-edit input[type="file"] {
+  display: none;
+}
+.label-quick-edit {
+  border: 1px solid #8c8f94;
+  color: black;
+  border-radius: 4px;
+  padding: 2px 5px;
+  margin: 2px;
+  width: max-content;
+  height: max-content;
+  background: #ffffff;
+}
+.label-quick-edit:hover {
+  background: #e4e4e4;
+  cursor: pointer;
+}
+
+tr.inline-edit-row td {
+  padding: 8px 10px;
+  position: relative;
+}
+
+.allergen_icon_img{
+  margin-top: 15%;
+}
+
+.health-check-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.align-header {
+  text-align: left;
+}
+
+.bold {
+  font-weight: bold;
+}

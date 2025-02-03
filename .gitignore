@@ -1,6 +1,6 @@
 debug/
 mysql/
-allergens-dietary-ictoria/assets/icons/custom
+allergens-dietary/assets/icons/custom
 .vscode/
 wordpress/
 phpunit/tests/*.bak
@@ -13,3 +13,4 @@ vendor/
 composer.*
 cache/
 *.mo
+logs/
