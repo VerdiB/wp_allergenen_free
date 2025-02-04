@@ -455,7 +455,7 @@ class Allergens_Dietary_Activator
 
 	public function upload_language_file()
 	{
-		$language_path          = WP_LANG_DIR . '/plugins';
+		$language_path = trailingslashit(WP_LANG_DIR) . 'plugins';
 		$language_file_basename = 'allergens-dietary';
 		$user_locale            = get_user_locale();
 		$files_templates        = array(

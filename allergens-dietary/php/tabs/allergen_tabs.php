@@ -20,12 +20,10 @@ class Allergens_Dietary_Tabs
     public function __construct()
 	{
         //load js
-		wp_register_script('Allergens_Dietary_Show_Allergens', plugins_url(ALLERGENS_DIETARY_NAME.'/assets/js/script.js'), array('jquery'));
-        wp_enqueue_script( 'Allergens_Dietary_Show_Allergens');
+		wp_enqueue_script('Allergens_Dietary_Show_Allergens', plugin_dir_url(__FILE__) . 'assets/js/script.js', array('jquery'));
 
         //load css
-        wp_register_style('allergens-dietary-css', plugins_url(ALLERGENS_DIETARY_NAME.'/assets/css/allergens-dietary.css'));
-	    wp_enqueue_style('allergens-dietary-css');
+        wp_enqueue_style('allergens-dietary-css', plugins_url('assets/css/allergens-dietary.css', __FILE__));
 	}
 
     public function showtabs()
@@ -67,8 +65,8 @@ class Allergens_Dietary_Tabs
 
     public static function getStyles()
     {
-        wp_register_style('allergens-dietary-css', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/css/allergens-dietary.css'));
-        wp_enqueue_style('allergens-dietary-admin-css', plugins_url('assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE));
+        wp_enqueue_style('allergens-dietary-css', plugins_url('assets/css/allergens-dietary.css', __FILE__));
+        wp_enqueue_style('allergens-dietary-admin-css', plugins_url('assets/css/allergens-dietary.css', __FILE__));
     }
 }
 

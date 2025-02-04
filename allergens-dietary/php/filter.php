@@ -39,8 +39,7 @@ class Allergens_Dietary_Filter
 
 	public function load_js()
 	{
-		wp_register_script('Allergens_Dietary_Show_Allergens', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/js/script.js'), array('jquery'));
-		wp_enqueue_script('Allergens_Dietary_Show_Allergens');
+		wp_enqueue_script('Allergens_Dietary_Show_Allergens', plugins_url('assets/js/script.js', __FILE__), array('jquery'));
 	}
 
 	private function __construct()
