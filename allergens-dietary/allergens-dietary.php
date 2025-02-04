@@ -71,8 +71,7 @@ define('ALLERGENS_DIETARY_BASE', plugin_basename(__FILE__)); // contains the pat
 // Check if WooCommerce is active and store the result in a constant value
 if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
 	define('ALLERGENS_DIETARY_WC_ACTIVE', true);
-	define('ALLERGENS_DIETARY_WC_DIRNAME', dirname(__FILE__, 2) . '/woocommerce');
-	// define('ALLERGENS_DIETARY_WC_DIRNAME', dirname(__FILE__, 2) );
+	define('ALLERGENS_DIETARY_WC_DIRNAME', plugin_basename(ALLERGENS_DIETARY_NAME.'../woocommerce'));
 } else {
 	define('ALLERGENS_DIETARY_WC_ACTIVE', false);
 }
