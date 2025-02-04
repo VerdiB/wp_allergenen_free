@@ -11,7 +11,8 @@ if (!defined('ABSPATH')) {
  * @since 0.18.5.1
  */
 
- define('ALLERGENS_DIETARY_DIRNAME', __DIR__);
+ define('ALLERGENS_DIETARY_DIRNAME', plugin_dir_path(__FILE__));
+ define('ALLERGENS_DIETARY_FILE', __FILE__); // contains the full path to the plugin file
 
  function prevent_Wrong_Activation(){
 	if (!is_plugin_active('woocommerce/woocommerce.php')) {
@@ -66,7 +67,6 @@ __('Adds Allergens and Dietary options that can be used with WooCommerce product
 
 // Set constant values that are used to retain file location references
 define('ALLERGENS_DIETARY_NAME', 'allergens-dietary');
-define('ALLERGENS_DIETARY_FILE', __FILE__); // contains the full path to the plugin file
 define('ALLERGENS_DIETARY_BASE', plugin_basename(__FILE__)); // contains the path: plugin_directory/plugin_file
 // Check if WooCommerce is active and store the result in a constant value
 if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
@@ -90,12 +90,12 @@ class load_language
 {
 	public function __construct()
 	{
-		add_action('init', 'translation_init');
+		add_action('init', array($this, 'translation_init'));
 		add_action('plugins_loaded', array($this, 'translation_init'));
 	}
 
 
-	function translation_init()
+	public function translation_init()
 	{
 		load_plugin_textdomain('allergens-dietary', false, dirname(plugin_basename(__FILE__)) . '/languages');
 	}
