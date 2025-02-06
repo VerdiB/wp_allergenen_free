@@ -23,7 +23,7 @@ if ( ! class_exists( 'Allergens_Dietary_Allergen_Queries' ) ) {
  * @see Allergens_Dietary_Form_I
  * @since 1.0.0
  */
-class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_1 {
+class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 	/**
 	 * @brief Constructor for the Allergens_Dietary_License_Form class
 	 * for now it is empty and does nothing but it's common courtesy to have it
