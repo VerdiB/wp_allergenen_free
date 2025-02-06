@@ -85,7 +85,7 @@ Plugin Name: Allergens and Dietary
 Text Domain: allergens-dietary
 Domain Path: /languages/
 */
-class load_language
+class Allergens_Dietary_load_language
 {
 	public function __construct()
 	{
@@ -101,8 +101,8 @@ class load_language
 
 }
 
-$nl_NL = new load_language();
-$en_US = new load_language();
+$nl_NL = new Allergens_Dietary_load_language();
+$en_US = new Allergens_Dietary_load_language();
 
 
 

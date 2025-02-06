@@ -44,7 +44,7 @@ $fk_del = array(
 /**
  *
  */
-function delete_fk($fk)
+function allergens_dietary_delete_fk($fk)
 {
 	global $wpdb;
 	$wpdb->get_results(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
@@ -58,7 +58,7 @@ function delete_fk($fk)
 	return delete_fk($fk);
 }
 
-function delete_tables($table)
+function allergens_dietary_delete_tables($table)
 {
 	global $wpdb;
 	$wpdb->get_results(// phpcs:ignore WordPress.DB.DirectDatabaseQuery

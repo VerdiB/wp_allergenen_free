@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
-if (!interface_exists('I_Allergens_Dietary_Form')) {
+if (!interface_exists('Allergens_Dietary_Form_I')) {
 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/Iallergen_form.php';
 }
 
@@ -45,7 +45,7 @@ class Allergens_Dietary_Form
 {
 	private static ?self $_instance = null;
 	private static FormType $_formType;
-	private static I_Allergens_Dietary_Form $_formObject;
+	private static Allergens_Dietary_Form_I $_formObject;
 
 	private function __construct(bool $isTable = false)
 	{

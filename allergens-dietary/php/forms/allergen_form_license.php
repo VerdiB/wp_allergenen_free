@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! interface_exists( 'I_Allergens_Dietary_Form' ) ) {
+if ( ! interface_exists( 'Allergens_Dietary_Form_I' ) ) {
 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/Iallergen_form.php';
 }
 
@@ -19,11 +19,11 @@ if ( ! class_exists( 'Allergens_Dietary_Allergen_Queries' ) ) {
  * the user can enter the license key for the plugin to get premium functions unlocked
  * @author ictoriabv
  * @date 2-9-2024
- * @implements I_Allergens_Dietary_Form
- * @see I_Allergens_Dietary_Form
+ * @implements Allergens_Dietary_Form_I
+ * @see Allergens_Dietary_Form_I
  * @since 1.0.0
  */
-class Allergens_Dietary_License_Form implements I_Allergens_Dietary_Form {
+class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 	/**
 	 * @brief Constructor for the Allergens_Dietary_License_Form class
 	 * for now it is empty and does nothing but it's common courtesy to have it
