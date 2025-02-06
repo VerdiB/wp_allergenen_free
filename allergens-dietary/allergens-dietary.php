@@ -90,7 +90,7 @@ class Allergens_Dietary_load_language
 	public function __construct()
 	{
 		add_action('init', array($this, 'translation_init'));
-		add_action('plugins_loaded', array($this, 'translation_init'));
+		// add_action('plugins_loaded', array($this, 'translation_init'));
 	}
 
 
