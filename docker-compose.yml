@@ -30,38 +30,6 @@ services:
       allergen:
         ipv4_address: "124.168.94.20"
 
-  wordpressminus1:
-    image: "wordpress:6.6.1"
-    ports:
-      - "8080:80"
-    depends_on:
-      - db
-    environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: root
-      WORDPRESS_DB_PASSWORD: ""
-      WORDPRESS_DB_NAME: wordpress
-    networks:
-      allergen:
-        ipv4_address: "124.168.94.18"
-
-  wordpressminus2:
-    image: "wordpress:6.5.5"
-    ports:
-      - "8080:80"
-    depends_on:
-      - db
-    environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: root
-      WORDPRESS_DB_PASSWORD: ""
-      WORDPRESS_DB_NAME: wordpress
-    volumes:
-      - ./allergens-dietary:/var/www/html/wp-content/plugins/allergens-dietary
-    networks:
-      allergen:
-        ipv4_address: "124.168.94.19"
-
   db:
     image: "mysql:latest"
     environment:
