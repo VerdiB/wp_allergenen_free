@@ -101,8 +101,8 @@ class Allergens_Dietary_load_language
 
 }
 
-$nl_NL = new load_language();
-$en_US = new load_language();
+$nl_NL = new Allergens_Dietary_load_language();
+$en_US = new Allergens_Dietary_load_language();
 
 
 
