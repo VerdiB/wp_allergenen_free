@@ -97,13 +97,11 @@ class Allergens_Dietary_Form
 				wp_die(esc_html(__('Something went wrong!','allergens-dietary')));
 			}
 			
-			if (!empty($_POST)) {
-				$_data = $_POST;
+			$_data = [];
+			if ( isset( $_POST['license_key'] ) ) {
+				$_data['license_key'] = sanitize_text_field( wp_unslash( $_POST['license_key'] ) );
 			}
-	
-			if (!empty($_FILES)) {
-				$_data = array_merge($_data, $_FILES);
-			}
+			
 	
 			if (!empty($_POST['submit'])) {
 				self::$_formObject->submit($_data);
