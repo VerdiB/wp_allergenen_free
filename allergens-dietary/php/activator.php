@@ -14,7 +14,7 @@ class Allergens_Dietary_Activator
 	private static $_ICON_OPTIONS = [];
 
 	public static function activate() {
-		if (!wp_mkdir_p(ALLERGENS_DIETARY_DIRNAME . '/logs')) {
+		if(file_exists(ALLERGENS_DIETARY_DIRNAME . '/logs')){
 			return;
 		}
 	
