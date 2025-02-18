@@ -61,8 +61,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         ]);
         
         if (!empty($_COOKIE['notice-type']) && isset($_COOKIE['notice-type'])){
-            $type = array_map('sanitize_text_field',wp_unslash($_COOKIE));
-            $type = $type['notice-type'];
+            $type = sanitize_text_field( wp_unslash( $_COOKIE['notice-type']));
             
             if ('single-status' === $type){
                 $message = __('Status changed','allergens-dietary');
