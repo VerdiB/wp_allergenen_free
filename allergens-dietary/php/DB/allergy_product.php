@@ -109,25 +109,21 @@ class Allergens_Dietary_Allergy_Product_Queries
         $allergens_table = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 
         // Initialize base query
-        $query_part[] = "SELECT DISTINCT ap.product_id 
+        $query_part_1[] = "SELECT DISTINCT ap.product_id 
                           FROM %i ap
                           JOIN {$allergens_table} a ON ap.allergy_name = a.allergy_name";
-
-        $where_conditions = [];
 
         // Handle allergens filtering
         if (!empty($allergens)) {
 
             $allergens_list = "'" . implode("','", array_map('esc_sql', $allergens)) . "'";
-            $query_part[] = "LEFT JOIN (
+            $query_part_2[] = "LEFT JOIN (
                 SELECT DISTINCT product_id 
                 FROM {$table_name} ap_exclude
                 JOIN {$allergens_table} a_exclude ON ap_exclude.allergy_name = a_exclude.allergy_name
                 WHERE a_exclude.is_allergy = 1 
                 AND a_exclude.allergy_name IN ({$allergens_list})
             ) as excluded_products ON ap.product_id = excluded_products.product_id";
-
-            $where_conditions[] = "excluded_products.product_id IS NULL";
         }
 
         // Handle dietary requirements filtering
@@ -137,9 +133,9 @@ class Allergens_Dietary_Allergy_Product_Queries
                 $diet = esc_sql($diet);
                 $alias = "diet_check_{$index}";
 
-                $query_part[] = "JOIN (
+                $query_part_3[] = "JOIN (
                     SELECT DISTINCT product_id 
-                    FROM {$tablename} ap_diet
+                    FROM {$table_name} ap_diet
                     JOIN {$allergens_table} a_diet ON ap_diet.allergy_name = a_diet.allergy_name
                     WHERE a_diet.is_allergy = 0 
                     AND a_diet.allergy_name = '{$diet}'
@@ -147,21 +143,18 @@ class Allergens_Dietary_Allergy_Product_Queries
             }
         }
 
-        // Combine all parts of the query
+        $sql = array($query_part_1, $query_part_2, $query_part_3);
+        $newQuery = "";
 
-        // $sql = " . $query_parts_1 . " " . $query_parts_2 . " " . $query_parts_3 . ";
-        if (!empty($where_conditions)) {
-            $query = implode(" ", $query_part);
-            // $sql .= " WHERE " . implode(" AND ", $where_conditions);
-
-            $whereClause = " WHERE " . implode(" AND ", $where_conditions);
-
-            $sql = $wpdb->prepare("WHERE %s %s", $query, $whereClause);
+        foreach ($sql as $query) {
+            $this_part = $query + " ";
+            echo($this_part . " ");
+            $newQuery .= $this_part;
         }
 
-
-
-        return $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $newQuery .= "AND WHERE excluded_products.product_id IS NULL";
+        
+        return $wpdb->get_results(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
             $wpdb->prepare(
                 // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
                 $sql,
