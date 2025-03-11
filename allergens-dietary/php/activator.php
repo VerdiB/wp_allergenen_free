@@ -13,20 +13,21 @@ class Allergens_Dietary_Activator
 	private static $_ALLERGY_ICON_OPTIONS = [];
 	private static $_ICON_OPTIONS = [];
 
-	public static function activate() {
+	public static function activate()
+	{
 		if(file_exists(ALLERGENS_DIETARY_DIRNAME . '/logs')){
 			return;
 		}
-	
-		self::create_tables();
-	
-		self::insert_standard_allergens();
-	
-		self::insert_standard_icons();
-	
-		self::insert_standard_allergens_icons();
-	}	
 
+		self::create_tables();
+		
+		self::insert_standard_allergens();
+		
+		self::insert_standard_icons();
+
+		self::insert_standard_allergens_icons();
+	}
+	
 	public function __construct()
 	{
 		self::$_url = get_home_url() . '/wp-content/plugins/allergens-dietary/assets/icons/';
