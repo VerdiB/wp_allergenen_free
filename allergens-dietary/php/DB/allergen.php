@@ -65,7 +65,7 @@ class Allergens_Dietary_Allergen_Queries
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 		$data = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$wpdb->prepare(
-				"SELECT allergy_name, allergy_description, is_allergy, is_active
+				"SELECT allergy_name, allergy_description, is_allergy, is_active, is_default_option
 				 FROM %i",
 				$table_name
 			),
@@ -109,54 +109,4 @@ class Allergens_Dietary_Allergen_Queries
 
 	}
 	
-<<<<<<< HEAD
-	/**
-	 * @author ictoriabv
-	 * @important This method has GET and SERVER globals
-	 * These globals need to be checked, sanitized and moved
-	 * These globals need to move to where the method is being used 
-	 * the same goes for the redirection
-	 * @param int $return_page
-	 * @param string $message
-	 * @return void
-	 */
-	public function singleActivationUpdate()
-	{
-		global $wpdb;
-		
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-
-		$updatenumber = 0;
-
-
-		$result = $wpdb->get_row($wpdb->prepare(
-			"SELECT allergy_name, is_active FROM %i WHERE allergy_name = %s",
-			array($table_name, $_GET['item'])
-		));
-
-		if ($result->is_active == 0) {
-			$updatenumber = 1;
-		} else {
-			$updatenumber = 0;
-		}
-
-		$data = array(
-			'is_active' => $updatenumber,
-		);
-
-		$where = array(
-			'allergy_name' => $_GET['item']
-		);
-
-		$format = array('%s', '%s');
-
-		$wpdb->update(
-			$table_name,
-			$data,
-			$where,
-			$format
-		);
-	}
-=======
->>>>>>> Dev
 }

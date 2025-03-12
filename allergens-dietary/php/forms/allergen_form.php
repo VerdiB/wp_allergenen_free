@@ -29,7 +29,7 @@ class Allergens_Dietary_Form
 {
 	private static array $instances;
 	protected static FormType $_formType;
-	protected static I_Allergens_Dietary_Form $_formObject;
+	protected static Allergens_Dietary_Form_I $_formObject;
 
 	public function __construct(bool $isTable = false)
 	{
@@ -89,23 +89,6 @@ class Allergens_Dietary_Form
 			}
 		}
 
-<<<<<<< HEAD
-		if (in_array($page, $showOnPage, true)) {
-			echo '<div class="allergens_table_form" style="display: none;" id="' . esc_attr($allergenName) . '_form">';
-			static::$_formObject->showForm($allergenName);
-			echo '</div>';
-		} else {
-			if (in_array($page, $showOnPageSecondOption, true)) {
-				echo '<div class="allergens_form health-check-body"><form action="" method="post" style="max-width: 350px;" enctype="multipart/form-data" class="add_allergens_form">';
-				static::$_formObject->showForm($allergenName);
-				echo '</form></div>';
-			}else{
-				echo '<div class="allergens_form health-check-body"><form action="" method="post" enctype="multipart/form-data" class="add_allergens_form">';
-				static::$_formObject->showForm($allergenName);
-				echo '</form></div>';
-			}
-		}
-=======
 		
 		?>
 		<div class="allergens_form health-check-body">
@@ -119,6 +102,5 @@ class Allergens_Dietary_Form
 		<?php
 	
 	
->>>>>>> Dev
 	}
 }
