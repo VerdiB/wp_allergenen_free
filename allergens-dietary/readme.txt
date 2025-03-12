@@ -1,24 +1,18 @@
-Plugin Name: Allergens and Dietary
-Plugin URI: https://wordpress.org/plugins/allergens-and-dietary/
-Description: Adds Allergens and Dietary options that can be used with WooCommerce products
-Version: 0.18.5.1
-Requires at least: 5.0
-Tested up to: 6.0
-Author: ictoriabv
-Author URI: https://ictoria.nl
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: allergens-dietary
+=== Allergens and Dietary ===
+Contributors: ictoriabv
+Tags: online store, ecommerce, shop, allergens, dietary
+Requires at least: 6.3.1
+Tested up to: 6.7.1
+Requires PHP: 7.4
+Stable tag: 0.18.6.0
+License: GPLv3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
+Everything you need to show allergens and dietary needs for your products
 
 == Description ==
 Adds Allergens and Dietary options that can be used with WooCommerce products
-
-== Installation ==
-1. Download de allergens-and-dietary-plugin van de WordPress plugin repository.
-2. Log in op je WordPress-dashboard en ga naar **Plugins > Nieuwe plugin**.
-3. Klik op **Nu installeren** en wacht tot de installatie voltooid is.
-4. Klik op **Activeer Plugin** om de plugin te activeren.
+To add allergens and/or dietary needs on your consumable products
 
 == Changelog ==
 = 0.18.5.1 =

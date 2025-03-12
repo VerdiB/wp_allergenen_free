@@ -65,7 +65,8 @@ class Allergens_Dietary_Info
 
     public static function getStyles()
     {
+        // volgens de planning moet hiernaar gekeken worden, maar lijkt op eerste oog gewoon goed. veranderingen misschien nodig als er een error komt
         wp_register_style('allergens-dietary-css', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/css/allergens-dietary.css'));
-        wp_enqueue_style('allergens-dietary-admin-css', plugins_url('assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE));
+        wp_enqueue_style('allergens-dietary-css');
     }
 }

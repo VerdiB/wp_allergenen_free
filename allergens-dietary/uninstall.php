@@ -44,10 +44,11 @@ $fk_del = array(
 /**
  *
  */
-function delete_fk($fk)
+function allergens_dietary_delete_fk($fk)
 {
 	global $wpdb;
-	$wpdb->get_results($wpdb->prepare($fk));// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+	$wpdb->get_results(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->prepare($fk));// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 	if ($wpdb->last_error) {
 		$wpdb->flush();
@@ -57,10 +58,12 @@ function delete_fk($fk)
 	return delete_fk($fk);
 }
 
-function delete_tables($table)
+function allergens_dietary_delete_tables($table)
 {
 	global $wpdb;
-	$wpdb->get_results($wpdb->prepare("DROP TABLE %i", $table));
+	$wpdb->get_results(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange
+		$wpdb->prepare("DROP TABLE %i", $table));
 
 	if ($wpdb->last_error) {
 		$wpdb->flush();
