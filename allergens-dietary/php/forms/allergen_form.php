@@ -30,6 +30,7 @@ class Allergens_Dietary_Form
 	private static array $instances;
 	protected static FormType $_formType;
 	protected static Allergens_Dietary_Form_I $_formObject;
+	protected array $_formData = [];
 
 	public function __construct(bool $isTable = false)
 	{
@@ -78,21 +79,21 @@ class Allergens_Dietary_Form
 				wp_die(esc_html(__('Something went wrong!','allergens-dietary')));
 			}
 			
-			$_data = [];
+			// $_data = [];
 			if ( isset( $_POST['license_key'] ) ) {
 				$_data['license_key'] = sanitize_text_field( wp_unslash( $_POST['license_key'] ) );
 			}
 			
 	
 			if (!empty($_POST['submit'])) {
-				static::$_formObject->submit($_data);
+				static::$_formObject->submit($this->_formData);
 			}
 		}
 
 		
 		?>
 		<div class="allergens_form health-check-body">
-			<form action="" method="post" enctype="multipart/form-data" class="add_allergens_form">
+			<form action="" name="test" method="post" enctype="multipart/form-data" class="add_allergens_form">
 			<?php 
 			wp_nonce_field('allergen-forms-action', 'allergens-forms-nonce');
 			self::$_formObject->showForm($allergenName);
