@@ -55,7 +55,7 @@ function allergens_dietary_delete_fk($fk)
 		return;
 	}
 
-	return delete_fk($fk);
+	return allergens_dietary_delete_fk($fk);
 }
 
 function allergens_dietary_delete_tables($table)
@@ -70,15 +70,15 @@ function allergens_dietary_delete_tables($table)
 		return;
 	}
 
-	return delete_tables($table);
+	return allergens_dietary_delete_tables($table);
 }
 
 $wpdb->hide_errors(); 
 foreach ($fk_del as $fk) {
-	delete_fk($fk);
+	allergens_dietary_delete_fk($fk);
 }
 
 foreach ($tables as $table) {
 	$table_name = $wpdb->prefix . $table;
-	delete_tables($table_name);
+	allergens_dietary_delete_tables($table_name);
 }

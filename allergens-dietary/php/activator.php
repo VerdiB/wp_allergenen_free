@@ -22,18 +22,16 @@ class Allergens_Dietary_Activator
 
 	public static function activate()
 	{
-
-		
-		if (!wp_mkdir_p(ALLERGENS_DIETARY_DIRNAME . '/logs')) {
+		if(file_exists(ALLERGENS_DIETARY_DIRNAME . '/logs')){
 			return;
 		}
-		
+
 		self::create_tables();
 		
 		self::insert_standard_allergens();
 		
 		self::insert_standard_icons();
-		
+
 		self::insert_standard_allergens_icons();
 	}
 	
