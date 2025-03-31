@@ -469,37 +469,18 @@ class Allergens_Dietary_Activator
 		WP_Filesystem();
 		global $wp_filesystem;
 	
-		if ( ! $wp_filesystem ) {
-			error_log('WP_Filesystem kon niet worden geïnitialiseerd.');
-			return false;
-		}
-	
-		$language_path          = ALLERGENS_DIETARY_DIRNAME . '/languages';
+
 		$language_path_dest          = ABSPATH . '/wp-content/languages';
 		$language_file_basename = 'allergens-dietary';
 		$user_locale            = get_user_locale();
 		$files_templates        = array('.po', '.mo');
 	
-		if ( ! $wp_filesystem->is_writable( $language_path ) ) {
-			error_log("Doelmap is niet schrijfbaar: " . $language_path);
-			return false;
-		}
 	
 		foreach ($files_templates as $files_template) {
 			$language_file_fullname = $language_file_basename . '-' . $user_locale . $files_template;
 			$plugin_language_file   = ALLERGENS_DIETARY_DIRNAME . '/languages/' . $language_file_fullname;
-	
-			if ( ! $wp_filesystem->exists( $plugin_language_file ) ) {
-				error_log("Bronbestand ontbreekt: " . $plugin_language_file);
-				continue;
-			}
-	
-			$result = $wp_filesystem->copy($plugin_language_file, $language_path_dest . '/' . $language_file_fullname, true);
-			if ( ! $result ) {
-				error_log("Bestand kopiëren mislukt: " . $plugin_language_file);
-			} else {
-				error_log("Bestand succesvol gekopieerd: " . $plugin_language_file);
-			}
+		
+			$wp_filesystem->copy($plugin_language_file, $language_path_dest . '/' . $language_file_fullname, true);
 		}
 	}
 	
