@@ -7,11 +7,12 @@ if (!defined('ABSPATH')) {
 
 class Allergens_Dietary_Activator
 {
-	private static string $_url;
+	protected static int $counter = 0;
+	protected static string $_url;
 
-	private static $_ALLERGENS_OPTIONS = [];
-	private static $_ALLERGY_ICON_OPTIONS = [];
-	private static $_ICON_OPTIONS = [];
+	protected static array $_ALLERGENS_OPTIONS;
+	protected static array $_ALLERGY_ICON_OPTIONS;
+	protected static array $_ICON_OPTIONS;
 
 	public static function activate()
 	{
@@ -359,7 +360,7 @@ class Allergens_Dietary_Activator
 		);
 	}
 
-	private static function create_tables()
+	protected static function create_tables()
 	{
 		global $wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';

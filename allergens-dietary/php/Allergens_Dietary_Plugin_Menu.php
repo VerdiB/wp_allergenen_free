@@ -4,10 +4,16 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
+// if(!enum_exists('FormType')){
+// 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/lists/form_type.php';
+// }
+
 class Allergens_Dietary_Plugin_Menu
 {
 
-	private static $instance = null;
+	private static array $instances;
+
+	
 
 	/***
 	 * Main instance
@@ -17,27 +23,25 @@ class Allergens_Dietary_Plugin_Menu
 	 */
 
 	
-	public static function instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new Allergens_Dietary_Plugin_Menu();
-		}
-		return self::$instance;
-	}
+	public static function instance()
+    {
+        $subclass = static::class;
+        if (!isset(self::$instances[$subclass])) {
+            self::$instances[$subclass] = new static();
+        }
+        return self::$instances[$subclass];
+    }
 
-	private function __construct()
+	public function __construct()
 	{
-		add_action(
-			'admin_menu',
-			array(
-				$this,
-				'addMyAdminMenu',
-			)
-		);
-		// return self::addMyAdminMenu();
+		if (static::class === self::class) { 
+			add_action('admin_menu', [$this, 'addMyAdminMenu'], 5);	
+		}
 	}
 
 	public function addMyAdminMenu()
 	{
+		$callback = static::instance();
 
 		add_menu_page(
 			__('Allergens and Dietary', 'allergens-dietary'),
@@ -59,8 +63,7 @@ class Allergens_Dietary_Plugin_Menu
 			'manage_options',
 			'allergens-dietary-Info',
 			array(
-				$this,
-				'Info',
+				$callback, 'Info',
 			)
 		);
 
@@ -71,7 +74,7 @@ class Allergens_Dietary_Plugin_Menu
 			'manage_options',
 			'allergens-dietary-show-allergens',
 			array(
-				$this,
+				$callback,
 				'showallergens',
 			),
 		);
@@ -82,7 +85,7 @@ class Allergens_Dietary_Plugin_Menu
 			__('License key', 'allergens-dietary'),
 			'manage_options',
 			'allergens-dietary-license',
-			array($this, 'licenseForm')
+			array($callback, 'licenseForm')
 		);
 
 	}
@@ -105,7 +108,7 @@ class Allergens_Dietary_Plugin_Menu
 
 	public function showallergens()
 	{
-		if (!class_exists('Allergens_Dietary_Show_Allergens')) {
+		if (!class_exists('Allergens_Dietary_Pro_Show_Allergens')) {
 			require_once ALLERGENS_DIETARY_DIRNAME . '/php/tables/allergen_show_allergen.php';
 			require_once ALLERGENS_DIETARY_DIRNAME . '/php/tabs/allergen_tabs.php';
 		}
@@ -115,6 +118,7 @@ class Allergens_Dietary_Plugin_Menu
 		echo '<form method="POST" id="show_allergens_form" enctype="multipart/form-data">';
         wp_nonce_field('allergen_table_action', 'allergen_val');
 		$table->search_box('Search', 'show_allergens');
+		$table->items_per_page_form();
 
 		$table->display();
 		echo '</form>';
@@ -127,6 +131,7 @@ class Allergens_Dietary_Plugin_Menu
 			require_once ALLERGENS_DIETARY_DIRNAME . '/php/lists/allergen_info.php';
 			require_once ALLERGENS_DIETARY_DIRNAME . '/php/tabs/allergen_tabs.php';
 		}
+	
 		Allergens_Dietary_Tabs::getInstance()->showtabs();
 		Allergens_Dietary_Info::getInstance()->showInfo();
 	}

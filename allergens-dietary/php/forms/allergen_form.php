@@ -12,24 +12,8 @@ if (!class_exists('Allergens_Dietary_License_Form')) {
 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_form_license.php';
 }
 
-/*if (!class_exists('Allergens_Dietary_Allergen_Form')) {
-	include_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_add_allergen.php';
-}
-
-if (!class_exists('Allergens_Dietary_Update_Allergen_Form')) {
-	include_once ALLERGENS_DIETARY_DIRNAME . '/php/forms/allergen_update_allergen.php';
-}*/
-
-enum FormType
-{
-	case ALLERGENS;
-	case LICENSE;
-	case UPDATE;
-
-	public function match(FormType $formType): bool
-	{
-		return $this === $formType;
-	}
+if (!class_exists('Allergens_Dietary_License_Form')) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/lists/form_type.php';
 }
 
 /**
@@ -43,18 +27,15 @@ enum FormType
 
 class Allergens_Dietary_Form
 {
-	private static ?self $_instance = null;
-	private static FormType $_formType;
-	private static Allergens_Dietary_Form_I $_formObject;
+	private static array $instances;
+	protected static FormType $_formType;
+	protected static Allergens_Dietary_Form_I $_formObject;
+	protected array $_formData = [];
 
-	private function __construct(bool $isTable = false)
+	public function __construct(bool $isTable = false)
 	{
-		if (FormType::LICENSE === self::$_formType) {
-			try{
-				self::$_formObject = new Allergens_Dietary_License_Form();
-			} catch(Exception $error){
-				wp_die(esc_html(__('Something went wrong!', 'allergens-dietary')));
-			}
+		if (FormType::LICENSE === static::$_formType) {
+			static::$_formObject = new Allergens_Dietary_License_Form();
 		}
 		if (!isset(self::$_formType) || false === self::$_formType->match(self::$_formType)) {
 			throw new Exception('FormType not yet supported/implemented');
@@ -62,21 +43,22 @@ class Allergens_Dietary_Form
 	}
 
 	public static function getInstance()
-	{
-		if (self::$_instance === null) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
+    {
+        $subclass = static::class;
+        if (!isset(self::$instances[$subclass])) {
+            self::$instances[$subclass] = new static();
+        }
+        return self::$instances[$subclass];
+    }
 
 	public static function setFormType(FormType $formType)
 	{
-		self::$_formType = $formType;
+		static::$_formType = $formType;
 	}
 
 	public static function getFormType()
 	{
-		return self::$_formType;
+		return static::$_formType;
 	}
 
 	/**
@@ -97,21 +79,21 @@ class Allergens_Dietary_Form
 				wp_die(esc_html(__('Something went wrong!','allergens-dietary')));
 			}
 			
-			$_data = [];
+			// $_data = [];
 			if ( isset( $_POST['license_key'] ) ) {
 				$_data['license_key'] = sanitize_text_field( wp_unslash( $_POST['license_key'] ) );
 			}
 			
 	
 			if (!empty($_POST['submit'])) {
-				self::$_formObject->submit($_data);
+				static::$_formObject->submit($this->_formData);
 			}
 		}
 
 		
 		?>
 		<div class="allergens_form health-check-body">
-			<form action="" method="post" enctype="multipart/form-data" class="add_allergens_form">
+			<form action="" name="test" method="post" enctype="multipart/form-data" class="add_allergens_form">
 			<?php 
 			wp_nonce_field('allergen-forms-action', 'allergens-forms-nonce');
 			self::$_formObject->showForm($allergenName);

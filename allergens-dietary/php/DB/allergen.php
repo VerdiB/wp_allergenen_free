@@ -13,7 +13,8 @@ if (!defined('ABSPATH')) {
  */
 class Allergens_Dietary_Allergen_Queries
 {
-	private static ?self $_instance = null;
+
+
 
 	/**
 	 * @brief This method returns the instance of the class.
@@ -22,15 +23,20 @@ class Allergens_Dietary_Allergen_Queries
 	 * @since 1.0.0
 	 * @date 11-9-2024
 	 */
-	public static function getInstance()
-	{
-		if (self::$_instance === null) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
+	protected static array $instances;
 
-	private function __construct() {}
+	public static function getInstance()
+    {
+        $subclass = static::class;
+        if (!isset(self::$instances[$subclass])) {
+            self::$instances[$subclass] = new static();
+        }
+        return self::$instances[$subclass];
+    }
+
+	protected function __construct()
+	{
+	}
 
 
 	public function getAllAllergens()
@@ -59,7 +65,7 @@ class Allergens_Dietary_Allergen_Queries
 		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 		$data = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$wpdb->prepare(
-				"SELECT allergy_name, allergy_description, is_allergy, is_active
+				"SELECT allergy_name, allergy_description, is_allergy, is_active, is_default_option
 				 FROM %i",
 				$table_name
 			),

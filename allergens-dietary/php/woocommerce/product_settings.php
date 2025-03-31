@@ -19,9 +19,9 @@ if (!class_exists("Allergens_Dietary_Allergen_Queries")) {
 // this class contains functions used to add/remove allergens and dietary options to/from a WooCommerce product
 class Allergens_Dietary_Product_Settings
 {
-	private static $_instance = null;
-	private array $_allergens;
-	private array $_attachedAllergens = array();
+	protected static $_instance = null;
+	protected array $_allergens;
+	protected array $_attachedAllergens = array();
 
 	public static function instance()
 	{
@@ -164,7 +164,7 @@ class Allergens_Dietary_Product_Settings
 		}
 	}
 
-	private function replace_space_chars(string $allergens): string
+	protected function replace_space_chars(string $allergens): string
 	{
 		return (preg_match('/\s/', $allergens)) ? str_replace(' ', '_', $allergens) : $allergens;
 	}

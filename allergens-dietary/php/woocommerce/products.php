@@ -13,9 +13,8 @@ if (! class_exists('Allergens_Dietary_Allergy_Attachment_Queries')) {
 }
 
 // this class contains functions used on the front-end product pages
-class Allergens_Dietary_Products
-{
-	private static ?self $_instance = null;
+class Allergens_Dietary_Products {
+	protected static ?self $_instance = null;
 
 	public static function instance(): self
 	{

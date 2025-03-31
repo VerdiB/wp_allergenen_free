@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
 
 class Allergens_Dietary_Tabs
 {
-    private static ?self $_instance = null;
+	private static array $instances;
     
     public function __construct()
 	{
@@ -61,10 +61,11 @@ class Allergens_Dietary_Tabs
 
     public static function getInstance()
     {
-        if (self::$_instance === null) {
-            self::$_instance = new self();
+        $subclass = static::class;
+        if (!isset(self::$instances[$subclass])) {
+            self::$instances[$subclass] = new static();
         }
-        return self::$_instance;
+        return self::$instances[$subclass];
     }
 
     public static function getStyles()

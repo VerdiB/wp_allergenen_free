@@ -6,17 +6,19 @@ if (!defined('ABSPATH')) {
 
 class Allergens_Dietary_Attachment_Queries
 {
+	private static array $instances;
 	private static ?self $_instance = null;
 	protected const PATH = ALLERGENS_DIETARY_DIRNAME . '/assets/icons/custom/';
 	protected string $_url;
 
 	public static function getInstance()
-	{
-		if (self::$_instance === null) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
+    {
+        $subclass = static::class;
+        if (!isset(self::$instances[$subclass])) {
+            self::$instances[$subclass] = new static();
+        }
+        return self::$instances[$subclass];
+    }
 
 	protected function __construct()
 	{

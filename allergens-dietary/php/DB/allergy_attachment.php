@@ -6,17 +6,18 @@ if (!defined('ABSPATH')) {
 
 class Allergens_Dietary_Allergy_Attachment_Queries
 {
-	private static ?self $_instance = null;
+	private static array $instances;
 
 	public static function getInstance()
-	{
-		if (self::$_instance === null) {
-			self::$_instance = new static();
-		}
-		return self::$_instance;
-	}
+    {
+        $subclass = static::class;
+        if (!isset(self::$instances[$subclass])) {
+            self::$instances[$subclass] = new static();
+        }
+        return self::$instances[$subclass];
+    }
 
-	private function __construct() {}
+	protected function __construct() {}
 
 	public function addAllergyAttachment(array $data)
 	{

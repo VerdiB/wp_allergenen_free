@@ -82,7 +82,7 @@ class Allergens_Dietary_Filter
 				<?php
 				wp_nonce_field('allergen-filter-action', 'allergen-filter-nonce'); 
 				?>
-				<div class="filter-container">
+				<div class="ictoria-filter-container">
 
 					<!-- Allergens Section -->
 					<div class="checkbox-container">
@@ -199,9 +199,6 @@ class Allergens_Dietary_Filter
 					foreach ($filtered_products as $product) {
 						$product_arr[] = $product['product_id'];
 					}
-					$query->set('post__in', $product_arr);
-	
-	
 					$query->set('post__in', $product_arr);
 				}
 				
