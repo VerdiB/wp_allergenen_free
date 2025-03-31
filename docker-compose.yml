@@ -21,17 +21,17 @@ services:
       WORDPRESS_DEBUG_LOG: true
     volumes:
       - ./allergens-dietary:/var/www/html/wp-content/plugins/allergens-dietary
-      - ./debug:/var/www/html/wp-content/logs
       - ./phpunit/tests:/var/www/html/wordpress-tests/
       # - ./wordpress:/var/www/html/
+      - ./debug:/var/www/html/wp-content/logs
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
       - ./error-logging.ini:/usr/local/etc/php/conf.d/error-logging.ini
     networks:
       allergen:
         ipv4_address: "124.168.94.20"
 
-  wordpressminus1:
-    image: "wordpress:6.6.1"
+  wp:
+    image: "wordpress:latest"
     ports:
       - "8080:80"
     depends_on:
@@ -41,6 +41,12 @@ services:
       WORDPRESS_DB_USER: root
       WORDPRESS_DB_PASSWORD: ""
       WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: true
+      WORDPRESS_DEBUG_LOG: true
+    volumes:
+      - ./debug:/var/www/html/wp-content/logs
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./error-logging.ini:/usr/local/etc/php/conf.d/error-logging.ini
     networks:
       allergen:
         ipv4_address: "124.168.94.18"

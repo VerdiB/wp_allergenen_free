@@ -82,3 +82,44 @@ foreach ($tables as $table) {
 	$table_name = $wpdb->prefix . $table;
 	allergens_dietary_delete_tables($table_name);
 }
+
+function allergens_dietary_delete_translations(){
+
+
+	if (!function_exists('WP_Filesystem')) {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+	}
+
+
+	WP_Filesystem();
+	global $wp_filesystem;
+
+	if (!$wp_filesystem) {
+		error_log('WP_Filesystem kon niet worden geïnitialiseerd tijdens de uninstall.');
+		exit;
+	}
+
+
+	$language_path_dest = ABSPATH . '/wp-content/languages';
+	$language_file_basename = 'allergens-dietary';
+	$user_locale = get_user_locale();
+	$files_templates = array('.po', '.mo');
+
+
+	foreach ($files_templates as $files_template) {
+		$language_file = $language_path_dest . '/' . $language_file_basename . '-' . $user_locale . $files_template;
+
+		if ($wp_filesystem->exists($language_file)) {
+			$deleted = $wp_filesystem->delete($language_file);
+
+			if ($deleted) {
+				error_log("Bestand succesvol verwijderd: " . $language_file);
+			} else {
+				error_log("Verwijderen van bestand mislukt: " . $language_file);
+			}
+		} else {
+			error_log("Bestand niet gevonden voor verwijdering: " . $language_file);
+		}
+	}
+}
+allergens_dietary_delete_translations();
