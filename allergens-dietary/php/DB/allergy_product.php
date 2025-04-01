@@ -34,7 +34,7 @@ class Allergens_Dietary_Allergy_Product_Queries
 
         $table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_product';
 
-        $wpdb->insert(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
             $table_name,
             array(
                 'product_id'    => $product_id,
@@ -53,21 +53,27 @@ class Allergens_Dietary_Allergy_Product_Queries
         $allergy = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
         $sql = '';
         if (is_null($allergen)) {
-            $sql = $wpdb->get_results($wpdb->prepare(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-                "SELECT ap.allergy_name
+            $sql = $wpdb->get_results(
+                $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+                    "SELECT ap.allergy_name
                 FROM %i as ap
                 JOIN %i as a on ap.allergy_name = a.allergy_name
                 WHERE ap.product_id = %d and a.is_active = 1",
-                array($table_name, $allergy, $product_id)), ARRAY_A
+                    array($table_name, $allergy, $product_id)
+                ),
+                ARRAY_A
             );
         } else {
-            $sql = $wpdb->get_results($wpdb->prepare(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-                "SELECT ap.allergy_name
+            $sql = $wpdb->get_results(
+                $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+                    "SELECT ap.allergy_name
                 FROM %i as ap
                 JOIN %i as a on ap.allergy_name = a.allergy_name
                 WHERE ap.product_id = %d and a.is_active = 1 and ap.allergy_name = %s",
-                array($table_name, $allergy, $product_id, $allergen))
-            ,ARRAY_A);
+                    array($table_name, $allergy, $product_id, $allergen)
+                ),
+                ARRAY_A
+            );
         }
 
 
@@ -78,8 +84,8 @@ class Allergens_Dietary_Allergy_Product_Queries
     {
         global $wpdb;
         $table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_product';
-        
-        return $wpdb->query($wpdb->prepare(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+
+        return $wpdb->query($wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
             "DELETE FROM %i
             WHERE product_id = %d AND allergy_name = %s",
             array($table_name, $product_id, $allergen)
@@ -104,24 +110,21 @@ class Allergens_Dietary_Allergy_Product_Queries
         $allergens_table = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 
         // Initialize base query
-        $query_parts[] = "SELECT DISTINCT ap.product_id 
+        $query_part_1[] = "SELECT DISTINCT ap.product_id 
                           FROM %i ap
                           JOIN {$allergens_table} a ON ap.allergy_name = a.allergy_name";
 
-        $where_conditions = [];
-
         // Handle allergens filtering
         if (!empty($allergens)) {
+
             $allergens_list = "'" . implode("','", array_map('esc_sql', $allergens)) . "'";
-            $query_parts[] = "LEFT JOIN (
+            $query_part_2[] = "LEFT JOIN (
                 SELECT DISTINCT product_id 
                 FROM {$table_name} ap_exclude
                 JOIN {$allergens_table} a_exclude ON ap_exclude.allergy_name = a_exclude.allergy_name
                 WHERE a_exclude.is_allergy = 1 
                 AND a_exclude.allergy_name IN ({$allergens_list})
             ) as excluded_products ON ap.product_id = excluded_products.product_id";
-
-            $where_conditions[] = "excluded_products.product_id IS NULL";
         }
 
         // Handle dietary requirements filtering
@@ -131,7 +134,7 @@ class Allergens_Dietary_Allergy_Product_Queries
                 $diet = esc_sql($diet);
                 $alias = "diet_check_{$index}";
 
-                $query_parts[] = "JOIN (
+                $query_part_3[] = "JOIN (
                     SELECT DISTINCT product_id 
                     FROM {$table_name} ap_diet
                     JOIN {$allergens_table} a_diet ON ap_diet.allergy_name = a_diet.allergy_name
@@ -141,17 +144,24 @@ class Allergens_Dietary_Allergy_Product_Queries
             }
         }
 
-        // Combine all parts of the query
-        $sql = implode(" ", $query_parts);
-        if (!empty($where_conditions)) {
-            $sql .= " WHERE " . implode(" AND ", $where_conditions);
+        $sql = array($query_part_1, $query_part_2, $query_part_3);
+        $newQuery = "";
+
+        foreach ($sql as $query) {
+            $this_part = $query + " ";
+            echo($this_part . " ");
+            $newQuery .= $this_part;
         }
+
+        $newQuery .= "AND WHERE excluded_products.product_id IS NULL";
         
         return $wpdb->get_results(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
             $wpdb->prepare(
                 // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-                $sql, 
-                $table_name),
-            ARRAY_A);
+                $sql,
+                $table_name
+            ),
+            ARRAY_A
+        );
     }
 }
