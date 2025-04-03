@@ -54,7 +54,7 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 			<label for="license_key"><?php echo esc_html__( 'License key', 'allergens-dietary' ); ?></label><br>
 			<input 
 				type="text" 
-				global name="license_key" 
+				name="license_key"   
 				id="license_key" 
 				value=""
 			><br><br>
@@ -85,6 +85,16 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 				$licenseRud->updateLicense();
 				$pluginInstance = new Allergens_Dietary_Plugin_Menu;
 			}
+			else 
+			{
+				echo("Sorry, this license key is taken by another user");
+				// $notice = new Allergens_Dietary_Notices;
+			}
+		}
+		else
+		{
+			echo("Sorry, this license key is not valid");
+			// $notice = new Allergens_Dietary_Notices;
 		}
 	}
 	
