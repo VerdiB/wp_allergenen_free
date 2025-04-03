@@ -12,6 +12,10 @@ if ( ! class_exists( 'Allergens_Dietary_Allergen_Queries' ) ) {
 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/allergen.php';
 }
 
+if ( ! class_exists( 'Allergens_Dietary_License_RUD' ) ) {
+	require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/license_rud.php';
+}
+
 if ( ! enum_exists('FormType')) {
     require_once ALLERGENS_DIETARY_DIRNAME . '/php/lists/form_type.php';
 }
@@ -33,35 +37,57 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 	 * for now it is empty and does nothing but it's common courtesy to have it
 	 * @return void
 	 */
-	public function __construct() {
+
+	public function __construct() 
+	{
+
 	}
 
 	public function showForm( string $allergenName = null ) {
 		if ( ! is_null( $allergenName ) ) {
 			return;
 		}
-
 		// TODO: Getting license key that is in use by site if it exists
+
 		?>
 		<fieldset>
 			<label for="license_key"><?php echo esc_html__( 'License key', 'allergens-dietary' ); ?></label><br>
 			<input 
 				type="text" 
-				name="license_key" 
+				global name="license_key" 
 				id="license_key" 
 				value=""
 			><br><br>
-			<input 
+			<input
 				type="submit" 
 				class="button button-primary" 
 				id="submitButton" 
 				name="submit" 
 				value="<?php echo esc_attr__( 'Verify license key', 'allergens-dietary' ); ?>"
+				onclick="licenseActivator()"
 			>
 		</fieldset>
-	<?php
+		<?php
 	}
 
+	public function licenseActivator()
+	{
+		$userInput = $_POST["license_key"];
+		$licenseRud = new Allergens_Dietary_Pro_License_RUD();
+		$license = $licenseRud->getLicenseKey();
+
+		if($userInput === $license)
+		{
+			$availability = $licenseRud->getLicenseAvailability();
+			if ($availability === "Beschikbaar")
+			{
+				var_dump($license);
+				$licenseRud->updateLicense();
+				$pluginInstance = new Allergens_Dietary_Plugin_Menu;
+			}
+		}
+	}
+	
 	public function submit( array $data ) {
 		if ( ! empty( $data ) ) {
 			$post_data = $this->sanitize( $data );
