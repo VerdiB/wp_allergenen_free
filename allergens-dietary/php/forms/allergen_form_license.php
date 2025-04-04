@@ -54,7 +54,7 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 			<label for="license_key"><?php echo esc_html__( 'License key', 'allergens-dietary' ); ?></label><br>
 			<input 
 				type="text" 
-				name="license_key"   
+				name="licenseForm[license_key]"
 				id="license_key" 
 				value=""
 			><br><br>
@@ -64,33 +64,42 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 				id="submitButton" 
 				name="submit" 
 				value="<?php echo esc_attr__( 'Verify license key', 'allergens-dietary' ); ?>"
-				onclick="licenseActivator()"
+				
 			>
 		</fieldset>
 		<?php
 	}
 
-	public function licenseActivator()
+
+	// Deze functie zorgt voor het tonen van de licentiesleutel op de pagina van de gebruiker
+	// MITS die aan de voorwaarde voldoet
+	protected function licenseActivator(array $data)
 	{
-		$userInput = $_POST["license_key"];
+		// Zet user input van showFormn in var, maak instantie aan van licenseRUD, roep getLicenseKey aan
+		$userInput = $data["license_key"];
 		$licenseRud = new Allergens_Dietary_Pro_License_RUD();
 		$license = $licenseRud->getLicenseKey();
 
+		// Als user input gelijk staat aan de licentiesleutel in de database, check of de licentiesleutel op ongebruikt staat
 		if($userInput === $license)
 		{
+			// Als die op ongebruikt staat, lees licentiesleutel uit, roep updateLicense aan, maak instantie van plugin
+			// Nu wordt er nog een instantie gemaakt van de plugin menu, wanneer deze files overgezet worden naar de pro versie, wordt dit de pro versie van de plugin
 			$availability = $licenseRud->getLicenseAvailability();
-			if ($availability === "Beschikbaar")
+			if ($availability === "Ongebruikt")
 			{
 				var_dump($license);
 				$licenseRud->updateLicense();
 				$pluginInstance = new Allergens_Dietary_Plugin_Menu;
 			}
+			// Wordt er niet aan de check voldaan, geef dan een error message aan de gebruiker. Later wordt dit een officiele wordpress notice
 			else 
 			{
 				echo("Sorry, this license key is taken by another user");
 				// $notice = new Allergens_Dietary_Notices;
 			}
 		}
+		// Wordt er niet aan de check voldaan, geef dan een error message aan de gebruiker. Later wordt dit een officiele wordpress notice
 		else
 		{
 			echo("Sorry, this license key is not valid");
@@ -99,8 +108,16 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 	}
 	
 	public function submit( array $data ) {
+
+		// echo '<pre>';
+		// print_r($data);
+		// echo '</pre>';
+		// return;
+
 		if ( ! empty( $data ) ) {
 			$post_data = $this->sanitize( $data );
+			$this->licenseActivator($post_data);
+
 			// TODO: save the license key in the external database
 		} else {
 			return;

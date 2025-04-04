@@ -80,10 +80,14 @@ class Allergens_Dietary_Form
 			}
 			
 			// $_data = [];
-			if ( isset( $_POST['license_key'] ) ) {
-				$_data['license_key'] = sanitize_text_field( wp_unslash( $_POST['license_key'] ) );
-			}
+			// if ( isset( $_POST['license_key'] ) ) {
+			// 	$_data['license_key'] = sanitize_text_field( wp_unslash( $_POST['license_key'] ) );
+			// }
+
 			
+			if ( !empty( $_POST['licenseForm'] ) ){
+				$this->_formData = $_POST['licenseForm']; 
+			}
 	
 			if (!empty($_POST['submit'])) {
 				static::$_formObject->submit($this->_formData);
