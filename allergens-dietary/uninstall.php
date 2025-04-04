@@ -46,23 +46,22 @@ function allergens_dietary_delete_translations(){
     if (!function_exists('WP_Filesystem')) {
         require_once ABSPATH . 'wp-admin/includes/file.php';
     } 
-
+    
     WP_Filesystem();
     global $wp_filesystem;
-
+    
     $language_path_dest = ABSPATH . '/wp-content/languages';
     $language_file_basename = 'allergens-dietary';
-    $files_templates = array('.po', '.mo');
+    
 
-    foreach ($files_templates as $files_template) {
-
-        $pattern = $language_path_dest . '/' . $language_file_basename . '-*' . $files_template;
-        $files = glob($pattern);
-        
-        if ($files) {
-            foreach ($files as $file) {
-                if ($wp_filesystem->exists($file)) {
-                    $wp_filesystem->delete($file);
+    $files = glob( $language_path_dest . '/' . $language_file_basename . '-*' );
+    
+    if ( $files ) {
+        foreach ( $files as $file ) {
+            $filename = basename( $file );
+            if ( preg_match( '/^allergens-dietary-[a-z]{2}_[A-Z]{2,3}\.(po|mo)$/', $filename ) ) {
+                if ( $wp_filesystem->exists( $file ) ) {
+                    $wp_filesystem->delete( $file );
                 }
             }
         }
