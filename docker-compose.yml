@@ -24,8 +24,8 @@ services:
       - ./debug:/var/www/html/wp-content/logs
       - ./phpunit/tests:/var/www/html/wordpress-tests/
       # - ./wordpress:/var/www/html/
-      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
-      - ./error-logging.ini:/usr/local/etc/php/conf.d/error-logging.ini
+      # - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      # - ./error-logging.ini:/usr/local/etc/php/conf.d/error-logging.ini
     networks:
       allergen:
         ipv4_address: "124.168.94.20"

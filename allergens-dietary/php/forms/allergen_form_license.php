@@ -73,7 +73,7 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 
 	// Deze functie zorgt voor het tonen van de licentiesleutel op de pagina van de gebruiker
 	// MITS die aan de voorwaarde voldoet
-	protected function licenseActivator(array $data)
+	public function licenseActivator(array $data)
 	{
 		// Zet user input van showFormn in var, maak instantie aan van licenseRUD, roep getLicenseKey aan
 		$userInput = $data["license_key"];
@@ -89,6 +89,7 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 			if ($availability === "Ongebruikt")
 			{
 				var_dump($license);
+				return $license;
 				$licenseRud->updateLicense();
 				$pluginInstance = new Allergens_Dietary_Plugin_Menu;
 			}
@@ -96,6 +97,7 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 			else 
 			{
 				echo("Sorry, this license key is taken by another user");
+				return "Sorry, this license key is taken by another user";
 				// $notice = new Allergens_Dietary_Notices;
 			}
 		}
@@ -103,6 +105,7 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 		else
 		{
 			echo("Sorry, this license key is not valid");
+			return "Sorry, this license key is not valid";
 			// $notice = new Allergens_Dietary_Notices;
 		}
 	}
