@@ -128,8 +128,11 @@ class Allergens_Dietary_Startup
 
 		if (!file_exists($folderName)) {
 			$activator = new Allergens_Dietary_Activator();
-			$activator::activate();
+			$activator::activate();	
+			// check voor een variant die in de wp dirs een map aanmaakt
+			// Dit om te zorgen zodat wanneer een update gereleased word er geen errors komen door onze plugin
 
+			//Todo: Als de plugin geüpdätet wordt, wordt wordt deze functie alsnog uitgevoerd, dit is niet de bedoeling. Het doel van de kaart, is deze wp_mkdir_p() functie veranderen met iets dat wel werkt.
 			wp_mkdir_p($folderName);
 
 		}

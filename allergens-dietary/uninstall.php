@@ -41,6 +41,33 @@ $fk_del = array(
 	DROP FOREIGN KEY FK_AllergyAttach_Attach",
 );
 
+function allergens_dietary_delete_translations(){
+
+    if (!function_exists('WP_Filesystem')) {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+    } 
+    
+    WP_Filesystem();
+    global $wp_filesystem;
+    
+    $language_path_dest = ABSPATH . '/wp-content/languages';
+    $language_file_basename = 'allergens-dietary';
+    
+
+    $files = glob( $language_path_dest . '/' . $language_file_basename . '-*' );
+    
+    if ( $files ) {
+        foreach ( $files as $file ) {
+            $filename = basename( $file );
+            if ( preg_match( '/^allergens-dietary-[a-z]{2}_[A-Z]{2,3}\.(po|mo)$/', $filename ) ) {
+                if ( $wp_filesystem->exists( $file ) ) {
+                    $wp_filesystem->delete( $file );
+                }
+            }
+        }
+    }
+}
+
 /**
  *
  */
@@ -55,7 +82,7 @@ function allergens_dietary_delete_fk($fk)
 		return;
 	}
 
-	return delete_fk($fk);
+	return allergens_dietary_delete_fk($fk);
 }
 
 function allergens_dietary_delete_tables($table)
@@ -70,15 +97,17 @@ function allergens_dietary_delete_tables($table)
 		return;
 	}
 
-	return delete_tables($table);
+	return allergens_dietary_delete_tables($table);
 }
 
 $wpdb->hide_errors(); 
 foreach ($fk_del as $fk) {
-	delete_fk($fk);
+	allergens_dietary_delete_fk($fk);
 }
 
 foreach ($tables as $table) {
 	$table_name = $wpdb->prefix . $table;
-	delete_tables($table_name);
+	allergens_dietary_delete_tables($table_name);
 }
+
+allergens_dietary_delete_translations();

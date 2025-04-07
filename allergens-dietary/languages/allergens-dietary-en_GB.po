@@ -49,7 +49,7 @@ msgid ""
 "WooCommerce "
 msgstr ""
 "WooCommerce is inactive or not installed. Please install & activate "
-"WooCommerce"
+"WooCommerce "
 
 #: allergens-dietary.php:51
 msgid ""

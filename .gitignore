@@ -12,5 +12,5 @@ phpunit/tests/*.cache
 vendor/
 composer.*
 cache/
-*.mo
+# *.mo
 logs/

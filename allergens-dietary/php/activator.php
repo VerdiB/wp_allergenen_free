@@ -4,6 +4,11 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
+if (! class_exists('WP_Filesystem_Direct')) {
+	require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
+	require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
+}
+
 
 class Allergens_Dietary_Activator
 {
@@ -13,6 +18,8 @@ class Allergens_Dietary_Activator
 	protected static array $_ALLERGENS_OPTIONS;
 	protected static array $_ALLERGY_ICON_OPTIONS;
 	protected static array $_ICON_OPTIONS;
+
+
 
 	public static function activate()
 	{
@@ -28,10 +35,11 @@ class Allergens_Dietary_Activator
 
 		self::insert_standard_allergens_icons();
 	}
-
+	
 	public function __construct()
 	{
 		self::$_url = get_home_url() . '/wp-content/plugins/allergens-dietary/assets/icons/';
+		$this->upload_language_file();
 
 		self::$_ALLERGENS_OPTIONS = array(
 			'peanuts' => array(
@@ -365,14 +373,14 @@ class Allergens_Dietary_Activator
 		global $wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-		$sql_attachments = $wpdb->query(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$sql_attachments = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange
 			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}allergens_dietary_ictoria_attachments(
         attachment_name VARCHAR(255) NOT NULL PRIMARY KEY,
         attachment_path VARCHAR(255))"
 		);
 
-		$sql_allergy = $wpdb->query(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$sql_allergy = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange
 			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}allergens_dietary_ictoria_allergy(
         allergy_name VARCHAR(50) NOT NULL PRIMARY KEY,
@@ -382,7 +390,7 @@ class Allergens_Dietary_Activator
 		is_default_option BOOLEAN NOT NULL DEFAULT 0)"
 		);
 
-		$sql_allergy_attachment = $wpdb->query(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$sql_allergy_attachment = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange
 			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}allergens_dietary_ictoria_allergy_attachment(
         allergy_name VARCHAR(50) NOT NULL,
@@ -396,7 +404,7 @@ class Allergens_Dietary_Activator
         "
 		);
 
-		$sql_allergy_product = $wpdb->query(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$sql_allergy_product = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange
 			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}allergens_dietary_ictoria_allergy_product(
         product_id BIGINT NOT NULL,
@@ -454,37 +462,41 @@ class Allergens_Dietary_Activator
 		);
 	}
 
-	public function upload_language_file()
-	{
-		$language_path          = ALLERGENS_DIETARY_DIRNAME . '/plugins';
+	public function upload_language_file() {
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+	
+		WP_Filesystem();
+		global $wp_filesystem;
+	
+
+		$language_path_dest          = ABSPATH . '/wp-content/languages';
 		$language_file_basename = 'allergens-dietary';
 		$user_locale            = get_user_locale();
-		$files_templates        = array(
-			'.po', // Default template for all locales.
-			'.mo',
-		);
-
+		$files_templates        = array('.po', '.mo');
+	
+	
 		foreach ($files_templates as $files_template) {
-			$language_file_fullname = $language_file_basename . $user_locale . $files_template;
+			$language_file_fullname = $language_file_basename . '-' . $user_locale . $files_template;
 			$plugin_language_file   = ALLERGENS_DIETARY_DIRNAME . '/languages/' . $language_file_fullname;
-
-			if (file_exists($plugin_language_file) && $language_path . '/' . $language_file_fullname) {
-
-				copy($plugin_language_file, $language_path . '/' . $language_file_fullname);
-			}
+		
+			$wp_filesystem->copy($plugin_language_file, $language_path_dest . '/' . $language_file_fullname, true);
 		}
 	}
+	
 
 
-	private static function insert_standard_allergens(){
+	private static function insert_standard_allergens()
+	{
 		global $wpdb;
 		$table = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
 
-		foreach(self::$_ALLERGENS_OPTIONS as $allergen){
+		foreach (self::$_ALLERGENS_OPTIONS as $allergen) {
 			$is_default = ($allergen['default']) ? 1 : 0;
 			$is_allergy = ($allergen['category'] === "allergen") ? 1 : 0;
 
-			$wpdb->insert(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$table,
 				array(
 					'allergy_name' => $allergen['title'],
@@ -496,12 +508,13 @@ class Allergens_Dietary_Activator
 		}
 	}
 
-	private static function insert_standard_icons(){
+	private static function insert_standard_icons()
+	{
 		global $wpdb;
 		$table = $wpdb->prefix . 'allergens_dietary_ictoria_attachments';
 
-		foreach(self::$_ICON_OPTIONS as $icon){
-			$wpdb->insert(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		foreach (self::$_ICON_OPTIONS as $icon) {
+			$wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$table,
 				array(
 					'attachment_path' => $icon['path'],
@@ -511,13 +524,14 @@ class Allergens_Dietary_Activator
 		}
 	}
 
-	private static function insert_standard_allergens_icons(){
+	private static function insert_standard_allergens_icons()
+	{
 		global $wpdb;
 
 		$table = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_attachment';
 
 		foreach (self::$_ALLERGY_ICON_OPTIONS as $allergen_icon) {
-			$wpdb->insert(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$table,
 				array(
 					'attachment_name' => $allergen_icon['name'],
@@ -526,5 +540,4 @@ class Allergens_Dietary_Activator
 			);
 		}
 	}
-
 }
