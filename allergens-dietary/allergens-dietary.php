@@ -13,6 +13,7 @@ if (!defined('ABSPATH')) {
 
  define('ALLERGENS_DIETARY_DIRNAME', plugin_dir_path(__FILE__));
  define('ALLERGENS_DIETARY_FILE', __FILE__); // contains the full path to the plugin file
+ define('ALLERGENS_DIETARY_VERSION', '0.19.1.3'); //version constant of the plugin
 
  function prevent_Wrong_Activation(){
 	if (!is_plugin_active('woocommerce/woocommerce.php')) {

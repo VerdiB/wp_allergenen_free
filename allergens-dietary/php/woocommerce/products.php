@@ -71,7 +71,7 @@ class Allergens_Dietary_Products {
 				$icon_url = esc_url($attachment['attachment_path']);
 				$title    = esc_attr($attachment['allergy_name']);
 				$alt 	= esc_attr($attachment['allergy_description']);
-				$html[]   = "<img style='max-height: 40px; max-width: 40px;' class='allergen-icon' src='{$icon_url}' alt='{$alt}' title='{$title}' />";
+				$html[]   = "<img style='max-height: 40px; max-width: 40px;' class='allergen-icon' src='".$icon_url."' alt='". $alt. "' title='".$title."' />";
 			}
 		}
 		return implode('', $html);
