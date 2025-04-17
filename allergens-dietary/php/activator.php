@@ -436,13 +436,13 @@ class Allergens_Dietary_Activator
 
 	public static function enqueue_styles()
 	{
-		wp_enqueue_style('allergens-dietary-css', plugins_url('assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE));
+		wp_enqueue_style('allergens-dietary-css', plugins_url('assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE), array(), ALLERGENS_DIETARY_VERSION);
 	}
 
 	public static function enqueue_admin_styles()
 	{
 		// wp_enqueue_style('allergens-dietary-admin-css', plugins_url('assets/css/allergens-dietary-admin.css', ALLERGENS_DIETARY_FILE));
-		wp_enqueue_style('allergens-dietary-admin-css', plugins_url('assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE));
+		wp_enqueue_style('allergens-dietary-admin-css', plugins_url('assets/css/allergens-dietary.css', ALLERGENS_DIETARY_FILE), array(), ALLERGENS_DIETARY_VERSION);
 	}
 
 	// Enqueue admin JS script
@@ -457,7 +457,7 @@ class Allergens_Dietary_Activator
 			'allergens-dietary-admin-js',
 			plugins_url('assets/js/admin_set_options_by_category.js', ALLERGENS_DIETARY_FILE),
 			array('jquery'),
-			false,
+			true,
 			true
 		);
 	}
