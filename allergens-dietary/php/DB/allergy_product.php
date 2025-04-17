@@ -149,7 +149,7 @@ class Allergens_Dietary_Allergy_Product_Queries
 
         foreach ($sql as $query) {
             $this_part = $query + " ";
-            echo($this_part . " ");
+            echo(esc_html($this_part . " "));
             $newQuery .= $this_part;
         }
 
