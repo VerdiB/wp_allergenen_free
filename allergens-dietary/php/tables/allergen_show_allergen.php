@@ -337,7 +337,9 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         }
         $allergen_name = preg_replace('/^https?:\/\//','',sanitize_url(wp_unslash($_GET['item'])));
         $table_action = preg_replace('/^https?:\/\//','', sanitize_url(wp_unslash($_GET['action'])));
+        if (isset($_GET['_wpnonce'])){
 		$nonce = preg_replace('/^https?:\/\//','', sanitize_url(wp_unslash($_GET['_wpnonce'])));
+        }
 
         if(false !== wp_verify_nonce($nonce, "change-status-" . $allergen_name)){
             if ($table_action === 'change-status'){
