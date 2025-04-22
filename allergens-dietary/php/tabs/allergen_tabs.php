@@ -21,12 +21,12 @@ class Allergens_Dietary_Tabs
 	{
         // volgens de planning moet hiernaar gekeken worden, maar lijkt op eerste oog gewoon goed. veranderingen misschien nodig als er een error komt
         //load js
-		wp_register_script('Allergens_Dietary_Show_Allergens', plugins_url(ALLERGENS_DIETARY_NAME.'/assets/js/script.js'));
+		wp_register_script('Allergens_Dietary_Show_Allergens',  plugins_url(ALLERGENS_DIETARY_NAME.'/assets/js/script.js'),array(), ALLERGENS_DIETARY_VERSION, true);
         wp_enqueue_script( 'Allergens_Dietary_Show_Allergens');
 
 
         //load css
-        wp_register_style('allergens-dietary-css', plugins_url(ALLERGENS_DIETARY_NAME.'/assets/css/allergens-dietary.css'));
+        wp_register_style('allergens-dietary-css', plugins_url(ALLERGENS_DIETARY_NAME.'/assets/css/allergens-dietary.css'), array(), ALLERGENS_DIETARY_VERSION);
 	    wp_enqueue_style('allergens-dietary-css');
 	}
 
@@ -71,7 +71,7 @@ class Allergens_Dietary_Tabs
     public static function getStyles()
     {
         // volgens de planning moet hiernaar gekeken worden, maar lijkt op eerste oog gewoon goed. veranderingen misschien nodig als er een error komt
-        wp_register_style('allergens-dietary-css', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/css/allergens-dietary.css'));
+        wp_register_style('allergens-dietary-css', plugins_url(ALLERGENS_DIETARY_NAME . '/assets/css/allergens-dietary.css'),array(), ALLERGENS_DIETARY_VERSION);
         wp_enqueue_style('allergens-dietary-css');
     }
 }
