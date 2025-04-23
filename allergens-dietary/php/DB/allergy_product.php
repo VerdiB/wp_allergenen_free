@@ -53,7 +53,7 @@ class Allergens_Dietary_Allergy_Product_Queries
         $allergy = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
         $sql = '';
         if (is_null($allergen)) {
-            $sql = $wpdb->get_results(
+            $sql = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
                 $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
                     "SELECT ap.allergy_name
                 FROM %i as ap
@@ -64,7 +64,7 @@ class Allergens_Dietary_Allergy_Product_Queries
                 ARRAY_A
             );
         } else {
-            $sql = $wpdb->get_results(
+            $sql = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
                 $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
                     "SELECT ap.allergy_name
                 FROM %i as ap
