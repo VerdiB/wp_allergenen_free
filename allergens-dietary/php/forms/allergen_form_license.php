@@ -20,6 +20,10 @@ if ( ! enum_exists('FormType')) {
     require_once ALLERGENS_DIETARY_DIRNAME . '/php/lists/form_type.php';
 }
 
+if ( ! enum_exists('Allergens_Dietary_Notices')) {
+    require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
+}
+
 
 /**
  * @class Allergens_Dietary_License_Form
@@ -79,25 +83,22 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 		$licenseRud = new Allergens_Dietary_Pro_License_RUD();
 		$license = $licenseRud->getLicenseKey();
 
-		$notices = new Allergens_Dietary_Notices;
 
 		if($userInput === $license)
 		{
 			$availability = $licenseRud->getLicenseAvailability();
 			if ($availability === "Ongebruikt")
 			{
-				var_dump($license);
-				return $license;
 				$licenseRud->updateLicense();
 			}
 			else 
 			{
-				$notice = $notices->error_notice('notice-error', "This license key is not valid. Please try again.");
+				Allergens_Dietary_Notices::getInstance()->display_admin_notice(Notice_Types::ERROR, "This license key is not valid. Please try again.");
 			}
 		}
 		else
 		{
-			$notice = $notices->error_notice('notice-error', "This license key is already taken by another user. Please try again.");
+			Allergens_Dietary_Notices::getInstance()->display_admin_notice(Notice_Types::ERROR, "This license key is already taken by another user. Please try again.");
 		}
 	}
 	
