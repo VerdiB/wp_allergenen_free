@@ -72,41 +72,32 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 
 
 	// Deze functie zorgt voor het tonen van de licentiesleutel op de pagina van de gebruiker
-	// MITS die aan de voorwaarde voldoet
+	// MITS die aan de voorwaardes voldoet
 	public function licenseActivator(array $data)
 	{
-		// Zet user input van showFormn in var, maak instantie aan van licenseRUD, roep getLicenseKey aan
 		$userInput = $data["license_key"];
 		$licenseRud = new Allergens_Dietary_Pro_License_RUD();
 		$license = $licenseRud->getLicenseKey();
 
-		// Als user input gelijk staat aan de licentiesleutel in de database, check of de licentiesleutel op ongebruikt staat
+		$notices = new Allergens_Dietary_Notices;
+
 		if($userInput === $license)
 		{
-			// Als die op ongebruikt staat, lees licentiesleutel uit, roep updateLicense aan, maak instantie van plugin
-			// Nu wordt er nog een instantie gemaakt van de plugin menu, wanneer deze files overgezet worden naar de pro versie, wordt dit de pro versie van de plugin
 			$availability = $licenseRud->getLicenseAvailability();
 			if ($availability === "Ongebruikt")
 			{
 				var_dump($license);
 				return $license;
 				$licenseRud->updateLicense();
-				$pluginInstance = new Allergens_Dietary_Plugin_Menu;
 			}
-			// Wordt er niet aan de check voldaan, geef dan een error message aan de gebruiker. Later wordt dit een officiele wordpress notice
 			else 
 			{
-				echo("Sorry, this license key is taken by another user");
-				return "Sorry, this license key is taken by another user";
-				// $notice = new Allergens_Dietary_Notices;
+				$notice = $notices->error_notice('notice-error', "This license key is not valid. Please try again.");
 			}
 		}
-		// Wordt er niet aan de check voldaan, geef dan een error message aan de gebruiker. Later wordt dit een officiele wordpress notice
 		else
 		{
-			echo("Sorry, this license key is not valid");
-			return "Sorry, this license key is not valid";
-			// $notice = new Allergens_Dietary_Notices;
+			$notice = $notices->error_notice('notice-error', "This license key is already taken by another user. Please try again.");
 		}
 	}
 	

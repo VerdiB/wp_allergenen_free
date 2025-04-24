@@ -28,7 +28,6 @@ class Allergens_Dietary_Pro_License_RUD
 
     public function getLicenseKey()
     {
-      // Maak sql query voor ophalen licentiesleutel, roep global wpdb aan, zet result in een string en return die
       $sql = 'SELECT licentie_sleutel FROM licenties';
       global $wpdb;
       $result = $wpdb->get_var($sql);
@@ -38,7 +37,6 @@ class Allergens_Dietary_Pro_License_RUD
 
     public function getLicenseAvailability()
     {
-      // Maak sql query voor ophalen beschikbaarheid licentiesleutel, roep global wpdb aan, zet result in een string en return die
       $sql = 'SELECT in_gebruik FROM licenties';
       global $wpdb;
       $result = $wpdb->get_var($sql);
@@ -48,7 +46,6 @@ class Allergens_Dietary_Pro_License_RUD
 
     public function getLicenseStartDate()
     {
-      // Maak sql query voor ophalen startdatum van de licentiesleutel, roep global wpdb aan, zet result in een string en return die
       $sql = 'SELECT start_datum FROM licenties';
       global $wpdb;
       $result = $wpdb->get_var($sql);
@@ -58,7 +55,6 @@ class Allergens_Dietary_Pro_License_RUD
 
     public function getLicenseEndDate()
     {
-      // Maak sql query voor ophalen einddatum van de licentiesleutel, roep global wpdb aan, zet result in een string en return die
       $sql = 'SELECT eind_datum FROM licenties';
       global $wpdb;
       $result = $wpdb->get_var($sql);
@@ -68,13 +64,13 @@ class Allergens_Dietary_Pro_License_RUD
 
     public function updateLicense()
     {
-      // Opzetje functie updaten license in database, met behulp van een sql query en wpdb
+      // Opzetje functie updaten license in database
       
     }
 
     public function deleteLicense()
     {
-      // Opzetje functie verwijderen license uit database, met behulp van een sql query en wpdb
+      // Opzetje functie verwijderen license uit database
     }
 
 }
