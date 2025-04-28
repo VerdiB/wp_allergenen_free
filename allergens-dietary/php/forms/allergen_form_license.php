@@ -44,6 +44,7 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 
 	public function __construct() 
 	{
+		//get key date validation
 
 	}
 
@@ -82,9 +83,11 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 		$userInput = $data["license_key"];
 		$licenseRud = new Allergens_Dietary_Pro_License_RUD();
 		$license = $licenseRud->getLicenseKey();
+		$endDate = $licenseRud->getLicenseEndDate();
+		$currentDate = date('d-m-Y');
 
-
-		if($userInput === $license)
+		
+		if ($userInput === $license)
 		{
 			$availability = $licenseRud->getLicenseAvailability();
 			if ($availability === "Ongebruikt")
@@ -99,6 +102,11 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 		else
 		{
 			Allergens_Dietary_Notices::getInstance()->display_admin_notice(Notice_Types::ERROR, "This license key is already taken by another user. Please try again.");
+		}
+
+		if ($currentDate === $endDate || $currentDate > $endDate)
+		{
+			Allergens_Dietary_Notices::getInstance()->display_admin_notice(Notice_Types::WARNING, "This license key has surpassed its expiration date. Consider updating the Allergens & Dietary plugin.");
 		}
 	}
 	
