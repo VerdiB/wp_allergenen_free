@@ -8,23 +8,30 @@ class Allergens_Dietary_Pro_License_RUD
 {
   // Deze class zorgt voor de READ, UPDATE en DELETE functionaliteit voor de license form
 
-    public function __construct()
+  /**
+	 * @brief This method returns the instance of the class.
+	 * @return Allergens_Dietary_Pro_License_Rud
+	 * @author ictoriabv
+	 * @since 1.0.0
+	 * @date 11-9-2024
+	 */
+	protected static array $instances;
+
+	public static function getInstance()
+    {
+        $subclass = static::class;
+        if (!isset(self::$instances[$subclass])) {
+            self::$instances[$subclass] = new static();
+        }
+        return self::$instances[$subclass];
+    }
+
+    protected function __construct()
     {
       $this->getLicenseKey();
       $this->updateLicense();
       $this->deleteLicense();
     }
-
-    // getInstance werkt nog niet,$_instance is undefined. 
-    // Hier moet naar gekeken worden
-
-    // public static function getInstance()
-    // {
-    //     if (self::$_instance === null) {
-    //         self::$_instance = new self();
-    //     }
-    //     return self::$_instance;
-    // }
 
     public function getLicenseKey()
     {

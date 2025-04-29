@@ -44,9 +44,8 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 
 	public function __construct() 
 	{
-		$licenseRud = new Allergens_Dietary_Pro_License_RUD();
-		$license = $licenseRud->getLicenseKey();
-		$endDate = $licenseRud->getLicenseEndDate();
+		$license = Allergens_Dietary_Pro_License_RUD::getInstance()->getLicenseKey();
+		$endDate = Allergens_Dietary_Pro_License_RUD::getInstance()->getLicenseEndDate();
 		$currentDate = date('d-m-Y');
 
 		if ($currentDate === $endDate || $currentDate > $endDate)
@@ -89,18 +88,15 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 	public function licenseActivator(array $data)
 	{
 		$userInput = $data["license_key"];
-		$licenseRud = new Allergens_Dietary_Pro_License_RUD();
-		$license = $licenseRud->getLicenseKey();
-		$endDate = $licenseRud->getLicenseEndDate();
-		$currentDate = date('d-m-Y');
+		$license = Allergens_Dietary_Pro_License_RUD::getInstance()->getLicenseKey();
 
 
 		if ($userInput === $license)
 		{
-			$availability = $licenseRud->getLicenseAvailability();
+			$availability = Allergens_Dietary_Pro_License_RUD::getInstance()->getLicenseAvailability();
 			if ($availability === "Ongebruikt")
 			{
-				$licenseRud->updateLicense();
+				Allergens_Dietary_Pro_License_RUD::getInstance()->updateLicense();
 			}
 			else 
 			{
