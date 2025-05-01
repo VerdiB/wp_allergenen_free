@@ -15,22 +15,24 @@ class Allergens_Dietary_Pro_License_RUD
 	 * @since 1.0.0
 	 * @date 11-9-2024
 	 */
-	protected static array $instances;
+	protected static ?Allergens_Dietary_Pro_License_Rud $instances = null;
 
 	public static function getInstance()
     {
         $subclass = static::class;
-        if (!isset(self::$instances[$subclass])) {
-            self::$instances[$subclass] = new static();
+        if (!isset(self::$instances)) {
+            self::$instances= new self();
         }
-        return self::$instances[$subclass];
+        return self::$instances;
     }
 
     protected function __construct()
     {
       $this->getLicenseKey();
+      $this->getLicenseAvailability();
+      $this->getLicenseStartDate();
+      $this->getLicenseEndDate();
       $this->updateLicense();
-      $this->deleteLicense();
     }
 
     public function getLicenseKey()
@@ -71,13 +73,15 @@ class Allergens_Dietary_Pro_License_RUD
 
     public function updateLicense()
     {
-      // Opzetje functie updaten license in database
-      
+      global $wpdb;
+      $wpdb->update(
+        'licenties',
+        array(
+          'in_gebruik' => "In gebruik",
+        ),
+        array(
+          'licentie_sleutel' => "12345abcde"
+        ) 
+      );
     }
-
-    public function deleteLicense()
-    {
-      // Opzetje functie verwijderen license uit database
-    }
-
 }

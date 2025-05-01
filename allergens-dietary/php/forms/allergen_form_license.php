@@ -12,7 +12,7 @@ if ( ! class_exists( 'Allergens_Dietary_Allergen_Queries' ) ) {
 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/allergen.php';
 }
 
-if ( ! class_exists( 'Allergens_Dietary_License_RUD' ) ) {
+if ( ! class_exists( 'Allergens_Dietary_Pro_License_RUD' ) ) {
 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/DB/license_rud.php';
 }
 
@@ -41,11 +41,13 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 	 * for now it is empty and does nothing but it's common courtesy to have it
 	 * @return void
 	 */
+	private Allergens_Dietary_Pro_License_RUD $_license_Rud;
 
 	public function __construct() 
 	{
-		$license = Allergens_Dietary_Pro_License_RUD::getInstance()->getLicenseKey();
-		$endDate = Allergens_Dietary_Pro_License_RUD::getInstance()->getLicenseEndDate();
+		$this->_license_Rud = Allergens_Dietary_Pro_License_RUD::getInstance();
+		$license = $this->_license_Rud->getLicenseKey();
+		$endDate = $this->_license_Rud->getLicenseEndDate();
 		$currentDate = date('d-m-Y');
 
 		if ($currentDate === $endDate || $currentDate > $endDate)
@@ -88,24 +90,24 @@ class Allergens_Dietary_License_Form implements Allergens_Dietary_Form_I {
 	public function licenseActivator(array $data)
 	{
 		$userInput = $data["license_key"];
-		$license = Allergens_Dietary_Pro_License_RUD::getInstance()->getLicenseKey();
+		$license = $this->_license_Rud->getLicenseKey();
 
 
 		if ($userInput === $license)
 		{
-			$availability = Allergens_Dietary_Pro_License_RUD::getInstance()->getLicenseAvailability();
+			$availability = $this->_license_Rud->getLicenseAvailability();
 			if ($availability === "Ongebruikt")
 			{
-				Allergens_Dietary_Pro_License_RUD::getInstance()->updateLicense();
+				$this->_license_Rud->updateLicense();
 			}
 			else 
 			{
-				Allergens_Dietary_Notices::getInstance()->display_admin_notice(Notice_Types::ERROR, "This license key is not valid. Please try again.");
+				Allergens_Dietary_Notices::getInstance()->display_admin_notice(Notice_Types::ERROR, "This license key is already taken by another user. Please try again.");
 			}
 		}
 		else
 		{
-			Allergens_Dietary_Notices::getInstance()->display_admin_notice(Notice_Types::ERROR, "This license key is already taken by another user. Please try again.");
+			Allergens_Dietary_Notices::getInstance()->display_admin_notice(Notice_Types::ERROR, "This license key is not valid. Please try again.");
 		}
 	}
 	
