@@ -24,6 +24,7 @@ package "php"{
     class Allergens_Dietary_Filter{
         -{static} _instance : Allergens_Dietary_Filter
         - _allergens : array
+        - _filter_nonce : string
         +{static} instance() : Allergens_Dietary_Filter
         - __construct() : void
         + create_filter() : void
@@ -33,17 +34,15 @@ package "php"{
     }
 
     class Allergens_Dietary_Activator{
-        -{static} counter: int
-        -{static} url: string
-        -{static} allergens_options: array
-        -{static} allergy_icon_options: array
-        -{static} icon_options: array
+        #{static} counter: int
+        #{static} url: string
+        #{static} allergens_options: array
+        #{static} allergy_icon_options: array
+        #{static} icon_options: array
         +{static} activate() : void
         + __construct() : void
-        -{static} create_tables() : void
+        #{static} create_tables() : void
         +{static} load_textdomain() : void
-        +{static} get_settings() : array
-        +{static} get_options() : array
         +{static} load_style() : void
         +{static} enqueue_styles() : void
         +{static} enqueue_admin_styles() : void
@@ -57,15 +56,15 @@ package "php"{
     package woocommerce{
 
         class Allergens_Dietary_Product_Settings{
-            -{static} _instance : Allergens_Dietary_Product_Settings
-            - _allergens :array
-            - _attachedAllergens : array
+            #{static} _instance : Allergens_Dietary_Product_Settings
+            # _allergens :array
+            # _attachedAllergens : array
             +{static} instance() : Allergens_Diatary_Product_Settings  
             + __construct() : void
             + data_tab(product_data_tabs:array) : array
             + data_fields() : void
             + save_product_options(post_id:int) : void
-            - replace_space_chars(allergens:string) : string
+            # replace_space_chars(allergens:string) : string
         }
 
         class Allergens_Dietary_Products{
@@ -81,7 +80,7 @@ package "php"{
     package "tables"{
          class Allergens_Dietary_Show_Allergens{
             # PAGE :string
-            - {static} _instance : array
+            - {static} instances : array
             # _allergens : array
             + {static} getInstance() : Allergens_Dietary_Show_Allergens
             # __construct() : void
@@ -102,14 +101,15 @@ package "php"{
             ERROR
             INFO
             SUCCESS
-            NOTICE
+            WARNING
         }
 
         class Allergens_Dietary_Notices{
-            -{static} _instance : Allergens_Dietary_Notices
+            -{static} instances : Allergens_Dietary_Notices
             + {static} getInstance(): Allergens_Dietary_Notices
             # __construct():void 
-            + display_notice(type:NoticeType, message:string) : void
+            #{static} admin_notice(type:NoticeTypes, message:string):void 
+            + display_admin_notice():void 
         }
 
     }
@@ -127,7 +127,7 @@ package "php"{
             #{static} formType : FormType
             #{static} formObject : I_Allergens_Dietary_Form
             # _formData : array
-            # __construct() : void
+            + __construct(isTable:bool) : void
             + {static} getInstance() : self
             + {static} setFormType(formType:FormType) : void
             + {static} getFormType() : FormType
@@ -181,7 +181,7 @@ package "php"{
     package "lists" {
         class Allergens_Dietary_Info{
             # {static} _instance : Allergens_Dietary_Tabs
-            + showinfo() : void
+            + showInfo() : void
             + {static} getInstance() : Allergens_Dietary_Info
             + {static} getStyles() : void
         }
@@ -198,6 +198,7 @@ package "php"{
     package "tabs" {
         class Allergens_Dietary_Tabs{
             - {static} instances : array
+            + __contruct() : void
             + showtabs() : void
             + showpages() : void
             + {static} getInstance() : self
@@ -208,17 +209,18 @@ package "php"{
 }
 
 package Allergens_Dietary{
-    class load_language{
+    class Allengens_Dietary_load_language{
         + __construct() : void
         + translation_init() : void
     }
     class Allergens_Dietary_Startup{
-        +{static} on_activation : void
-        +{static} on_deactivation : void
+        +{static} on_activation() : void
+        +{static} on_deactivation() : void
     }
     class Allergens_Dietary_Wc_Integration_Startup{
+        +__construct() : void
         +init_integration() : void
-        +add_integration(integrations:array) : array
+
     }
 }
 
@@ -232,6 +234,6 @@ Allergens_Dietary_Products ..> Allergens_Dietary_Allergy_Product_Queries
 
 ' forms relations
 FormType  <.. Allergens_Dietary_Form 
-Allergens_Dietary_Form o-r-> I_Allergens_Dietary_Form
-Allergens_Dietary_License_Form ..|> I_Allergens_Dietary_Form
+Allergens_Dietary_Form o-r-> Allergens_Dietary_Form_I
+Allergens_Dietary_License_Form ..|> Allergens_Dietary_Form_I
 @enduml

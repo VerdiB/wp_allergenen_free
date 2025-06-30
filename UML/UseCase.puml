@@ -1,0 +1,33 @@
+@startuml UseCase
+left to right direction
+skinparam packageStyle rectangle
+
+actor User
+actor Woocommerce
+
+rectangle "Allergens plugin" {
+  
+  usecase "Filter" as UC_Filter
+  usecase "Exclude allergen" as UC_Exclude
+  usecase "Filter by diet option" as UC_Diet
+  usecase "Enter license key" as UC_EnterKey
+  usecase "<<CRUD>>\nWebshop product" as UC_CRUD
+  usecase "Add allergen/diet option" as UC_AddOption
+  usecase "View allergen/diet option info" as UC_ViewInfo
+  usecase "Set allergen/diet option status" as UC_SetStatus
+
+  UC_Filter --> UC_Exclude : <<extend>>
+  UC_Filter --> UC_Diet : <<extend>>
+  UC_CRUD --> UC_AddOption : <<extend>>
+
+  User --> UC_Filter
+  User --> UC_EnterKey
+  User --> UC_CRUD
+  User --> UC_ViewInfo
+  User --> UC_SetStatus
+
+  Woocommerce --> UC_CRUD
+}
+@enduml
+
+@enduml
