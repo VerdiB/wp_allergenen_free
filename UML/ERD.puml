@@ -22,9 +22,9 @@ entity "attachments"{
 }
 
 entity "allergy_attachement"{
-    attachment_name: varchar(255) <<FK>> <<PK>> <<U>>
+    attachment_name: varchar(255) <<FK>> <<PK>>
     allergy_name: varchar(50) <<FK>> <<PK>>
-    date: date
+    upload_date: date()
 } 
 
 entity "allergy_product"{

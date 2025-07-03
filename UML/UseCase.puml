@@ -16,9 +16,9 @@ rectangle "Allergens plugin" {
   usecase "View allergen/diet option info" as UC_ViewInfo
   usecase "Set allergen/diet option status" as UC_SetStatus
 
-  UC_Filter --> UC_Exclude : <<extend>>
-  UC_Filter --> UC_Diet : <<extend>>
-  UC_CRUD --> UC_AddOption : <<extend>>
+  UC_Filter ..> UC_Exclude : <<extend>>
+  UC_Filter ..> UC_Diet : <<extend>>
+  UC_CRUD .u.> UC_AddOption : <<extend>>
 
   User --> UC_Filter
   User --> UC_EnterKey
@@ -26,8 +26,7 @@ rectangle "Allergens plugin" {
   User --> UC_ViewInfo
   User --> UC_SetStatus
 
-  Woocommerce --> UC_CRUD
+   UC_CRUD <-- Woocommerce
 }
 @enduml
 
-@enduml
