@@ -2,6 +2,17 @@
 
 use PHPUnit\Framework\TestCase;
 
+/* error_log( print_r( __DIR__, true ) );
+error_log( print_r( scandir( dirname( __DIR__ ) ), true ) );
+error_log( print_r( scandir( dirname( dirname( __DIR__ ) ) ), true ) );
+error_log( print_r( scandir( dirname( dirname( __DIR__ ) ) . '/wp-content' ), true ) );
+error_log( print_r( scandir( dirname( dirname( __DIR__ ) ) . '/wp-admin' ), true ) );
+error_log( print_r( scandir( dirname( dirname( __DIR__ ) ) . '/wp-admin/includes' ), true ) );
+error_log( print_r( dirname( dirname( __DIR__ ) ) . '/wp-admin/includes' ), true );
+error_log( false );
+error_log( file_exists( '/var/www/html/wordpress/wp-admin/includes/class-wp-filesystem-base.php' ) );
+error_log( true ); */
+
 require_once '/var/www/html/wp-content/plugins/allergens-dietary/php/activator.php';
 
 final class ActivatorTest extends TestCase

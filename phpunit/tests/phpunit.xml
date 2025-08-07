@@ -19,7 +19,7 @@
     </logging>
     
     <php>
-        <const name="ABSPATH" value="null"/>
+        <const name="ABSPATH" value="/var/www/html/"/>
         <const name="ALLERGENS_DIETARY_DIRNAME" value="/var/www/html/wp-content/plugins/allergens-dietary"/>
     </php>
     
