@@ -6,7 +6,6 @@ wordpress/
 phpunit/tests/*.bak
 phpunit/tests/*.log
 phpunit/tests/testdox.*
-phpunit/tests/*.log
 phpunit/tests/*.cache
 *.code-workspace
 vendor/
@@ -15,3 +14,4 @@ cache/
 # *.mo
 logs/
 .env
+.idea/
