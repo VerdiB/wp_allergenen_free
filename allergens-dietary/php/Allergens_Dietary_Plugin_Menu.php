@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
-// if(!enum_exists('FormType')){
+// if(!enum_exists('Allergens_Dietary_FormType')){
 // 	require_once ALLERGENS_DIETARY_DIRNAME . '/php/lists/form_type.php';
 // }
 
@@ -102,7 +102,7 @@ class Allergens_Dietary_Plugin_Menu
 			require_once ALLERGENS_DIETARY_DIRNAME . '/php/tabs/allergen_tabs.php';
 		}
 		Allergens_Dietary_Tabs::getInstance()->showtabs();
-		Allergens_Dietary_Form::setFormType(FormType::LICENSE);
+		Allergens_Dietary_Form::setFormType(Allergens_Dietary_FormType::LICENSE);
 		Allergens_Dietary_Form::getInstance()->showForm();
 	}
 

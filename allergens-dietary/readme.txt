@@ -2,9 +2,9 @@
 Contributors: ictoriabv
 Tags: online store, ecommerce, shop, allergens, dietary
 Requires at least: 6.3.1
-Tested up to: 6.7.1
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.18.6.0
+Stable tag: 0.19.1.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 

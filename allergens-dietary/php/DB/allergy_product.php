@@ -7,7 +7,7 @@ if (! defined('ABSPATH')) {
 /**
  * @class Allergens_Dietary_Allergy_Product_Queries
  * @brief This class is a singleton that handles all the queries for the allergens and dietary restrictions DB table.
- * @author ictoriabv
+ * @author Verdi-B
  * @date 4-10-2024
  * @since 1.0.0
  */
@@ -53,7 +53,7 @@ class Allergens_Dietary_Allergy_Product_Queries
         $allergy = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
         $sql = '';
         if (is_null($allergen)) {
-            $sql = $wpdb->get_results(
+            $sql = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
                 $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
                     "SELECT ap.allergy_name
                 FROM %i as ap
@@ -64,7 +64,7 @@ class Allergens_Dietary_Allergy_Product_Queries
                 ARRAY_A
             );
         } else {
-            $sql = $wpdb->get_results(
+            $sql = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
                 $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
                     "SELECT ap.allergy_name
                 FROM %i as ap
@@ -99,7 +99,7 @@ class Allergens_Dietary_Allergy_Product_Queries
      * @brief Searches and selects product ids with the selected allergens and or dietary restrictions
      * where if a product has an allergy that is being searched for is being excluded.
      * Whereas a dietary restriction works different where products who do not have a dietary restriction will be excluded
-     * @author ictoriabv
+     * @author Verdi-B
      * @since 0.16.5.1
      * @date 18-11-2024
      */

@@ -164,7 +164,7 @@ class Allergens_Dietary_Filter
 	 * Where the input is either  allergens and/or dietary restrictions
 	 * So that a customer can see selected products with certain dietary restrictions
 	 * and won't see any products containing selected allergens
-	 * @author ictoriabv
+	 * @author Verdi-B
 	 * @since 0.16.5.1
 	 * @date 18-11-2024
 	 */

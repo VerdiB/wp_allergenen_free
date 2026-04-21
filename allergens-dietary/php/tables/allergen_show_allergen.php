@@ -41,7 +41,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     protected array $_allergens;
 
     /**
-     * @author ictoriabv
+     * @author Verdi-B
      * @brief singleton object makes sure that the class is only called once
      * during lifetime
      * @return object
@@ -59,7 +59,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     }
 
     /**
-     * @author ictoriabv
+     * @author Verdi-B
      * @return void
      * @since 0.18.6.0
      * @version 0.18.6.0
@@ -79,13 +79,13 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
             if ('single-status' === $type){
                 $message = __('Status changed','allergens-dietary');
                 $notice = Allergens_Dietary_Notices::getInstance();
-                $notice->display_admin_notice(Notice_Types::INFO, $message);
+                $notice->display_admin_notice(Allergens_Dietary_Notice_Types::INFO, $message);
                 setcookie('notice-type','0', time() - 30);
             }
             if ('bulk-status' === $type){
                 $message = __('Multiple statuses changed','allergens-dietary');
                 $notice = Allergens_Dietary_Notices::getInstance();
-                $notice->display_admin_notice(Notice_Types::INFO, $message);
+                $notice->display_admin_notice(Allergens_Dietary_Notice_Types::INFO, $message);
                 setcookie('notice-type','0', time() - 30);
             }
             if ('0' === $type){
@@ -96,7 +96,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     }
 
     /**
-     * @author ictoriabv
+     * @author Verdi-B
      * @brief prepares items for the table and must be called
      * after the instance
      * @return void
@@ -139,7 +139,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     }
 
     /**
-     * @author ictoriabv
+     * @author Verdi-B
      * @return array
      * @since 0.18.6.0
      * @version 0.18.6.0
@@ -152,7 +152,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     }
 
     /**
-     * @author ictoriabv
+     * @author Verdi-B
      * @return void
      * @since 0.18.6.0
      * @version 0.18.6.0
@@ -171,7 +171,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     }
 
     /**
-     * @author ictoriabv
+     * @author Verdi-B
      * @return array
      * @since 0.18.6.0
      * @version 0.18.6.0
@@ -190,7 +190,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     }
 
     /**
-     * @author ictoriabv
+     * @author Verdi-B
      * @brief adds default behaviour on the allergen collumns
      * @param array|object $item
      * @param string $column_name
@@ -218,7 +218,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     }
 
     /**
-     * @author ictoriabv
+     * @author Verdi-B
      * @brief defines a custom response on column rows for allergens
      * In this case only to change its status
      * @param array|object $item
@@ -255,7 +255,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     }
 
     /**
-     * @author ictoriabv
+     * @author Verdi-B
      * @return string
      * @since 0.18.6.0
      * @version 0.18.6.0
@@ -269,7 +269,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
     }
 
     /**
-     * @author ictoriabv
+     * @author Verdi-B
      * @brief Handles bulk action on all allergens
      * where as for now only changes the status of an allergy/dietary
      * @return void
@@ -308,13 +308,13 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
                 Allergens_Dietary_Allergen_Queries::getInstance()->change_status($allergen_query);
             }
             setcookie('Success','Succesfully changed the statuses of one or more allergens', time() + 30);
-            wp_redirect(admin_url('admin.php?page=' . static::PAGE . '&paged='. $this->get_pagenum()));
+            wp_safe_redirect(admin_url('admin.php?page=' . static::PAGE . '&paged='. $this->get_pagenum()));
             exit;
         }
     }
 
     /**
-     * @author ictoriabv
+     * @author Verdi-B
      * @overload from parrent method and can be overloaded still
      * @brief handles custom row actions on the allergen table
      * for this version of the plug-in it will only handle status changes
@@ -354,7 +354,7 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
                 Allergens_Dietary_Allergen_Queries::getInstance()->change_status($allergen_active);
                 
                 setcookie('Success','Succesfully changed status', time() + 30);
-                wp_redirect(admin_url('admin.php?page=' . static::PAGE . '&paged='. $this->get_pagenum()));
+                wp_safe_redirect(admin_url('admin.php?page=' . static::PAGE . '&paged='. $this->get_pagenum()));
                 exit;
             }
         }

@@ -21,7 +21,7 @@ if ( ! enum_exists('FormType')) {
  * @class Allergens_Dietary_License_Form
  * @brief Class that creates the form for the license key where
  * the user can enter the license key for the plugin to get premium functions unlocked
- * @author ictoriabv
+ * @author Verdi-B
  * @date 2-9-2024
  * @implements Allergens_Dietary_Form_I
  * @see Allergens_Dietary_Form_I

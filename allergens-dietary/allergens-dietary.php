@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 
 /**
  * @brief This function handles dependencies in the old way if the user has an old version of WordPress
- * @author ictoriabv
+ * @author Verdi-B
  * @date 11-12-2024
  * @since 0.18.5.1
  */
@@ -38,8 +38,7 @@ Requires plugins: woocommerce
 Plugin URI:
 Version:     0.19.1.3
 Description: Adds Allergens and Dietary options that can be used with WooCommerce products.
-Author:      ictoriabv
-Author URI:  http://ictoria.nl
+Author:      Verdi-B
 License:     GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: allergens-dietary
@@ -172,7 +171,7 @@ if (ALLERGENS_DIETARY_WC_ACTIVE) {
 					// include_once ALLERGENS_DIETARY_DIRNAME . '/php/wc_integration.php';
 					// add_filter('woocommerce_integrations', array($this, 'add_integration'));
 					require_once ALLERGENS_DIETARY_DIRNAME . '/php/notice/notice.php';
-					$level = Notice_Types::ERROR;
+					$level = Allergens_Dietary_Notice_Types::ERROR;
 					$message = __('The WooCommerce Integration class was not found. Please make sure WooCommerce is installed correctly', 'allergens-dietary');
 					Allergens_Dietary_Notices::getInstance()->error_notice($level, $message);
 				}

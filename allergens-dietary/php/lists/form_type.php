@@ -5,13 +5,13 @@ if (!defined('ABSPATH')) {
 }
 
 
-enum FormType
+enum Allergens_Dietary_FormType
 {
 	case ALLERGENS;
 	case LICENSE;
 	case UPDATE;
 
-	public function match(FormType $formType): bool
+	public function match(Allergens_Dietary_FormType $formType): bool
 	{
 		return $this === $formType;
 	}

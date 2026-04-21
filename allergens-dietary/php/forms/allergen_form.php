@@ -20,7 +20,7 @@ if (!class_exists('Allergens_Dietary_License_Form')) {
  * @class Allergens_Dietary_Form
  * @brief This class is a singleton strategy
  * that creates a form for the allergens and dietary restrictions plugin.
- * @author ictoriabv
+ * @author Verdi-B
  * @date 2-9-2024
  * @since 1.0.0
  */
@@ -28,13 +28,13 @@ if (!class_exists('Allergens_Dietary_License_Form')) {
 class Allergens_Dietary_Form
 {
 	private static array $instances;
-	protected static FormType $_formType;
+	protected static Allergens_Dietary_FormType $_formType;
 	protected static Allergens_Dietary_Form_I $_formObject;
 	protected array $_formData = [];
 
 	public function __construct(bool $isTable = false)
 	{
-		if (FormType::LICENSE === static::$_formType) {
+		if (Allergens_Dietary_FormType::LICENSE === static::$_formType) {
 			static::$_formObject = new Allergens_Dietary_License_Form();
 		}
 		if (!isset(self::$_formType) || false === self::$_formType->match(self::$_formType)) {
@@ -51,7 +51,7 @@ class Allergens_Dietary_Form
         return self::$instances[$subclass];
     }
 
-	public static function setFormType(FormType $formType)
+	public static function setFormType(Allergens_Dietary_FormType $formType)
 	{
 		static::$_formType = $formType;
 	}
@@ -62,7 +62,7 @@ class Allergens_Dietary_Form
 	}
 
 	/**
-	 * @author ictoriabv
+	 * @author Verdi-B
 	 * @brief Handles the html of the selected form in $_formObject
 	 * The sanitizing and processing of the information given by the form is handled elsewhere
 	 * In the correct class of the selected form type
