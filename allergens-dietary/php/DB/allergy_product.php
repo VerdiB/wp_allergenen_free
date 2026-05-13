@@ -32,7 +32,7 @@ class Allergens_Dietary_Allergy_Product_Queries
 
         global $wpdb;
 
-        $table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_product';
+        $table_name = $wpdb->prefix . 'allergens_dietary_allergy_product';
 
         $wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
             $table_name,
@@ -49,8 +49,8 @@ class Allergens_Dietary_Allergy_Product_Queries
     {
         global $wpdb;
 
-        $table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_product';
-        $allergy = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
+        $table_name = $wpdb->prefix . 'allergens_dietary_allergy_product';
+        $allergy = $wpdb->prefix . 'allergens_dietary_allergy';
         $sql = '';
         if (is_null($allergen)) {
             $sql = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
@@ -83,7 +83,7 @@ class Allergens_Dietary_Allergy_Product_Queries
     public function deleteAllergyProduct(int $product_id, string $allergen)
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_product';
+        $table_name = $wpdb->prefix . 'allergens_dietary_allergy_product';
 
         return $wpdb->query($wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
             "DELETE FROM %i
@@ -106,8 +106,8 @@ class Allergens_Dietary_Allergy_Product_Queries
     public function getFilteredProducts(?array $allergens, ?array $dietary)
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_product';
-        $allergens_table = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
+        $table_name = $wpdb->prefix . 'allergens_dietary_allergy_product';
+        $allergens_table = $wpdb->prefix . 'allergens_dietary_allergy';
 
         // Initialize base query
         $query_part_1[] = "SELECT DISTINCT ap.product_id 

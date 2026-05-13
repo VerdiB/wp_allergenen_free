@@ -3,7 +3,7 @@ skinparam Linetype ortho
 skinparam groupInheritance 2
 
 note as N1
-In this diagram we are showing the classes and their methods that are used in the Allergens Dietary Ictoria plugin.
+In this diagram we are showing the classes and their methods that are used in the Allergens Dietary plugin.
 and not any WordPress core classes or methods.
 Likewise with Woocommerce.
 end note

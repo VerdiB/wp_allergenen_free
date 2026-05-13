@@ -375,14 +375,14 @@ class Allergens_Dietary_Activator
 
 		$sql_attachments = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange
-			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}allergens_dietary_ictoria_attachments(
+			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}allergens_dietary_attachments(
         attachment_name VARCHAR(255) NOT NULL PRIMARY KEY,
         attachment_path VARCHAR(255))"
 		);
 
 		$sql_allergy = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange
-			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}allergens_dietary_ictoria_allergy(
+			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}allergens_dietary_allergy(
         allergy_name VARCHAR(50) NOT NULL PRIMARY KEY,
         allergy_description VARCHAR(255),
         is_allergy BOOLEAN NOT NULL DEFAULT 1,
@@ -392,28 +392,28 @@ class Allergens_Dietary_Activator
 
 		$sql_allergy_attachment = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange
-			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}allergens_dietary_ictoria_allergy_attachment(
+			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}allergens_dietary_allergy_attachment(
         allergy_name VARCHAR(50) NOT NULL,
         attachment_name VARCHAR(255) NOT NULL,
         PRIMARY KEY (allergy_name, attachment_name),
         CONSTRAINT FK_AllergyAttch_Allergy
-        FOREIGN KEY (allergy_name) REFERENCES {$wpdb->prefix}allergens_dietary_ictoria_allergy(allergy_name) ON UPDATE CASCADE ,
+        FOREIGN KEY (allergy_name) REFERENCES {$wpdb->prefix}allergens_dietary_allergy(allergy_name) ON UPDATE CASCADE ,
         CONSTRAINT FK_AllergyAttch_Attch
-        FOREIGN KEY (attachment_name) REFERENCES {$wpdb->prefix}allergens_dietary_ictoria_attachments(attachment_name) ON UPDATE CASCADE,
+        FOREIGN KEY (attachment_name) REFERENCES {$wpdb->prefix}allergens_dietary_attachments(attachment_name) ON UPDATE CASCADE,
 		CONSTRAINT U_AllergyAttach_Allergy UNIQUE (allergy_name)) 
         "
 		);
 
 		$sql_allergy_product = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange
-			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}allergens_dietary_ictoria_allergy_product(
+			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}allergens_dietary_allergy_product(
         product_id BIGINT NOT NULL,
         allergy_name VARCHAR(50) NOT NULL,
         PRIMARY KEY (product_id, allergy_name),
         CONSTRAINT FK_AllergyProduct_WCproduct
         FOREIGN KEY (product_id) REFERENCES {$wpdb->prefix}wc_product_meta_lookup(product_id),
         CONSTRAINT FK_AllergyProduct_Allergy
-        FOREIGN KEY (allergy_name) REFERENCES {$wpdb->prefix}allergens_dietary_ictoria_allergy(allergy_name) ON UPDATE CASCADE )"
+        FOREIGN KEY (allergy_name) REFERENCES {$wpdb->prefix}allergens_dietary_allergy(allergy_name) ON UPDATE CASCADE )"
 		);
 		dbDelta($sql_attachments);
 		dbDelta($sql_allergy);
@@ -424,7 +424,8 @@ class Allergens_Dietary_Activator
 	// function to get a translation of all text contained within __() functions throughout the plugin IF the .mo and .po files for the local/server language are available
 	public static function load_textdomain()
 	{
-		load_plugin_textdomain(__('allergens-dietary', 'allergens-dietary'), false, basename(ALLERGENS_DIETARY_FILE) . '/l10n');
+		// load_plugin_textdomain(__('allergens-dietary', 'allergens-dietary'), false, basename(ALLERGENS_DIETARY_FILE) . '/l10n');
+		return;
 	}
 
 	// adds the external css file(s) to the current WP execution
@@ -490,7 +491,7 @@ class Allergens_Dietary_Activator
 	private static function insert_standard_allergens()
 	{
 		global $wpdb;
-		$table = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
+		$table = $wpdb->prefix . 'allergens_dietary_allergy';
 
 		foreach (self::$_ALLERGENS_OPTIONS as $allergen) {
 			$is_default = ($allergen['default']) ? 1 : 0;
@@ -511,7 +512,7 @@ class Allergens_Dietary_Activator
 	private static function insert_standard_icons()
 	{
 		global $wpdb;
-		$table = $wpdb->prefix . 'allergens_dietary_ictoria_attachments';
+		$table = $wpdb->prefix . 'allergens_dietary_attachments';
 
 		foreach (self::$_ICON_OPTIONS as $icon) {
 			$wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
@@ -528,7 +529,7 @@ class Allergens_Dietary_Activator
 	{
 		global $wpdb;
 
-		$table = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_attachment';
+		$table = $wpdb->prefix . 'allergens_dietary_allergy_attachment';
 
 		foreach (self::$_ALLERGY_ICON_OPTIONS as $allergen_icon) {
 			$wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery

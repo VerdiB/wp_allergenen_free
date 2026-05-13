@@ -23,7 +23,7 @@ class Allergens_Dietary_Allergy_Attachment_Queries
 	{
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_attachment';
+		$table_name = $wpdb->prefix . 'allergens_dietary_allergy_attachment';
 
 		$wpdb->insert(// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$table_name,
@@ -41,9 +41,9 @@ class Allergens_Dietary_Allergy_Attachment_Queries
 		global $wpdb;
 
 		$sql = "";
-		$allergy_attachment = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_attachment';
-		$allergy = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-		$attachments = $wpdb->prefix . 'allergens_dietary_ictoria_attachments';
+		$allergy_attachment = $wpdb->prefix . 'allergens_dietary_allergy_attachment';
+		$allergy = $wpdb->prefix . 'allergens_dietary_allergy';
+		$attachments = $wpdb->prefix . 'allergens_dietary_attachments';
 		if ($isForm) {
 			$sql = $wpdb->get_row($wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				"SELECT a.allergy_name, a.allergy_description, a.is_allergy, aa.attachment_name, att.attachment_path
@@ -74,9 +74,9 @@ class Allergens_Dietary_Allergy_Attachment_Queries
 	public function getAllAllergyAttachmments()
 	{
 		global $wpdb;
-		$allergy_attachment = $wpdb->prefix . 'allergens_dietary_ictoria_allergy_attachment';
-		$allergy = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
-		$attachment = $wpdb->prefix . 'allergens_dietary_ictoria_attachments';
+		$allergy_attachment = $wpdb->prefix . 'allergens_dietary_allergy_attachment';
+		$allergy = $wpdb->prefix . 'allergens_dietary_allergy';
+		$attachment = $wpdb->prefix . 'allergens_dietary_attachments';
 
 
 		return $wpdb->get_results(// phpcs:ignore WordPress.DB.DirectDatabaseQuery

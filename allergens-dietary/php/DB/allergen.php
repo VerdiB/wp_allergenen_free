@@ -41,7 +41,7 @@ class Allergens_Dietary_Allergen_Queries
 	{
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
+		$table_name = $wpdb->prefix . 'allergens_dietary_allergy';
 
 		$result = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
@@ -61,7 +61,7 @@ class Allergens_Dietary_Allergen_Queries
 	public function getItems()
 	{
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
+		$table_name = $wpdb->prefix . 'allergens_dietary_allergy';
 		$data = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$wpdb->prepare(
 				"SELECT allergy_name, allergy_description, is_allergy, is_active, is_default_option
@@ -77,7 +77,7 @@ class Allergens_Dietary_Allergen_Queries
 	public function search_allergen(string $search_word)
 	{
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
+		$table_name = $wpdb->prefix . 'allergens_dietary_allergy';
 
 		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$wpdb->prepare(
@@ -96,7 +96,7 @@ class Allergens_Dietary_Allergen_Queries
 	public function change_status(array $allergen)
 	{
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'allergens_dietary_ictoria_allergy';
+		$table_name = $wpdb->prefix . 'allergens_dietary_allergy';
 
 		$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$table_name,
