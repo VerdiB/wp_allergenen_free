@@ -83,7 +83,6 @@ class Allergens_Dietary_Startup
 	// function that runs when the activation hook is called
 	public static function on_activation()
 	{
-		error_log(print_r("test", true));
 		// show popup asking for certain setting options if this is the first activation after installing the plugin.
 		if (!isset($settings['initial_setup_done'])) {
 			// show popup asking wether or not the user wants to automatically export all relevant product data on uninstall
