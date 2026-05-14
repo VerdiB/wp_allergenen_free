@@ -54,8 +54,9 @@ class Allergens_Dietary_Show_Allergens extends WP_List_Table
         if (!isset(self::$instances[$cls])) {
             self::$instances[$cls] = new static();
         }
-
+        
         return self::$instances[$cls];
+
     }
 
     /**

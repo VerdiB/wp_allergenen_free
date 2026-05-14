@@ -9,7 +9,7 @@ if (! defined('WP_UNINSTALL_PLUGIN') ) {
 }
 
 if (! class_exists('Allergens_Dietary_Plugin_Remover') ) {
-	require_once ALLERGENS_DIETARY_DIRNAME . 'php/misc/plugin_remover.php' ;
+	require_once plugin_dir_path(__FILE__) . '/php/misc/plugin_remover.php' ;
 }
 
 

@@ -30,8 +30,8 @@ services:
       allergen:
         ipv4_address: "124.168.94.20"
 
-  wordpressminus2:
-    image: "wordpress:6.5.5"
+  wordpresstest:
+    image: "wordpress:latest"
     ports:
       - "8080:80"
     depends_on:
@@ -42,7 +42,7 @@ services:
       WORDPRESS_DB_PASSWORD: ""
       WORDPRESS_DB_NAME: wordpress
     volumes:
-      - ./allergens-dietary:/var/www/html/wp-content/plugins/allergens-dietary
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     networks:
       allergen:
         ipv4_address: "124.168.94.19"
